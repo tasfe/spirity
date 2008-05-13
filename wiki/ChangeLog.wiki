@@ -1,0 +1,6 @@
+#labels Featured
+= 2008 年 05 月 13 日 =
+
+就在地震后的一天，我开始了 Spirity Javascript Framework 开发。其实，期前也使用了譬如 YUI、jQuery 等框架，自己本人也写了较多的 Javascript 代码，我想是时候将其整理一下了。
+
+加入 core 、lang、dom、brower 等组件，可能还有几个 Bug，以后慢慢调整。
