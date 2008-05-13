@@ -10,12 +10,10 @@ if (typeof Spirity == "undefined" || !Spirity) {
     var Spirity = {};
 }
 
-
 Spirity.extend = function() {
     var a = arguments, o = Spirity;
     for (var i = 0; i < a.length; i++) {
         var tmp = a[i].split(".");
-
         for (var j = (tmp[0] == "Spirity" ? 1 : 0); j < tmp.length; j++) {
             o[tmp[j]] = o[tmp[j]] || {};
             o = o[tmp[j]];
@@ -26,4 +24,22 @@ Spirity.extend = function() {
 };
 
 
+Spirity.register = {
+    add: function (mods) {
+        if (typeof this.modules[mods.module] == 'object') {
+            return false;
+        } else {
+            this.modules[mods.module] = mods;
+        }
+    },
 
+    query: function (mods) {
+        if (this.modules[mods]) {
+            return this.modules[mods];
+        }
+
+        return false;
+    },
+
+    modules: []
+};
