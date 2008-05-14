@@ -17,7 +17,7 @@ Spirity.broswer = Spirity.broswer || {
         opera: !!window.opera,
         webkit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
         gecko: navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') == -1
-    },
+    }
 
     /**
      * 检测浏览器 - 参考 jQuery
@@ -34,5 +34,4 @@ Spirity.broswer = Spirity.broswer || {
         };
     })()
     */
-
 };
