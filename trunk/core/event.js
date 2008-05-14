@@ -8,7 +8,7 @@
 
 Spirity.register.event({
      module: 'Spirity.dom', 
-    version: '$Id: dom.js 12 2008-05-14 06:33:39Z i.feelinglucky $'
+    version: '$Id$'
 });
 
 Spirity.event = Spirity.event || {
