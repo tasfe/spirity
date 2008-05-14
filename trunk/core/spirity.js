@@ -23,7 +23,6 @@ Spirity.extend = function() {
     return o;
 };
 
-
 Spirity.register = {
     add: function (mods) {
         if (typeof this.modules[mods.module] == 'object') {
@@ -43,3 +42,8 @@ Spirity.register = {
 
     modules: []
 };
+
+Spirity.register.add({
+     module: 'Spirity.core', 
+    version: '$Id$'
+});

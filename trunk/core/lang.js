@@ -8,43 +8,73 @@
 
 Spirity.register.add({
      module: 'Spirity.lang', 
-    version: ''
+    version: '$Id$'
 });
 
 Spirity.lang = Spirity.lang || {
-    isArray: function(o) {
-        if (o) {
-           var l = Spirity.lang;
-           return l.isNumber(o.length) && l.isFunction(o.splice);
+    isArray: function(object) {
+        if (object) {
+           var lang = Spirity.lang;
+           return lang.isNumber(object.length) && lang.isFunction(object.splice);
         }
         return false;
     },
 
-    isBoolean: function(o) {
-        return typeof o === 'boolean';
+    isBoolean: function(object) {
+        return typeof object === 'boolean';
     },
 
-    isFunction: function(o) {
-        return typeof o === 'function';
+    isFunction: function(object) {
+        return typeof object === 'function';
     },
 
-    isNull: function(o) {
-        return o === null;
+    isNull: function(object) {
+        return object === null;
     },
 
-    isNumber: function(o) {
-        return typeof o === 'number' && isFinite(o);
+    isNumber: function(object) {
+        return typeof object === 'number' && isFinite(object);
     },
 
-    isObject: function(o) {
-        return (o && (typeof o === 'object' || Spirity.lang.isFunction(o))) || false;
+    isObject: function(object) {
+        return (object && (typeof object === 'object' || Spirity.lang.isFunction(object))) || false;
     },
 
-    isString: function(o) {
-        return typeof o === 'string';
+    isString: function(object) {
+        return typeof object=== 'string';
     },
 
-    isUndefined: function(o) {
-        return typeof o === 'undefined';
+    isUndefined: function(object) {
+        return typeof object === 'undefined';
+    },
+
+    isElement: function(object) {
+        return object && object.nodeType == 1;
+    },
+
+    /**
+     * 返回类的 JSON 格式
+     *
+     * @TODO 改进递归
+     */
+    toJSON: function(object) {
+        var type = typeof object;
+        switch (type){
+          case 'undefined':
+          case 'function':
+          case 'unknown': return;
+          case 'boolean': return object.toString();
+        }
+
+        if (object === null) {
+            return 'null';
+        }
+
+        var results = [];
+        for (var property in object) {
+            results.push(property + ': ' + object[property]);
+        }
+
+        return '{' + results.join(', ') + '}';
     }
 };
