@@ -3,6 +3,7 @@
  * Spirity Javascript Framework
  *
  * @author feeinglucky<i.feelinglucky@gmail.com>
+ * @link   http://code.google.com/p/spirity/
  * @link   http://www.gracecode.com/
  */
 
