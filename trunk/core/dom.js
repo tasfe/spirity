@@ -8,7 +8,7 @@
 
 Spirity.register.add({
      module: 'Spirity.dom', 
-    version: ''
+    version: '$Id$'
 });
 
 Spirity.dom = Spirity.dom || {
