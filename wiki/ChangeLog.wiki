@@ -1,4 +1,4 @@
-﻿﻿#labels Featured
+﻿#labels Featured
 === 2008 年 05 月 14 日 ===
 
 增加 Dom 操作的基本功能，增加 CSS 操作函数（部分取自 YUI）
