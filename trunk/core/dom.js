@@ -65,7 +65,7 @@ Spirity.dom = Spirity.dom || {
 
             var computed = document.defaultView.getComputedStyle(element, '');
             if (computed) {
-                value = computed[Spirity.lang.toCamelement(property)];
+                value = computed[Spirity.lang.toCamel(property)];
             }
 
             return element.style[property] || value;
@@ -177,6 +177,57 @@ Spirity.dom = Spirity.dom || {
         }
 
         return element;
+    },
+
+    getDimensions: function(element) {
+        if (Spirity.lang.isString(element)) {
+            element = Spirity.dom.get(element);
+        }
+
+        var display = Spirity.dom.getStyle(element, 'display');
+        if (display != 'none' && display != null) {
+          return {width: element.offsetWidth, height: element.offsetHeight};
+        }
+
+        // All *Width and *Height properties give 0 on elements with display none,
+        // so enable the element temporarily
+        var els = element.style;
+        var originalVisibility = els.visibility;
+        var originalPosition   = els.position;
+        var originalDisplay    = els.display;
+
+        els.visibility = 'hidden';
+        els.position   = 'absolute';
+        els.display    = '';
+
+        var originalWidth  = element.clientWidth;
+        var originalHeight = element.clientHeight;
+
+        els.display    = originalDisplay;
+        els.position   = originalPosition;
+        els.visibility = originalVisibility;
+        return {width: originalWidth, height: originalHeight};
+    },
+
+    getWidth: function(element) {
+        return Spirity.dom.getDimensions(element).width;
+    },
+
+    getHeight: function(element) {
+        return Spirity.dom.getDimensions(element).height;
+    },
+
+    getXY: function() {
+    
+    
+    },
+
+    getX: function() {
+
+    },
+
+    getY: function() {
+
     }
 } // end of declaration dom
 

@@ -37,11 +37,12 @@ Spirity.lang = Spirity.lang || {
     },
 
     isObject: function(object) {
-        return (object && (typeof object === 'object' || Spirity.lang.isFunction(object))) || false;
+        return (object && (typeof object === 'object' || 
+                        Spirity.lang.isFunction(object))) || false;
     },
 
     isString: function(object) {
-        return typeof object=== 'string';
+        return typeof object === 'string';
     },
 
     isUndefined: function(object) {
@@ -52,8 +53,25 @@ Spirity.lang = Spirity.lang || {
         return object && object.nodeType == 1;
     },
 
+    isJSON: function(object) {
+        if (!Spirity.lang.isString(object)) {
+            return false;
+        }
+
+        /* // prototype
+        str = object.replace(/\\./g, '@').replace(/"[^"\\\n\r]*"/g, '');
+        return (/^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/).test(str);
+        */
+
+        // YUI
+        return /^[\],:{}\s]*$/.test(object.
+                replace(/\\./g,'@').
+                replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').
+                replace(/(?:^|:|,)(?:\s*\[)+/g,''));
+    },
+
     /**
-     * 返回类的 JSON 格式
+     * 返回 JSON 序列化格式
      *
      * @TODO 改进递归
      */
@@ -77,6 +95,19 @@ Spirity.lang = Spirity.lang || {
 
         return '{' + results.join(', ') + '}';
     }, // toJSON
+
+    /**
+     * 执行 JSON 字符串
+     */
+    evalJSON: function(json, enforce) {
+        try {
+          if (Spirity.lang.isJSON(json) || enforce) {
+            return eval('(' + json + ')');
+          }
+        } catch (e) {
+            throw new SyntaxError('Badly formed JSON string: ' + json.toString());
+        }
+    }, // evalJSON
 
     toCamel: function(property) {
         var parts = property.split('-'), len = parts.length;
