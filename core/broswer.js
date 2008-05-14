@@ -8,7 +8,7 @@
 
 Spirity.register.add({
      module: 'Spirity.broswer', 
-    version: ''
+    version: '$Id$'
 });
 
 Spirity.broswer = Spirity.broswer || {
