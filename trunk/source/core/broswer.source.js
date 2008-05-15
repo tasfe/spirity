@@ -18,12 +18,9 @@ Spirity.broswer = Spirity.broswer || {
         opera: !!window.opera,
         webkit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
         gecko: navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') == -1
-    }
+    },
 
-    /**
-     * 检测浏览器 - 参考 jQuery
-     */
-    /*
+/*
     ua: (function() {
         var ua = navigator.userAgent.toLowerCase();
         var version = (ua.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1];
@@ -33,6 +30,20 @@ Spirity.broswer = Spirity.broswer || {
             explorer: /msie/.test(ua) && !/opera/.test(ua) ? version : 0,
             gecko: /mozilla/.test(ua)&&!/(compatible|webkit)/.test(ua) ? version : 0
         };
-    })()
-    */
+    })(),
+*/
+
+    get: (function () {
+
+    
+        return {
+            css: function () {
+            
+            },
+
+            script: function () {
+            
+            }
+        }
+    })();
 };
