@@ -1,4 +1,5 @@
-﻿=== 2008 年 05 月 15 日 ===
+﻿#labels Featured,Deprecated
+=== 2008 年 05 月 15 日 ===
 
 增加 Event 基本功能，增加 onDOMReady 函数
 
