@@ -5,16 +5,21 @@
         <meta name="generator" content="HTML Tidy for Windows (vers 22 March 2008), see www.w3.org" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Spirity Framework</title>
-        <script type="text/javascript" src="../core/core.js"></script>
-        <script type="text/javascript" src="../core/broswer.js"></script>
-        <script type="text/javascript" src="../core/dom.js"></script>
-        <script type="text/javascript" src="../core/lang.js"></script>
-        <script type="text/javascript" src="../core/event.js"></script>
+        <script type="text/javascript" src="../core/core.source.js"></script>
+        <script type="text/javascript" src="../core/broswer.source.js"></script>
+        <script type="text/javascript" src="../core/dom.source.js"></script>
+        <script type="text/javascript" src="../core/lang.source.js"></script>
+        <script type="text/javascript" src="../core/event.source.js"></script>
         <script type="text/javascript">
             //<![CDATA[
             window.onload = function () {
-                console.info(Spirity);
+                alert('window.onload');
             }
+
+            Spirity.event.onDOMReady(function () { 
+                    alert('onDOMReady');
+            });
+
             //]]>
         </script>
 
@@ -27,6 +32,7 @@
 <body>
     <h1>Spirity Framework</h1>
     <p>Hi, This is Spirity Javascript Framework.</p>
+    <p><img src="http://127.0.0.1/slowImage.php" alt="" /></p>
     <p>for more information, please visit <a href=
         "http://spirity.googlecode.com/" title="Offical Site" id="ark:link">Offical Site</a>.</p>
 </body>
