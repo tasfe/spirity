@@ -34,7 +34,6 @@ Spirity.broswer = Spirity.broswer || {
 */
 
     get: (function () {
-
     
         return {
             css: function () {
@@ -45,5 +44,5 @@ Spirity.broswer = Spirity.broswer || {
             
             }
         }
-    })();
+    })() // get
 };

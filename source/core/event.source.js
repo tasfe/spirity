@@ -13,34 +13,99 @@ Spirity.register.add({
 });
 
 Spirity.event = Spirity.event || {
-    addEvent: function(element, type, callback, object, override) {
+    addListener: function(element, type, callback, object, override) {
+        if (Spirity.lang.isString(element)) {
+            element = Spirity.dom.get(element);
+        }
+
         if (!callback || !callback.call) {
-            throw new TypeError(type + " addEvent call failed, callback undefined");
+            throw new TypeError(type + " addListener call failed, callback undefined");
             return false;
         }
 
-        if (object.addEventListener) {	
-            object.addEventListener(type, func, false);
-        } else if (object.attachEvent){
-            object.attachEvent('on'+type, func);
+        if (element.addEventListener) {	
+            element.addEventListener(type, callback, false);
+        } else if (element.attachEvent){
+            element.attachEvent('on'+type, callback);
         } else {
         
         }
     },
 
-    removeEvent: function (element, type, callback, object, override) {
+    removeListener: function (element, type, callback, object, override) {
         if (!callback || !callback.call) {
-            throw new TypeError(type + " removeEvent call failed, callback undefined");
+            throw new TypeError(type + " removeListener call failed, callback undefined");
             return false;
         }
 
-        if (object.removeEventListener) {	
-            object.removeEventListener(type, func, false);
-        } else if (object.detachEvent) {
-            object.attachEvent('on'+type, func);
+        if (element.removeEventListener) {	
+            element.removeEventListener(type, callback, false);
+        } else if (element.detachEvent) {
+            element.detachEvent('on'+type, callback);
         } else {
         
         }
+    },
+
+    getEvent: function (event) {
+        var event = event || window.event;
+
+        if (!event) {
+            var c = this.getEvent.caller;
+            while (c) {
+                event = c.arguments[0];
+                if (event && Event == event.constructor) {
+                    break;
+                }
+                c = c.caller;
+            }
+        }
+
+        return event;
+    }, // getEvent
+
+    stopEvent: function (event) {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        } else {
+            event.cancelBubble = true;
+        }
+
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false;
+        }
+    }, // stopEvent
+
+    /**
+     * Returns the charcode for an event
+     */
+    getCharCode: function(event) {
+        var code = event.keyCode || event.charCode || 0;
+        // webkit key normalization
+        if (Spirity.broswer.ua.webkit && (code in webkitKeymap)) {
+            code = webkitKeymap[code];
+        }
+        return code;
+    },
+
+    getPageX: function(event) {
+        var x = event.pageX || event.clientX || 0;
+        if ( Spirity.broswer.ua.explorer) {
+            x += this._getScroll()[1];
+        }
+
+        return x;
+    },
+
+    getPageY: function(event) {
+        var y = event.pageY || event.clientY || 0;
+        if ( Spirity.broswer.ua.explorer) {
+            y += this._getScroll()[0];
+        }
+
+        return y;
     },
 
     onDOMReady: function (callback) {
@@ -104,33 +169,3 @@ Spirity.event = Spirity.event || {
         };
     }
 };	
-
-function IEContentLoaded (w, fn) {
-	var d = w.document, done = false,
-	// only fire once
-	init = function () {
-		if (!done) {
-			done = true;
-			fn();
-		}
-	};
-	// polling for no errors
-	(function () {
-		try {
-			// throws errors until after ondocumentready
-			d.documentElement.doScroll('left');
-		} catch (e) {
-			setTimeout(arguments.callee, 50);
-			return;
-		}
-		// no errors, fire
-		init();
-	})();
-	// trying to always fire before onload
-	d.onreadystatechange = function() {
-		if (d.readyState == 'complete') {
-			d.onreadystatechange = null;
-			init();
-		}
-	};
-}
