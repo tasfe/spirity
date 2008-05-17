@@ -1,4 +1,4 @@
-// vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
+﻿// vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
 /**
  * Spirity Javascript Framework
  *
@@ -65,6 +65,7 @@ Spirity.event = Spirity.event || {
     }, // getEvent
 
     stopEvent: function (event) {
+		event = event || Spirity.event.getEvent();
         if (event.stopPropagation) {
             event.stopPropagation();
         } else {

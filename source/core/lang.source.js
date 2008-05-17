@@ -126,7 +126,7 @@ Spirity.lang = Spirity.lang || {
         return camelized;
     }, // toCamel
 
-    later: function(when, object, func, data, periodic) {
+    later: function(when, func, object, data, periodic) {
         var m = func, d = data, f, r;
         when = when || 0; 
         object = object || {};
