@@ -1,6 +1,8 @@
 // vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
 /**
  * Spirity Javascript Framework
+ * 
+ * 这是名为 Spirity 的 Javascript 运行库。
  *
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
@@ -11,21 +13,28 @@ if (typeof Spirity == "undefined" || !Spirity) {
     var Spirity = {};
 }
 
-Spirity.extend = function() {
-    var a = arguments, o = Spirity;
-    for (var i = 0; i < a.length; i++) {
-        var tmp = a[i].split(".");
-        for (var j = (tmp[0] == "Spirity" ? 1 : 0); j < tmp.length; j++) {
-            o[tmp[j]] = o[tmp[j]] || {};
-            o = o[tmp[j]];
+/**
+ * 增加命名空间，参考 YUI 框架
+ */
+Spirity.namespaces = function() {
+    var object = Spirity;
+    for (var i = 0; length = arguments.length; i < length; i++) {
+        var tmp = arguments[i].split(".");
+        for (var j = (tmp[0] == "Spirity" ? 1 : 0), len = tmp.length; j < len; j++) {
+            object[tmp[j]] = object[tmp[j]] || {};
+            object = object[tmp[j]];
         }
     }
 
-    return o;
+    return object;
 };
 
+/**
+ * 注册组件
+ */
 Spirity.register = {
     add: function (mods) {
+		// 如果已经存在
         if (typeof this.modules[mods.module] == 'object') {
             return false;
         } else {

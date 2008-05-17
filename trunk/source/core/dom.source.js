@@ -1,6 +1,8 @@
 // vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
 /**
  * Spirity Javascript Framework
+ * 
+ * DOM 扩展
  *
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
@@ -31,7 +33,7 @@ Spirity.dom = Spirity.dom || {
         }
 
         return element;
-    }, // get
+    }, // end of Spirity.dom.get
 
     getElementsByClassName: function(className, tag, root, callback){
         tag = tag || '*';
@@ -114,7 +116,7 @@ Spirity.dom = Spirity.dom || {
             }
         }
 
-        element.style[property] = val;
+        element.style[Spirity.lang.toCamelement(property)] = val;
     }, // setStyle
 
     hasClassName: function(element, className) {
