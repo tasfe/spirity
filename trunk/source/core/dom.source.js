@@ -2,8 +2,6 @@
 /**
  * Spirity Javascript Framework
  * 
- * DOM À©Õ¹
- *
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
  */
