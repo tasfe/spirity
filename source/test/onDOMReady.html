@@ -12,9 +12,20 @@
         <script type="text/javascript" src="../core/event.source.js"></script>
         <script type="text/javascript">
             //<![CDATA[
-            Spirity.event.onDOMReady(function () { 
-                    console.info(Spirity);
-            });
+                (function () {
+                    var callback = function () {
+                        alert(this);
+                    };
+
+                    var callback2 = function (e) {
+                        alert(Spirity.event.getPageX(Spirity.event.getEvent()));
+                        Spirity.event.stopEvent(window.event || e);
+                    };
+
+                    Spirity.event.onDOMReady( function () {
+                        Spirity.event.addListener('ark:link', 'click', callback2);
+                    });
+                })();
             //]]>
         </script>
 
@@ -27,7 +38,11 @@
 <body>
     <h1>Spirity Framework</h1>
     <p>Hi, This is Spirity Javascript Framework.</p>
-    <p><img src="http://127.0.0.1/slowImage.php" alt="" /></p>
+    <!--
+    <p><img
+    src="http://127.0.0.1/slowImage.php" alt=""
+    /></p>
+    -->
     <p>for more information, please visit <a href=
         "http://spirity.googlecode.com/" title="Offical Site" id="ark:link">Offical Site</a>.</p>
 </body>

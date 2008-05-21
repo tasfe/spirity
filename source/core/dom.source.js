@@ -2,7 +2,7 @@
 /**
  * Spirity Javascript Framework
  * 
- * DOM æ‰©å±•
+ * DOM À©Õ¹
  *
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
@@ -71,7 +71,7 @@ Spirity.dom = Spirity.dom || {
             }
             return element.style[property] || value;
         } else if (document.documentElement.currentStyle && Spirity.broswer.ua.explorer) {
-            switch(Spirity.lang.toCamelement(property)) {
+            switch(Spirity.lang.toCamel(property)) {
                 case 'opacity':
                     var val = 100;
                     try {
@@ -116,7 +116,7 @@ Spirity.dom = Spirity.dom || {
             }
         }
 
-        element.style[Spirity.lang.toCamelement(property)] = val;
+        element.style[Spirity.lang.toCamel(property)] = val;
     }, // setStyle
 
     hasClassName: function(element, className) {

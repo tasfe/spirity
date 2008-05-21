@@ -2,7 +2,7 @@
 /**
  * Spirity Javascript Framework - Broswer
  * 
- * æµè§ˆå™¨æ‰©å±•ï¼Œè¿™ä¸ªåŒ…ä¸»è¦åŒ…æ‹¬ Spirity çš„ BOM ï¼ˆæµè§ˆå™¨å¯¹è±¡æ¨¡å‹ï¼‰çš„æ‰©å±•
+ * ä¯ÀÀÆ÷À©Õ¹£¬Õâ¸ö°üÖ÷Òª°üÀ¨ Spirity µÄ BOM £¨ä¯ÀÀÆ÷¶ÔÏóÄ£ĞÍ£©µÄÀ©Õ¹
  *
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://code.google.com/p/spirity/
@@ -15,7 +15,7 @@ Spirity.register.add({
 });
 
 Spirity.broswer = Spirity.broswer || {
-	// è·å–æµè§ˆå™¨ç±»å‹ï¼Œå–è‡ª Prototype
+	// »ñÈ¡ä¯ÀÀÆ÷ÀàĞÍ£¬È¡×Ô Prototype
     ua: {
         explorer: !!(window.attachEvent && !window.opera),
         opera: !!window.opera,
@@ -29,14 +29,14 @@ Spirity.broswer = Spirity.broswer || {
 
         return {
 			/**
-			 * åŠ¨æ€è½½å…¥ CSS æ ·å¼
+			 * ¶¯Ì¬ÔØÈë CSS ÑùÊ½
 			 */
             css: function () {
             
             },
 
 			/**
-			 * åŠ¨æ€æ‰§è¡Œ Javascript è„šæœ¬
+			 * ¶¯Ì¬Ö´ĞĞ Javascript ½Å±¾
 			 */
             script: function () {
             
