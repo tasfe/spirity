@@ -15,12 +15,13 @@ Spirity.register.add({
 });
 
 Spirity.broswer = Spirity.broswer || {
-	// 获取浏览器类型，取自 Prototype
+	// 获取浏览器类型
     ua: {
         explorer: !!(window.attachEvent && !window.opera),
         opera: !!window.opera,
         webkit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
-        gecko: navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') == -1
+        gecko: navigator.userAgent.indexOf('Gecko') > -1 && 
+            navigator.userAgent.indexOf('KHTML') == -1
     },
 
     get: (function () {
