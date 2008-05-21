@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="generator" content="HTML Tidy for Windows (vers 22 March 2008), see www.w3.org" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Spirity Framework</title>
+        <script type="text/javascript" src="../../core/core.source.js"></script>
+        <script type="text/javascript" src="../../core/broswer.source.js"></script>
+        <script type="text/javascript" src="../../core/dom.source.js"></script>
+        <script type="text/javascript" src="../../core/lang.source.js"></script>
+        <script type="text/javascript" src="../../core/event.source.js"></script>
+        <script type="text/javascript" src="effect.source.js"></script>
+
+        <script type="text/javascript">
+        //<![CDATA[
+        Spirity.event.onDOMReady(function () { 
+                Spirity.event.addListener('fadeIn', 'click', function () {
+                    Spirity.widget.Effect.fadeIn('ark:box', 50);
+                });
+
+                Spirity.event.addListener('fadeOut', 'click', function () {
+                    Spirity.widget.Effect.fadeOut('ark:box', 50);
+                });
+        });
+        //]]>
+        </script>
+
+        <style type="text/css">
+            div {
+                background: black;
+                width: 100px; height: 100px;
+                border: 2px solid red;
+                margin: 5px;
+            }
+        </style>
+</head>
+
+<body>
+    <div id="ark:box">
+
+    </div>
+
+    <button id="fadeIn">fadeIn</button>
+    <button id="fadeOut">fadeOut</button>
+</body>
+</html>

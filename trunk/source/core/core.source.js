@@ -18,7 +18,7 @@ if (typeof Spirity == "undefined" || !Spirity) {
  */
 Spirity.namespaces = function() {
     var object = Spirity;
-    for (var i = 0; length = arguments.length; i < length; i++) {
+    for (var i = 0, length = arguments.length; i < length; i++) {
         var tmp = arguments[i].split(".");
         for (var j = (tmp[0] == "Spirity" ? 1 : 0), len = tmp.length; j < len; j++) {
             object[tmp[j]] = object[tmp[j]] || {};

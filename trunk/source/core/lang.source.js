@@ -126,34 +126,28 @@ Spirity.lang = Spirity.lang || {
         return camelized;
     }, // toCamel
 
-    later: function(when, func, object, data, periodic) {
-        var m = func, d = data, f, r;
-        when = when || 0; 
-        object = object || {};
+    later: function(func, when, periodic, object, data) {
+        when   = when || 0;
+        object = object || {}
 
-        // 如果仅仅提供了 fn 的函数名称，判断 fn 是否
-        // 为 o 的一个方法。
-        if (Spirity.lang.isString(func)){
-            m = object[func];
+        var lang = Spirity.lang;
+        if (lang.isString(func)) {
+            func = object[func];
         }
 
-        if (!m) {
+        if (!lang.isFunction(func)) {
             throw new TypeError("method undefined");
         }
 
-        // 将 data 转换成数据，并供 apply 调用
-        if (!Spirity.lang.isArray(d)) {
-            d = [data];
+        if (!Spirity.lang.isArray(data)) {
+            data = [data];
         }
 
         f = function() {
-            m.apply(object, d);
+            func.apply(object, data);
         };
 
-        // 判断是否重复运行
-        r = (periodic) ? setInterval(f, when) : setTimeout(f, when);
-
-        // 返回 timer 类，可以使用 cancel 方法取消该定时器
+        var r = (periodic) ? setInterval(f, when) : setTimeout(f, when);
         return {
             interval: periodic,
             cancel: function() {
