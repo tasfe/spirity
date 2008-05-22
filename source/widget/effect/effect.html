@@ -14,7 +14,7 @@
 
         <script type="text/javascript">
         //<![CDATA[
-        Spirity.event.onDOMReady(function () { 
+        Spirity.event.onDOMReady(function () {
                 Spirity.event.addListener('fadeIn', 'click', function () {
                     Spirity.widget.Effect.fadeIn('ark:box', 50);
                 });
@@ -22,6 +22,19 @@
                 Spirity.event.addListener('fadeOut', 'click', function () {
                     Spirity.widget.Effect.fadeOut('ark:box', 50);
                 });
+
+                Spirity.event.addListener('shock', 'click', function () {
+                    Spirity.widget.Effect.shock('ark:box', 20, 2000, 100, {x: false, y: true});
+                });
+
+                Spirity.event.addListener('scrollout', 'click', function () {
+                    Spirity.widget.Effect.scrollOut('ark:box');
+                });
+
+                Spirity.event.addListener('scrollin', 'click', function () {
+                    Spirity.widget.Effect.scrollIn('ark:box');
+                });
+
         });
         //]]>
         </script>
@@ -37,11 +50,11 @@
 </head>
 
 <body>
-    <div id="ark:box">
-
-    </div>
-
+    <div id="ark:box"></div>
     <button id="fadeIn">fadeIn</button>
     <button id="fadeOut">fadeOut</button>
+    <button id="shock">shock</button>
+    <button id="scrollout">scrollout</button>
+    <button id="scrollin">scrollin</button>
 </body>
 </html>
