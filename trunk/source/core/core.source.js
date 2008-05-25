@@ -53,6 +53,9 @@ Spirity.register = {
     modules: []
 };
 
+/**
+ * 注册核心组件
+ */
 Spirity.register.add({
      module: 'Spirity.core', 
     version: '$Id: core.js 12 2008-05-14 06:33:39Z i.feelinglucky $'

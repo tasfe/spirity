@@ -1,6 +1,8 @@
 // vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
 /**
  * Spirity Javascript Framework
+ *
+ * DOM 操作集合
  * 
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
@@ -12,8 +14,11 @@ Spirity.register.add({
 });
 
 Spirity.dom = Spirity.dom || {
+    /**
+     * 根据节点的 id 获取 Elments
+     */
     get: function (element){
-        if (element && (element.nodeType || element.item)) {
+        if (Spirity.lang.isElement(element)) {
             return element;
         }
         
@@ -33,7 +38,11 @@ Spirity.dom = Spirity.dom || {
         return element;
     }, // end of Spirity.dom.get
 
-    getElementsByClassName: function(className, tag, root, callback){
+
+    /**
+     * 根据 ClassName 获取节点
+     */
+    getElementsByClassName: function(className, tag, root, callback) {
         tag = tag || '*';
         root = (root) ? Spirity.dom.get(root) : null || document; 
         if (!root) {
@@ -44,10 +53,11 @@ Spirity.dom = Spirity.dom || {
             elements = root.getElementsByTagName(tag),
             re = getClassRegEx(className);
 
+        // 注，循环的效率有待推敲
         for (var i = 0, len = elements.length; i < len; ++i) {
             if (re.test(elements[i].className) ) {
                 nodes[nodes.length] = elements[i];
-                if (callback) {
+                if (Spirity.lang.isFunction(callback)) {
                     callback.call(elements[i], elements[i]);
                 }
             }
@@ -56,7 +66,12 @@ Spirity.dom = Spirity.dom || {
         return nodes;
     }, // getElementsByClassName
 
+
+    /**
+     * 获取制定节点的样式
+     */
     getStyle: function (element, property) {
+
         if (document.defaultView && document.defaultView.getComputedStyle) {
             var value = null;
             if (property == 'float') {
@@ -89,7 +104,7 @@ Spirity.dom = Spirity.dom || {
                     return ( element.style[property] || value );
             }
         } else {
-            return element.style[property];
+            return element.style[Spirity.lang.toCamel(property)];
         }
     }, // getStyle
 
@@ -183,7 +198,7 @@ Spirity.dom = Spirity.dom || {
 
         var display = Spirity.dom.getStyle(element, 'display');
         if (display != 'none' && display != null) {
-          return {width: element.offsetWidth, height: element.offsetHeight};
+            return {width: element.offsetWidth, height: element.offsetHeight};
         }
 
         // All *Width and *Height properties give 0 on elements with display none,
@@ -206,6 +221,10 @@ Spirity.dom = Spirity.dom || {
         return {width: originalWidth, height: originalHeight};
     }, // getDimensions
 
+    setDimensions: function(element) {
+        //...
+    },
+
     getWidth: function(element) {
         return Spirity.dom.getDimensions(element).width;
     }, // getWidth
@@ -227,4 +246,8 @@ Spirity.dom = Spirity.dom || {
     }
 } // end of declaration dom
 
-//document.getElementsByClassName = Spirity.dom.getElementsByClassName;
+/*
+if (!document.getElementsByClassName) {
+    document.getElementsByClassName = Spirity.dom.getElementsByClassName;
+}
+ */

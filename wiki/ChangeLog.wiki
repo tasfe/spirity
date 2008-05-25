@@ -1,4 +1,8 @@
 ﻿#labels Featured
+=== 2008 年 05 月 25 日 ===
+
+整理部分代码，并加入部分的效果。
+
 === 2008 年 05 月 15 日 ===
 
 增加 Event 基本功能，增加 onDOMReady 函数
@@ -8,7 +12,5 @@
 增加 Dom 操作的基本功能，增加 CSS 操作函数（部分取自 YUI）
 
 === 2008 年 05 月 13 日 ===
-
-就在地震后的一天，我开始了 Spirity Javascript Framework 开发。其实，期前也使用了譬如 YUI、jQuery 等框架，自己本人也写了较多的 Javascript 代码，我想是时候将其整理一下了。
 
 加入 core 、lang、dom、brower 等组件，可能还有几个 Bug，以后慢慢调整。
