@@ -71,7 +71,6 @@ Spirity.dom = Spirity.dom || {
      * 获取制定节点的样式
      */
     getStyle: function (element, property) {
-
         if (document.defaultView && document.defaultView.getComputedStyle) {
             var value = null;
             if (property == 'float') {
@@ -191,6 +190,95 @@ Spirity.dom = Spirity.dom || {
         return element;
     }, // replaceClassName
 
+    /**
+     * 使用函数测试节点
+     */
+    _testElement: function(element, method){
+        return Spirity.lang.isElement(element) 
+            && (!Spirity.lang.isFunction(method) || method(element));
+    },
+
+    /**
+     * 获取节点的祖先
+     */
+    getAncestorBy: function(element, method) {
+        element = Spirity.dom.get(element);
+        if (!Spirity.lang.isElement(element)) {
+            return null;
+        }
+
+        while (element = element.parentNode) {
+            if (Spirity.dom._testElement(element, method)) {
+                return node;
+            }
+        } 
+
+        return null;
+    },
+
+    /**
+     * 根据 Class 获取节点的祖先
+     */
+    getAncestorByClassName: function(element, className) {
+        element = Spirity.dom.get(element);
+        if (!Spirity.lang.isElement(element)) {
+            return null;
+        }
+
+        var method = function(el) {
+            return Spirity.dom.hasClassName(el, className);
+        };
+
+        return Spirity.dom.getAncestorBy(element, method);
+    },
+
+    /**
+     * 获取前个兄弟节点
+     */
+    getPreviousSiblingBy: function(element, method) {
+        while (element) {
+            element = element.previousSibling;
+            if (Spirity.dom._testElement(element, method)) {
+                return element;
+            }
+        }
+        return null;
+    }, 
+
+    /**
+     * 获取后个兄弟节点
+     */
+    getNextSiblingBy: function(element, method) {
+        while (element) {
+            element = element .nextSibling;
+            if (Spirity.dom._testElement(element, method)) {
+                return element;
+            }
+        }
+
+        return null;
+    }, 
+
+    /**
+     * 根据 Tag 获取节点的祖先
+     */
+    getAncestorByTagName: function(element, tagName) {
+        element = Spirity.dom.get(element);
+        if (!Spirity.lang.isElement(element)) {
+            return null;
+        }
+
+        var method = function(el) {
+             return el.tagName && el.tagName.toUpperCase() == tagName.toUpperCase();
+        };
+
+        return Spirity.dom.getAncestorBy(element, method);
+    },
+
+
+    /**
+     * 获取节点的可视面积
+     */
     getDimensions: function(element) {
         if (Spirity.lang.isString(element)) {
             element = Spirity.dom.get(element);
@@ -221,6 +309,11 @@ Spirity.dom = Spirity.dom || {
         return {width: originalWidth, height: originalHeight};
     }, // getDimensions
 
+    /**
+     * 设置节点的可视面积
+     *
+     * @todo
+     */
     setDimensions: function(element) {
         //...
     },
