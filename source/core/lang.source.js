@@ -143,7 +143,7 @@ Spirity.lang = Spirity.lang || {
             data = [data];
         }
 
-        f = function() {
+        var f = function() {
             func.apply(object, data);
         };
 

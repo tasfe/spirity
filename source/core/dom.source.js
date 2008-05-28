@@ -71,6 +71,7 @@ Spirity.dom = Spirity.dom || {
      * 获取制定节点的样式
      */
     getStyle: function (element, property) {
+        element = Spirity.dom.get(element);
         if (document.defaultView && document.defaultView.getComputedStyle) {
             var value = null;
             if (property == 'float') {
@@ -108,6 +109,7 @@ Spirity.dom = Spirity.dom || {
     }, // getStyle
 
     setStyle: function(element, property, val) {
+        element = Spirity.dom.get(element);
         if (Spirity.broswer.ua.explorer) {
             switch (property) {
                 case 'opacity':

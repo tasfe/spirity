@@ -6,21 +6,14 @@
  * @link   http://code.google.com/p/spirity/
  * @link   http://www.gracecode.com/
  */
-
-if (!Spirity.widget) {
-    Spirity.widget = {};
-};
-
-Spirity.widget.Effect = Spirity.widget.Effect || (function () {
+Spirity.effect = Spirity.effect || (function () {
     var dom    = Spirity.dom;
     var lang   = Spirity.lang;
     var timer  = null;
 
     return {
-        fadeIn: function (element, speed, callback) {
-            if (lang.isString(element)) {
-                element = dom.get(element);
-            }
+        fadeIn: function (element, config) {
+            element = dom.get(element);
 
             if (!lang.isElement(element)) {
                 return;
@@ -38,10 +31,13 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                 } else {
                     timer.cancel();
                 }
-            }, speed || 100, true);
+            }, config.speed || 50, true);
         },
 
-        fadeOut: function (element, speed, callback) {
+        /**
+         *
+         */
+        fadeOut: function (element, config) {
             if (lang.isString(element)) {
                 element = dom.get(element);
             }
@@ -61,16 +57,16 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                 } else {
                     timer.cancel();
                 }
-            }, speed || 100, true);
+            }, config.speed || 100, true);
         },
 
-        shock: function (element, extent, duration, speed, direction, callback) {
-            if (lang.isString(element)) {
-                element = dom.get(element);
-            }
-
+        /**
+         *
+         */
+        shock: function (element, config) {
+            element = dom.get(element);
             if (!lang.isElement(element)) {
-                return;
+                return false;
             }
 
             if (timer) {
@@ -85,11 +81,11 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                 dom.setStyle(element, 'position', 'relative');
             }
 
-            var start = 0;
-            duration  = duration  || 1000;
-            extent    = extent    || 10;
-            speed     = speed     || 150;
-            direction = direction || {x: true, y: true};
+            var start = 0,
+            duration  = config.duration  || 1000,
+            extent    = config.extent    || 10,
+            speed     = config.speed     || 150,
+            direction = config.direction || {x: true, y: true};
 
             timer = lang.later(function () {
                 if (start < duration) {
@@ -109,10 +105,11 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
             }, speed, true);
         },
 
-        scrollOut: function (element, speed, direction, dimension, callback) {
-            if (lang.isString(element)) {
-                element = dom.get(element);
-            }
+        /**
+         *
+         */
+        scrollOut: function (element, config) {
+            element = dom.get(element);
 
             if (!lang.isElement(element)) {
                 return;
@@ -126,9 +123,8 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                 height: parseInt(dom.getStyle(element, 'height'))};
             var backup = {width: parseInt(dom.getStyle(element, 'width')), 
                 height: parseInt(dom.getStyle(element, 'height'))};
-
-            dimension = dimension || {width: 0, height: 0};
-            direction = direction || {x: true, y: true};
+            var dimension = config.dimension || {width: 0, height: 0};
+            var direction = config.direction || {x: true, y: true};
 
             timer = lang.later(function () {
                 if (org_dimension.width >= dimension.width || org_dimension.height >= dimension.height ) {
@@ -146,14 +142,14 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                     dom.setStyle(element, 'width',  backup.width  + 'px');
                     dom.setStyle(element, 'height', backup.height + 'px');
                 }
-            }, speed || 20, true);
+            }, config.speed || 20, true);
         },
 
-        scrollIn: function (element, speed, direction, dimension, callback) {
-            if (lang.isString(element)) {
-                element = dom.get(element);
-            }
-
+        /**
+         * 
+         */
+        scrollIn: function (element, config) {
+            element = dom.get(element);
             if (!lang.isElement(element)) {
                 return;
             }
@@ -164,8 +160,8 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
 
             var org_dimension = {width: parseInt(dom.getStyle(element, 'width')), 
                 height: parseInt(dom.getStyle(element, 'height'))};
-            dimension = dimension || {width: 0, height: 0};
-            direction = direction || {x: true, y: true};
+            var dimension = config.dimension || {width: 0, height: 0};
+            var direction = config.direction || {x: true,  y: true};
 
             dom.setStyle(element, 'width',  dimension.width  + 'px');
             dom.setStyle(element, 'height', dimension.height + 'px');
@@ -175,9 +171,13 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                 if (dimension.width < org_dimension.width|| dimension.height < org_dimension.height) {
                     if (direction.y) {
                         dom.setStyle(element, 'height', dimension.height + 'px');
+                    } else {
+                        dom.setStyle(element, 'height', org_dimension.height + 'px');
                     }
                     if (direction.x) {
                         dom.setStyle(element, 'width',  dimension.width  + 'px');
+                    } else {
+                        dom.setStyle(element, 'width',  org_dimension.width  + 'px');
                     }
                     dimension.width  += 5;
                     dimension.height += 5;
@@ -186,7 +186,7 @@ Spirity.widget.Effect = Spirity.widget.Effect || (function () {
                     dom.setStyle(element, 'width',  org_dimension.width  + 'px');
                     dom.setStyle(element, 'height', org_dimension.height + 'px');
                 }
-            }, speed || 20, true);
+            }, config.speed || 20, true);
         }
     };
 })();
