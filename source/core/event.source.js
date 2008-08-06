@@ -110,13 +110,12 @@ Spirity.event = Spirity.event || {
     },
 
     onDOMReady: function (callback) {
-        if (!callback || !callback.call) {
-            throw new TypeError(type + " onDOMReady call failed, callback undefined");
+        if (!callback || !Spirity.lang.isFunction(callback)) {
+            throw new TypeError(callback.toString() + " onDOMReady call failed, callback undefined");
             return false;
         }
 
         var isReady = Spirity.event.onDOMReady.isReady;
-
         if (document.addEventListener && !Spirity.broswer.ua.opera) {	
             if (!isReady) {
                 isReady = true;

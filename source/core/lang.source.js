@@ -12,6 +12,7 @@ Spirity.register.add({
 });
 
 Spirity.lang = Spirity.lang || {
+
     isArray: function(object) {
         if (object) {
            var lang = Spirity.lang;
