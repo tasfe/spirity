@@ -340,9 +340,3 @@ Spirity.dom = Spirity.dom || {
 
     }
 } // end of declaration dom
-
-/*
-if (!document.getElementsByClassName) {
-    document.getElementsByClassName = Spirity.dom.getElementsByClassName;
-}
- */
