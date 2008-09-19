@@ -17,11 +17,37 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
+    /*
     font-size: 100%;
+    */
     font-weight: inherit;
     font-style: inherit;
     font-family: inherit;
     vertical-align: baseline;
+}
+
+h1 {
+    font-size: 200%;
+}
+
+h2 {
+    font-size: 180%;
+}
+
+h3 {
+    font-size: 160%;
+}
+
+h4 {
+    font-size: 140%;
+}
+
+h5 {
+    font-size: 120%;
+}
+
+h6, p {
+    font-size: 100%;
 }
 
 body { 
