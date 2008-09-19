@@ -50,7 +50,11 @@
  * 每个栅格的基本样式
  *
  */
-.grid {
+.grid-01, .grid-02, .grid-03, .grid-04, .grid-05,
+.grid-06, .grid-07, .grid-08, .grid-09, .grid-10,
+.grid-11, .grid-12, .grid-13, .grid-14, .grid-15,
+.grid-16, .grid-17, .grid-18, .grid-19, .grid-20,
+.grid-21, .grid-22, .grid-23, .grid-24 {
     float:left;
     overflow:hidden;
     position:relative;
