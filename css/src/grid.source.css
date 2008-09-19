@@ -7,6 +7,143 @@
  * @version $Id$
  */
 
+/**
+ * 外层“棋盘”初始宽度
+ */
+.chess {
+    overflow:hidden;
+    clear:both;
+    position:relative;
+    width:100%;
+}
+
+.chess-950 {
+    width: 960px;
+    margin: 0px auto;
+}
 
 
+.board {
+    float:left;
+    position:relative;
+    width:100%;
+    left:100%;
+    background: blue;
+}
 
+.chess-950 .board {
+    left: 960px;
+}
+
+
+.board:after {
+    content: "."; 
+    display: block;
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.grid {
+    float:left;
+    overflow:hidden;
+    position:relative;
+    width: 100%;
+    margin: 0px 5px;
+    right: 100%;
+}
+
+/**
+ * 将页面分成了 24 份
+ */
+.chess-950 .grid-01 {
+    width: 30px;
+}
+
+.chess-950 .grid-02 {
+    width: 170px;
+}
+
+.chess-950 .grid-03 {
+    width: 110px;
+}
+
+.chess-950 .grid-04 {
+    width: 150px;
+}
+
+.chess-950 .grid-05 {
+    width: 190px;
+}
+
+.chess-950 .grid-06 {
+    width: 230px;
+}
+
+.chess-950 .grid-07 {
+    width: 270px;
+}
+
+.chess-950 .grid-08 {
+    width: 310px;
+}
+
+.chess-950 .grid-09 {
+    width: 350px;
+}
+
+.chess-950 .grid-10 {
+    width: 490px;
+}
+
+.chess-950 .grid-11 {
+    width: 430px;
+}
+
+.chess-950 .grid-12 {
+    width: 470px;
+}
+
+.chess-950 .grid-13 {
+    width: 510px;
+}
+
+.chess-950 .grid-14 {
+    width: 550px;
+}
+
+.chess-950 .grid-15 {
+    width: 590px;
+}
+
+.chess-950 .grid-17 {
+    width: 670px;
+}
+
+.chess-950 .grid-18 {
+    width: 710px;
+}
+
+.chess-950 .grid-19 {
+    width: 750px;
+}
+
+.chess-950 .grid-20 {
+    width: 790px;
+}
+
+.chess-950 .grid-21 {
+    width: 830px;
+}
+
+.chess-950 .grid-22 {
+    width: 870px;
+}
+
+.chess-950 .grid-23 {
+    width: 910px;
+}
+
+.chess-950 .grid-24 {
+    width: 950px;
+}
