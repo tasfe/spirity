@@ -55,7 +55,10 @@
     overflow:hidden;
     position:relative;
     width: 100%;
-    right: 100%;
+}
+
+.chess-950 .grid {
+    margin-left: -950px;
 }
 
 /**
@@ -66,7 +69,7 @@
 }
 
 .chess-950 .grid-02 {
-    width: 170px;
+    width: 70px;
 }
 
 .chess-950 .grid-03 {
@@ -98,7 +101,7 @@
 }
 
 .chess-950 .grid-10 {
-    width: 490px;
+    width: 390px;
 }
 
 .chess-950 .grid-11 {
@@ -119,6 +122,10 @@
 
 .chess-950 .grid-15 {
     width: 590px;
+}
+
+.chess-950 .grid-16 {
+    width: 630px;
 }
 
 .chess-950 .grid-17 {
@@ -151,4 +158,101 @@
 
 .chess-950 .grid-24 {
     width: 950px;
+}
+
+/**
+ * 设置偏移位置
+ */
+.chess-950 .start-01 {
+    margin-left: -950px;
+}
+
+.chess-950 .start-02 {
+    margin-left: -910px;
+}
+
+.chess-950 .start-03 {
+    margin-left: -870px;
+}
+
+.chess-950 .start-04 {
+    margin-left: -830px;
+}
+
+.chess-950 .start-05 {
+    margin-left: -790px;
+}
+
+.chess-950 .start-06 {
+    margin-left: -750px;
+}
+
+.chess-950 .start-07 {
+    margin-left: -710px;
+}
+
+.chess-950 .start-08 {
+    margin-left: -670px;
+}
+
+.chess-950 .start-09 {
+    margin-left: -630px;
+}
+
+.chess-950 .start-10 {
+    margin-left: -590px;
+}
+
+.chess-950 .start-11 {
+    margin-left: -550px;
+}
+
+.chess-950 .start-12 {
+    margin-left: -510px;
+}
+
+.chess-950 .start-13 {
+    margin-left: -470px;
+}
+
+.chess-950 .start-14 {
+    margin-left: -430px;
+}
+
+.chess-950 .start-15 {
+    margin-left: -390px;
+}
+
+.chess-950 .start-16 {
+    margin-left: -350px;
+}
+
+.chess-950 .start-17 {
+    margin-left: -310px;
+}
+.chess-950 .start-18 {
+    margin-left: -270px;
+}
+.chess-950 .start-19 {
+    margin-left: -230px;
+}
+
+.chess-950 .start-20 {
+    margin-left: -190px;
+}
+
+.chess-950 .start-21 {
+    margin-left: -150px;
+}
+
+.chess-950 .start-22 {
+    margin-left: -110px;
+}
+
+.chess-950 .start-23 {
+    margin-left: -70px;
+}
+
+.chess-950 .start-24 {
+    margin-left: -30px;
 }
