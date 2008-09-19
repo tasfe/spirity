@@ -15,16 +15,14 @@
         <script type="text/javascript">
         //<![CDATA[
         Spirity.event.onDOMReady(function () { 
-            var handle = Spirity.widget.Rotate(
-                    {
-                  handle: 'ark:rotate2',
+            var handle = Spirity.widget.Rotate({
+                  handle: 'ark:rotate',
                 interval: 500,
                 autoplay: true,
                 callback: function (element) {
-                    console.info(element);
-                    Spirity.dom.setStyle(element, 'display', '');
-                
-                }});
+                        console.info(element);
+                    }
+                });
         });
         //]]>
         </script>
@@ -36,7 +34,7 @@
 </head>
 
 <body>
-     <ul id="ark:rotate2" class="rotate">
+     <ul id="ark:rotate" class="rotate">
         <li><a href="#">Title 1</a></li>
         <li><a href="#">Title 2</a></li>
         <li><a href="#">Title 3</a></li>

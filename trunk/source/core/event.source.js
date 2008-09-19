@@ -28,7 +28,7 @@ Spirity.event = Spirity.event || {
         } else if (element.attachEvent){
             element.attachEvent('on'+type, callback);
         } else {
-        
+            // ...
         }
     },
 
@@ -124,7 +124,9 @@ Spirity.event = Spirity.event || {
         }
 
         if (Spirity.broswer.ua.explorer && window == top ) (function() {
-            if (isReady) return;
+            if (isReady) {
+                return;
+            }
             try {
                 var done = false;
                 var init = function () {
@@ -169,3 +171,5 @@ Spirity.event = Spirity.event || {
         };
     }
 };	
+
+Spirity.event.on = Spirity.event.addEventListener;
