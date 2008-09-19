@@ -11,7 +11,7 @@
 
 Spirity.register.add({
      module: 'Spirity.broswer', 
-    version: '$Id: broswer.js 17 2008-05-14 12:49:26Z i.feelinglucky $'
+    version: '$Id$'
 });
 
 Spirity.broswer = Spirity.broswer || {
