@@ -67,10 +67,6 @@
  *
  * 公式：(40 x N) - 10 = 950
  */
-.body-950 .column {
-    margin-left: -950px;
-}
-
 .body-950 .column-01 {
     width: 30px;
 }
@@ -170,7 +166,7 @@
 /**
  * 对比栅格，设置偏移位置
  */
-.body-950 .start-01 {
+.body-950 .column, .body-950 .start-01 {
     margin-left: -950px;
 }
 
