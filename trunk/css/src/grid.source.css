@@ -18,10 +18,9 @@
 }
 
 .chess-950 {
-    width: 960px;
+    width: 950px;
     margin: 0px auto;
 }
-
 
 .board {
     float:left;
@@ -32,10 +31,13 @@
 }
 
 .chess-950 .board {
-    left: 960px;
+    left: 950px;
 }
 
 
+/**
+ * 清除浮动元素
+ */
 .board:after {
     content: "."; 
     display: block;
@@ -44,12 +46,15 @@
     visibility: hidden;
 }
 
+/**
+ * 每个栅格的基本样式
+ *
+ */
 .grid {
     float:left;
     overflow:hidden;
     position:relative;
     width: 100%;
-    margin: 0px 5px;
     right: 100%;
 }
 
