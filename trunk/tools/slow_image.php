@@ -5,7 +5,7 @@
  *
  * @author  i.feelinglucky@gmail.com
  * @link    http://www.gracecode.com/
- * @version $Id: reset.source.css 185 2008-09-17 05:00:30Z i.feelinglucky $
+ * @version $Id$
  */
 
 sleep(2);
