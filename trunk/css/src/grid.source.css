@@ -2,43 +2,33 @@
 /**
  * 格栅系统
  *
+ * 根据 Taobao 栅格系统规范制定
+ *
+ * @change
+ * 2008-09-19
+ *      初始化版本，使用“浮动定位布局”
+ *
  * @author  i.feelinglucky@gmail.com
+ * @since   2008-09-19
  * @link    http://www.gracecode.com/
  * @version $Id$
  */
 
-/**
- * 外层“棋盘”初始宽度
- */
-.chess {
-    overflow:hidden;
+.body {
     clear:both;
+    overflow:hidden;
     position:relative;
     width:100%;
 }
 
-.chess-950 {
-    width: 950px;
-    margin: 0px auto;
-}
-
-.board {
+.container {
     float:left;
     position:relative;
     width:100%;
     left:100%;
-    background: blue;
 }
 
-.chess-950 .board {
-    left: 950px;
-}
-
-
-/**
- * 清除浮动元素
- */
-.board:after {
+.container:after {
     content: "."; 
     display: block;
     height: 0; 
@@ -47,216 +37,229 @@
 }
 
 /**
- * 每个栅格的基本样式
- *
+ * 目前制定的是 950px 宽度
  */
-.grid-01, .grid-02, .grid-03, .grid-04, .grid-05,
-.grid-06, .grid-07, .grid-08, .grid-09, .grid-10,
-.grid-11, .grid-12, .grid-13, .grid-14, .grid-15,
-.grid-16, .grid-17, .grid-18, .grid-19, .grid-20,
-.grid-21, .grid-22, .grid-23, .grid-24 {
+.body-950 {
+    width: 950px;
+    margin: 0px auto;
+}
+
+.body-950 .container {
+    left: 950px;
+}
+
+/**
+ * 将页面分成了 24 份，同时指定每个栅格的基本样式
+ */
+.column-01, .column-02, .column-03, .column-04, .column-05,
+.column-06, .column-07, .column-08, .column-09, .column-10,
+.column-11, .column-12, .column-13, .column-14, .column-15,
+.column-16, .column-17, .column-18, .column-19, .column-20,
+.column-21, .column-22, .column-23, .column-24 {
     float:left;
     overflow:hidden;
     position:relative;
     width: 100%;
 }
 
-.chess-950 .grid {
+/**
+ * 950 宽度的格栅
+ *
+ * 公式：(40 x N) - 10 = 950
+ */
+.body-950 .column {
     margin-left: -950px;
 }
 
-/**
- * 将页面分成了 24 份
- */
-.chess-950 .grid-01 {
+.body-950 .column-01 {
     width: 30px;
 }
 
-.chess-950 .grid-02 {
+.body-950 .column-02 {
     width: 70px;
 }
 
-.chess-950 .grid-03 {
+.body-950 .column-03 {
     width: 110px;
 }
 
-.chess-950 .grid-04 {
+.body-950 .column-04 {
     width: 150px;
 }
 
-.chess-950 .grid-05 {
+.body-950 .column-05 {
     width: 190px;
 }
 
-.chess-950 .grid-06 {
+.body-950 .column-06 {
     width: 230px;
 }
 
-.chess-950 .grid-07 {
+.body-950 .column-07 {
     width: 270px;
 }
 
-.chess-950 .grid-08 {
+.body-950 .column-08 {
     width: 310px;
 }
 
-.chess-950 .grid-09 {
+.body-950 .column-09 {
     width: 350px;
 }
 
-.chess-950 .grid-10 {
+.body-950 .column-10 {
     width: 390px;
 }
 
-.chess-950 .grid-11 {
+.body-950 .column-11 {
     width: 430px;
 }
 
-.chess-950 .grid-12 {
+.body-950 .column-12 {
     width: 470px;
 }
 
-.chess-950 .grid-13 {
+.body-950 .column-13 {
     width: 510px;
 }
 
-.chess-950 .grid-14 {
+.body-950 .column-14 {
     width: 550px;
 }
 
-.chess-950 .grid-15 {
+.body-950 .column-15 {
     width: 590px;
 }
 
-.chess-950 .grid-16 {
+.body-950 .column-16 {
     width: 630px;
 }
 
-.chess-950 .grid-17 {
+.body-950 .column-17 {
     width: 670px;
 }
 
-.chess-950 .grid-18 {
+.body-950 .column-18 {
     width: 710px;
 }
 
-.chess-950 .grid-19 {
+.body-950 .column-19 {
     width: 750px;
 }
 
-.chess-950 .grid-20 {
+.body-950 .column-20 {
     width: 790px;
 }
 
-.chess-950 .grid-21 {
+.body-950 .column-21 {
     width: 830px;
 }
 
-.chess-950 .grid-22 {
+.body-950 .column-22 {
     width: 870px;
 }
 
-.chess-950 .grid-23 {
+.body-950 .column-23 {
     width: 910px;
 }
 
-.chess-950 .grid-24 {
+.body-950 .column-24 {
     width: 950px;
 }
 
 /**
- * 设置偏移位置
+ * 对比栅格，设置偏移位置
  */
-.chess-950 .start-01 {
+.body-950 .start-01 {
     margin-left: -950px;
 }
 
-.chess-950 .start-02 {
+.body-950 .start-02 {
     margin-left: -910px;
 }
 
-.chess-950 .start-03 {
+.body-950 .start-03 {
     margin-left: -870px;
 }
 
-.chess-950 .start-04 {
+.body-950 .start-04 {
     margin-left: -830px;
 }
 
-.chess-950 .start-05 {
+.body-950 .start-05 {
     margin-left: -790px;
 }
 
-.chess-950 .start-06 {
+.body-950 .start-06 {
     margin-left: -750px;
 }
 
-.chess-950 .start-07 {
+.body-950 .start-07 {
     margin-left: -710px;
 }
 
-.chess-950 .start-08 {
+.body-950 .start-08 {
     margin-left: -670px;
 }
 
-.chess-950 .start-09 {
+.body-950 .start-09 {
     margin-left: -630px;
 }
 
-.chess-950 .start-10 {
+.body-950 .start-10 {
     margin-left: -590px;
 }
 
-.chess-950 .start-11 {
+.body-950 .start-11 {
     margin-left: -550px;
 }
 
-.chess-950 .start-12 {
+.body-950 .start-12 {
     margin-left: -510px;
 }
 
-.chess-950 .start-13 {
+.body-950 .start-13 {
     margin-left: -470px;
 }
 
-.chess-950 .start-14 {
+.body-950 .start-14 {
     margin-left: -430px;
 }
 
-.chess-950 .start-15 {
+.body-950 .start-15 {
     margin-left: -390px;
 }
 
-.chess-950 .start-16 {
+.body-950 .start-16 {
     margin-left: -350px;
 }
 
-.chess-950 .start-17 {
+.body-950 .start-17 {
     margin-left: -310px;
 }
-.chess-950 .start-18 {
+.body-950 .start-18 {
     margin-left: -270px;
 }
-.chess-950 .start-19 {
+.body-950 .start-19 {
     margin-left: -230px;
 }
 
-.chess-950 .start-20 {
+.body-950 .start-20 {
     margin-left: -190px;
 }
 
-.chess-950 .start-21 {
+.body-950 .start-21 {
     margin-left: -150px;
 }
 
-.chess-950 .start-22 {
+.body-950 .start-22 {
     margin-left: -110px;
 }
 
-.chess-950 .start-23 {
+.body-950 .start-23 {
     margin-left: -70px;
 }
 
-.chess-950 .start-24 {
+.body-950 .start-24 {
     margin-left: -30px;
 }

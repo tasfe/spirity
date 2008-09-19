@@ -2,7 +2,7 @@
 /**
  * CSS 重置样式
  *
- * 重置主流浏览器默认样式，参考 YUI 以及 Blueprint 而成
+ * 重置主流浏览器默认样式，参考 YUI 以及 Blueprint
  *
  * @author  i.feelinglucky@gmail.com
  * @link    http://www.gracecode.com/
@@ -14,12 +14,7 @@ a, abbr, acronym, address, code,
 del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    /*
-    font-size: 100%;
-    */
+    margin: 0em; padding: 0em; border: 0em;
     font-weight: inherit;
     font-style: inherit;
     font-family: inherit;
