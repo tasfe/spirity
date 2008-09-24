@@ -5,7 +5,7 @@
  *
  * @author  i.feelinglucky@gmail.com
  * @link    http://www.gracecode.com/
- * @version $Id$
+ * @version $Id: slow_image.php 40 2008-09-19 03:21:33Z i.feelinglucky $
  */
 
 sleep(2);
