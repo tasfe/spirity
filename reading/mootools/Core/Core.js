@@ -71,7 +71,7 @@ var Native = function(options){
 			obj.prototype[name] = method;
 		}
 		if (generics){
-			Native.genericize(obj, name, protect);
+			Native.genericize(obj, name, protect); // 泛型，见下面代码
 		}
 
 		// 执行增加方法后的回调函数
@@ -156,15 +156,18 @@ Native.alias = function(objects, a1, a2, a3){
 	}
 })({'boolean': Boolean, 'native': Native, 'object': Object});
 
-/*
-对下列内置类型进行Native化包装,使之支持类型化,别名,继承等
-*/
+/**
+ * 对下列内置类型进行 Native 化包装,使之支持类型化 别名 继承等
+ */
 (function(objects){
 	for (var name in objects) {
         new Native({name: name, initialize: objects[name], protect: true});
     }
 })({'String': String, 'Function': Function, 'Number': Number, 'Array': Array, 'RegExp': RegExp, 'Date': Date});
 
+/**
+ * 泛型化方法
+ */
 (function(object, methods){
 	for (var i = methods.length; i--; i) {
         Native.genericize(object, methods[i], true);

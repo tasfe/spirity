@@ -42,7 +42,5 @@ Element.Events.domready = {
 		default:
 			window.addEvent('load', domready);
 			document.addEvent('DOMContentLoaded', domready);
-
 	}
-	
 })();
