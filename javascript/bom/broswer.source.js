@@ -1,9 +1,7 @@
 // vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
 /**
- * Spirity Javascript Framework - Broswer
+ * Spirity Javascript / Bom / Broswer
  * 
- * 浏览器扩展，这个包主要包括 Spirity 的 BOM （浏览器对象模型）的扩展
- *
  * @author feeinglucky<i.feelinglucky@gmail.com>
  * @link   http://code.google.com/p/spirity/
  * @link   http://www.gracecode.com/
@@ -11,7 +9,7 @@
 
 Spirity.register.add({
      module: 'Spirity.broswer', 
-    version: '$Id$'
+    version: '$Id: broswer.source.js 40 2008-09-19 03:21:33Z i.feelinglucky $'
 });
 
 Spirity.broswer = Spirity.broswer || {
