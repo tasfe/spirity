@@ -45,7 +45,9 @@ var Native = function(options){
 	object.constructor = Native;
 	object.$family = {name: 'native'};
 	// 原型继承
-	if (legacy && initialize) object.prototype = legacy.prototype;
+	if (legacy && initialize) {
+        object.prototype = legacy.prototype;
+    }
 	object.prototype.constructor = object;
 
 	// 类的名称
@@ -53,10 +55,11 @@ var Native = function(options){
 		var family = name.toLowerCase();
 		object.prototype.$family = {name: family};
 		  /*
-  类型化,为Native类型对象添加静态type方法，现在可以使用object.type(object1)判断object1与object类型的实例
-  比如Number.type(1)返回true,String.type(1)返回false
-  后面的IFrame等代码中有很多地方利用这个特性配合Array.link实现函数的参数位置无关性
-  */
+              为 Native 类型对象添加静态 type 方法，现在可以使用
+              object.type(object1) 判断 object1 与 object 类型的实例
+              比如 Number.type(1)返 回 true, String.type(1) 返回 false
+              后面的IFrame等代码中有很多地方利用这个特性配合Array.link实现函数的参数位置无关性
+           */
 		Native.typize(object, family);  // typzie 在下面注解
 	}
 
@@ -122,8 +125,7 @@ Native.genericize = function(object, property, check){
 	if ((!check || !object[property]) && typeof object.prototype[property] == 'function') object[property] = function(){
 		//将arguments数组化
 		var args = Array.prototype.slice.call(arguments);
-		 //将第一个参数作为原来实例方法的this指向
-
+		//将第一个参数作为原来实例方法的this指向
 		return object.prototype[property].apply(args.shift(), args);
 	};
 };
@@ -139,7 +141,9 @@ Native.typize = function(object, family){
 };
 
 Native.alias = function(objects, a1, a2, a3){
-	for (var i = 0, j = objects.length; i < j; i++) objects[i].alias(a1, a2, a3);
+	for (var i = 0, j = objects.length; i < j; i++){
+        objects[i].alias(a1, a2, a3);
+    }
 };
 
 /*
@@ -156,15 +160,34 @@ Native.alias = function(objects, a1, a2, a3){
 对下列内置类型进行Native化包装,使之支持类型化,别名,继承等
 */
 (function(objects){
-	for (var name in objects) new Native({name: name, initialize: objects[name], protect: true});
+	for (var name in objects) {
+        new Native({name: name, initialize: objects[name], protect: true});
+    }
 })({'String': String, 'Function': Function, 'Number': Number, 'Array': Array, 'RegExp': RegExp, 'Date': Date});
 
 (function(object, methods){
-	for (var i = methods.length; i--; i) Native.genericize(object, methods[i], true);
+	for (var i = methods.length; i--; i) {
+        Native.genericize(object, methods[i], true);
+    }
 	return arguments.callee;
 })
 (Array, ['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice', 'toString', 'valueOf', 'indexOf', 'lastIndexOf'])
 (String, ['charAt', 'charCodeAt', 'concat', 'indexOf', 'lastIndexOf', 'match', 'replace', 'search', 'slice', 'split', 'substr', 'substring', 'toLowerCase', 'toUpperCase', 'valueOf']);
+
+// 对比 Tbra 的实现
+/*
+(function(){
+	['indexOf','lastIndexOf','forEach','filter','map','some','every','copy'].forEach(
+		function(m) {
+			if (!Array[m]) {
+				Array[m] = function(scope){
+					return Array.prototype[m].apply(scope, Array.prototype.slice.call(arguments, 1));
+				};
+			}
+		}
+	);
+})();
+*/
 
 ///////////////////////////////////////////
 
@@ -191,7 +214,7 @@ function $arguments(i){
 };
 
 function $lambda(value){
-	return (typeof value == 'function') ? value : function(){
+	return (typeof value == 'function') ? value : function() {
 		return value;
 	};
 };
