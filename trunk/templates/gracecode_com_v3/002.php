@@ -21,12 +21,8 @@
                 <?php include 'slice/category_archive_about.inc.html'; ?>
             </div>
         </div>
-        <div class="container">
-            <div class="column-24 start-01 pager">
-                <span class="current">1</span>/<span class="total">24</span>
-            </div>
-        </div>
     </div>
 </div>
+<?php include 'slice/comments.inc.html'; ?>
 <?php include 'slice/pager-foot.inc.html'; ?>
 <?php include 'slice/footer.inc.html'; ?>

@@ -1,0 +1,35 @@
+<div class="comments">
+    <div class="body body-950">
+        <div class="container">
+            <div class="column-24 start-01">
+                <div class="comments-header">
+                    <h4>目前已经有 <em>10</em> 条留言</h4>
+                    <ul>
+                        <li><a href="#">添加新的留言</a></li>
+                        <li><a href="#">rss</a></li>
+                        <li><a href="#">trackback</a></li>
+                    </ul>
+                </div>
+                <ul class="comments-body">
+                    <?php for($i = 0; $i < 10; $i++) { ?>
+                    <li id="comment-00<?php echo $i+1; ?>">
+                    <cite>
+                        <span class="author"><a href="#">手气不错</a></span>
+                        <span class="date">10.06 11:59:59</span>
+                    </cite>
+                    <div class="content">
+                        hey, we are using scala with our existing java stack
+                        without a problem. we use a java DI container(pico)  and
+                        a simple java web framework (waffle) which provide
+                        component life-cycle,  AOP and DI.<br />
+                        We always start with defining  traits that will compile
+                        to simple java interfaces but other than that we do not
+                        have to worry about integration at all.<br />
+                    </div>
+                    </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
