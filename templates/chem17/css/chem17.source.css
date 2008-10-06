@@ -1,15 +1,7 @@
-/**
- *
- */
-body {
-    font-size: 12px;
-    font-family: SimSum;
-}
+@import url('header.source.css');
 
 .container {
     width: 916px;
     margin: 0px auto;
-
-    min-height: 500px;
-    background: red;
+    min-height: 300px;
 }
