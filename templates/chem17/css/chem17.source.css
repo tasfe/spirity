@@ -1,0 +1,15 @@
+/**
+ *
+ */
+body {
+    font-size: 12px;
+    font-family: SimSum;
+}
+
+.container {
+    width: 916px;
+    margin: 0px auto;
+
+    min-height: 500px;
+    background: red;
+}
