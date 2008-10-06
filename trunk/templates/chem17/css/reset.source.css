@@ -19,6 +19,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-style: inherit;
     font-family: inherit;
     vertical-align: baseline;
+    font-size: 12px;
+    font-family: SimSum;
+    color: #333;
+}
+
+ul, ol {
+    list-style: none;
 }
 
 h1 {
@@ -74,4 +81,13 @@ blockquote, q {
 a img {
     border: none;
     outline: none;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    text-decoration: underline;
 }
