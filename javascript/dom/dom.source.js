@@ -10,7 +10,7 @@
 
 Spirity.register.add({
      module: 'Spirity.dom', 
-    version: '$Id: dom.source.js 40 2008-09-19 03:21:33Z i.feelinglucky $'
+    version: '$Id$'
 });
 
 Spirity.dom = Spirity.dom || {
