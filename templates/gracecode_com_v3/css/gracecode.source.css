@@ -4,7 +4,7 @@
 body {
     color: #555;
     font-size: 14px;
-    font-family:Georgia,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana;
+    font-family: Georgia,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana;
 }
 
 ul {
@@ -46,12 +46,19 @@ em {
     height: 50px;
 }
 
+.date {
+    font-weight: bold;
+    color: #999;
+}
+
+
 /**
  * 广告
  */
 .adv {
     text-align: center;
 }
+
 
 /**
  * 版权信息 
@@ -64,6 +71,7 @@ em {
 .copyright a:link, .copyright a:visited {
     text-decoration: underline;
 }
+
 
 
 /**
@@ -134,8 +142,6 @@ em {
 }
 
 .category .date {
-    font-weight: bold;
-    color: #999;
     margin-right: .5em;
 }
 
@@ -229,4 +235,88 @@ em {
     line-height: 20px;
     margin-bottom: .5em;
     text-indent: 2em;
+}
+
+/**
+ * 留言列表
+ */
+.comments {
+    background: #f3f3f3;
+    padding: 10px 0px;
+    border-top: 1px solid #e3e3e3;
+}
+
+.comments-header {
+    padding: 5px;
+    border-bottom: 1px solid #e3e3e3;
+    margin-bottom: 15px;
+}
+
+.comments-header ul {
+    overflow: hidden;
+    position: relative;
+    left: -15px;
+    margin: 5px 0px;
+}
+
+.comments-header li {
+    padding-left: 15px;
+    font-size: 14px;
+    line-height: 14px;
+    border-left: 1px solid #868686;
+    position: relative;
+    left: -1px;
+    float: left;
+}
+
+.comments-header a:link, .comments-header a:visited {
+    display: block;
+    padding: 0px 15px 0px 0px;
+}
+
+.comments-body ul {
+
+}
+
+.comments-body li {
+    overflow: hidden;
+    padding-left: 280px;
+    margin: 0px 0px 15px 0px;
+}
+
+.comments-body li cite {
+    margin-left: -280px;
+    text-align: right;
+    width: 270px;
+    float: left;
+}
+
+.comments-body .author {
+    display: block;
+    font-size: 14px;
+    font-style: normal;
+}
+
+.comments-body .author a:link, .comments-body .author a:visited {
+    padding: 2px;
+    background: #868686;
+    color: #f3f3f3;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.comments-body .author a:hover {
+    text-decoration: none;
+}
+
+.comments-body .date {
+
+}
+
+.comments-body .content {
+    border-left: 1px solid #868686;
+    padding: 0px 0px 0px 10px;
+    line-height: 22px;
+    text-align: justify;
 }
