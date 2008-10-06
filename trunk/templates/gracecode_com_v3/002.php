@@ -17,7 +17,7 @@
             <div class="column-17 start-08 archive_content">
                 <?php include 'slice/archive_content.inc.html'; ?>
             </div>
-            <div class="column-07 start-01">
+            <div class="column-06 start-01">
                 <?php include 'slice/category_archive_about.inc.html'; ?>
             </div>
         </div>
