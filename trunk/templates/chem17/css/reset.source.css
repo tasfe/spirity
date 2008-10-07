@@ -20,7 +20,11 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-family: inherit;
     vertical-align: baseline;
     font-size: 12px;
+<<<<<<< .mine
+    font-family: '宋体', SimSum;
+=======
     font-family: Tahoma,SimSun,Arial;
+>>>>>>> .r73
     color: #333;
 }
 
