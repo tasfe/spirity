@@ -154,11 +154,20 @@ em {
     font-size: 12px;
 }
 
+.category ul.column-2 {
+    overflow: hidden;
+}
+
 .category li {
     padding: 5px 0px;
     border-top:1px solid #D5D5D5;
 }
 
+.category ul.column-2 li {
+    float: left;
+    width: 48%;
+    margin-right: 2%;
+}
 
 /**
  *
@@ -319,4 +328,25 @@ em {
     padding: 0px 0px 0px 10px;
     line-height: 22px;
     text-align: justify;
+    position: relative;
+}
+
+.comments-body .content .counter {
+    text-indent: 0px;
+    display: block;
+    font-size: 14px;
+    text-align: center;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    padding: 2px;
+    background: #868686;
+    color: #f3f3f3;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    position: absolute;
+    right: 0px; bottom: 0px;
+    filter:alpha(opacity=30);
+    opacity: 0.3;
 }
