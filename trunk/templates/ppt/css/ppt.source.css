@@ -1,0 +1,33 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
+/**
+ *
+ * @author  i.feelinglucky@gmail.com
+ * @since   2008-09-19
+ * @link    http://www.gracecode.com/
+ * @version $Id: grid.source.css 67 2008-10-06 07:14:17Z i.feelinglucky $
+ */
+body {
+    overflow: hidden;
+    font-size: 1em;
+    background: #fff url(../images/flower.gif) no-repeat top right;
+}
+
+.page {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 5em 2em 2em 2em;
+}
+
+.page .title {
+    font-size: 3em;
+    text-align: center;
+}
+
+.page .title-2 {
+    font-size: 2em;
+}
+
+.page .content {
+
+}
