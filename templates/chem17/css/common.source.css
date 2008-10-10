@@ -272,6 +272,14 @@ zoom: 1;
 
 .thumb-list-1 li {
     font-size: 14px;
+    position: relative;
+}
+
+.thumb-list-1 li .date {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #888;
 }
 
 .thumb-list-1 ul a {
