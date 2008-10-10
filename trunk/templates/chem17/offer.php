@@ -2,7 +2,7 @@
 <?php // include 'slice/page-header.inc.html' ?>
 <div class="container container-mingcheng">
     <?php // include 'slice/container-header.inc.html' ?>
-    <div class="section section-v2" style="border-top: 0px;">
+    <div class="section section-v2" style="border-top: 0px; border-right: 0px;">
         <?php include 'slice/004.inc.html' ?>
     </div>
 
