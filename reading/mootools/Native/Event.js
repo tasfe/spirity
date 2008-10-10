@@ -18,7 +18,9 @@ var Event = new Native({
 		this.$extended = true;
 		var type = event.type;
 		var target = event.target || event.srcElement;
-		while (target && target.nodeType == 3) target = target.parentNode;
+		while (target && target.nodeType == 3){
+            target = target.parentNode;
+        }
 		
 		if (type.test(/key/)){
 			var code = event.which || event.keyCode;

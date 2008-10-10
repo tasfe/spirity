@@ -17,6 +17,7 @@ body {
     width: 100%;
     position: absolute;
     padding: 5em 2em 2em 2em;
+    page-break-after: always;
 }
 
 .page .title {
