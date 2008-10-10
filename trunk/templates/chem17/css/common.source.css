@@ -609,6 +609,12 @@ zoom: 1;
     display: block;
 }
 
+.banner-4 .item span {
+    display: block;
+    margin: 0px auto;
+    margin-top: 2px;
+}
+
 .banner-4 .item {
     width: 25%;
     float: left;
