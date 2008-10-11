@@ -585,3 +585,57 @@ border-bottom: 1px solid #d4d4d4;
     top: 88px;
     left: 128px;
 }
+
+.list-items-v3 {
+
+}
+
+.list-items-v3 li {
+    background: url(../images/002.gif) no-repeat scroll 3px 5px;
+    padding-left: 15px;
+}
+
+.list-items-v3 li a:link, .list-items-v3 li a:visited {
+    text-decoration: underline;
+}
+
+.normal-box .list-items-v3 {
+    margin: 5px 10px;
+}
+
+.normal-box-left .list-items {
+    margin: 10px;
+}
+
+.normal-box-left .list-items a:link, .normal-box-left .list-items a:visited {
+    text-decoration: underline;
+}
+
+.column-630 .column-two-offer {
+    background: #F5F8FD url(../images/030.png) repeat-x top left;
+    overflow: hidden;
+    border-top: 1px solid #A4CAEF;
+    border-bottom: 0px;
+}
+
+.column-630 .column-two-offer .thumb-list-1 {
+    width: 326px;
+    margin: 0px;
+    padding: 0px;
+    border-right: 1px solid #A4CAEF;
+}
+
+.column-630 .column-two-offer .thumb-list-1 h3 {
+    margin-top: 5px;
+    border-bottom: 1px solid #A4CAEF;
+}
+
+
+.column-630 .column-two-offer .desption-list {
+    margin: 10px 10px;
+}
+
+.column-630 .column-two-offer .desption-list li {
+    margin-bottom: 5px;
+    color: #555;
+}
