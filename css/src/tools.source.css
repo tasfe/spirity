@@ -1,0 +1,29 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
+/**
+ * Tools 常见样式集合
+ *
+ * @author  i.feelinglucky@gmail.com
+ * @since   2008-10-12
+ * @link    http://www.gracecode.com/
+ * @version $Id$
+ */
+
+/**
+ * 清除浮动
+ *
+ * @see http://www.positioniseverything.net/easyclearing.html
+ */
+.clear-float {
+    *zoom: 1; /* triggers hasLayout for IE/Win */
+    *display: block; /* resets display for IE/Win */
+}
+
+.clear-float:after {
+    content: "."; 
+    display: block;
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+

@@ -1,18 +1,20 @@
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
 /**
- * 格栅系统
+ * 格栅系统 Grid System
  *
- * 根据 Taobao 栅格系统规范制定
+ * 根据 Taobao B2C 栅格系统规范制定
  *
  * @change
  * 2008-09-19
- *      初始化版本，使用“浮动定位布局”
+ *      初始化版本，使用“伪浮动定位布局”
  *
  * @author  i.feelinglucky@gmail.com
  * @since   2008-09-19
  * @link    http://www.gracecode.com/
  * @version $Id$
  */
+
+@import url('reset.source.css'); /* 首先重置样式 */
 
 .body {
     clear:both;
