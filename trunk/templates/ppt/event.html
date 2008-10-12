@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <style type="text/css">
+            .popup {
+                background: red;
+                width: 200px;
+                height: 100px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                display: none;
+            }
+
+            #a {
+                width: 500px;
+                padding: 10px;
+                background: blue;
+            }
+
+            #a div {
+                margin: 10px;
+                padding: 10px;
+                background: yellow;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <a href="#" id="click">click</a>
+
+        <div class="popup" id="popup">
+        </div>
+
+        <div id="a">
+            <div>
+                hello, world!
+            </div>
+        </div>
+
+        <p id="status">
+        </p>
+        <script type="text/javascript">
+            var a = document.getElementById('a');
+            var b = document.getElementById('status');
+
+            a.onmouseover = function() {
+                b.innerHTML += 'enter<br />';
+            }
+
+            a.onmouseout = function() {
+                b.innerHTML += 'leave<br />';
+            }
+        </script>
+    </body>
+</html>
