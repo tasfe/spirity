@@ -964,3 +964,264 @@ zoom: 1;
 .big-news-image-165 a:link, .big-news-image-165 a:visited {
     font-weight: bold;
 }
+
+.normal-box-two-columns {
+    overflow: hidden;
+    clear: both;
+}
+
+.normal-box-two-columns .two-columns-100 {
+    float: left;
+    width: 72px;
+}
+
+.normal-box-two-columns .two-columns-100 p {
+    width: 100%;
+}
+
+.normal-box-two-columns .list-items {
+    float: left;
+    width: 125px;
+}
+
+
+.normal-box-two-columns .list-items li {
+    height: 18px;
+    line-height: 18px;
+    overflow: hidden;
+}
+
+.news-big-title-v2 {
+    background: none;
+    border-bottom: 1px dotted #d4d4d4;
+}
+
+.news-big-title-v2 h2 {
+    margin-bottom: 10px;
+}
+
+.news-big-title-v2 h2 a:link, .news-big-title-v2 h2 a:visited {
+    font-weight: bold;
+    color: #f60;
+    text-decoration: underline;
+}
+
+.express-news {
+    background: url(../images/029.png) repeat-x top left;
+    overflow: hidden;
+    zoom: 1;
+    clear: both;
+    height: 35px;
+    border: 1px solid #ecc9a3;
+    border-left: 0px;
+    border-right: 0px;
+    line-height: 35px;
+}
+
+.express-news ul {
+    height: 35px;
+    margin-top: 15px;
+    float: left;
+}
+
+.column-630 .express-news {
+    position: absolute;
+    width: 390px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.column-630 .express-news ul {
+    margin: 0px;
+    padding: 0px;
+    margin-top: 6px;
+    margin-left: 15px;
+}
+
+.express-news ul a {
+    font-size: 12px;
+    color: #b73f00;
+}
+
+.express-news h6 {
+    color: #b73f00;
+    font-weight: normal;
+    line-height: 35px;
+    float: left;
+}
+
+.express-news li {
+    float: left;
+    width: 130px;
+    overflow: hidden;
+    height: 18px;
+}
+
+.thumb-desption-news-90 {
+    background: url(../images/028.png) no-repeat top left;
+    height: 120px;
+    overflow: hidden;
+}
+
+.thumb-desption-news-90 .thumb {
+    margin-left: 5px;
+    margin-top: 10px;
+    width: 90px;
+    height: 90px;
+}
+
+.column-260 .normal-box .thumb-desption-news-90 .desp {
+    width: 120px;
+    margin-top: 10px;
+    margin: 2px;
+    height: 120px;
+}
+
+.column-260 .normal-box .thumb-desption-news-90 .desp p,
+.column-260 .normal-box .thumb-desption-news-90 .desp h4 {
+    width: 120px;
+}
+
+.tab-view2 {
+    background: url(../images/026.png) repeat-x top left;
+    border: 1px solid #d4d4d4;
+    border-left: 0px;
+    border-right: 0px;
+    height: 25px;
+    top: -1px;
+    position: relative;
+}
+
+.tab-view2 .title {
+    position: absolute;
+    margin: 0px;
+    height: 26px;
+    line-height: 26px;
+    padding: 0px 15px;
+    top: -1px;
+    border: 1px solid #d4d4d4;
+    background: #fff;
+    border-bottom: 0px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tab-view2 .more {
+    position: absolute;
+    right: 5px;
+    top: 4px;
+}
+
+.tab-view2 .more span {
+    padding-left: 5px;
+    border-left: 1px solid #d4d4d4;
+}
+
+.thumb-desption-news-90-fix {
+    width: 244px;
+    height: 125px;
+}
+
+.training-review-persion {
+    overflow: hidden;
+    zoom: 1;
+    margin-top: 15px;
+}
+
+.training-review-persion .thumb, .training-review-persion .desption {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.training-review-persion .desption {
+    width: 120px;
+    height: 148px;
+    overflow: hidden;
+    background: whitesmoke;
+}
+
+.column .section-title-last {
+    background: none;
+    color:#055296;
+    border-bottom: 1px solid #055296;
+    position: relative;
+    clear: both;
+}
+
+.column .section-title-last a:link, .column .section-title-last a:visited,
+.column .section-title-last span {
+    color:#055296;
+}
+
+.column .section-title-last span {
+    border-left: 1px solid #055296;
+}
+
+.column .section-title-last .dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #055296;
+    text-indent: -999em;
+    overflow: hidden;
+    font-size: 0px;
+    position: absolute;
+    border: 0px;
+    padding: 0px;
+    top: 10px; left: 5px;
+}
+
+.gloden-logo {
+    border: 1px solid #A4CAEF;
+    margin-top: 5px;
+}
+
+.gloden-logo h4 {
+    border-bottom: 1px solid #A4CAEF;
+    background:transparent url(../images/026.png) repeat-x scroll left top;
+    height:25px;
+    position:relative;
+    font-weight: bold;
+    font-size: 14px;
+    color:#055296;
+    line-height: 25px;
+}
+
+.gloden-logo h4 span {
+    display: block;
+    background: url(../images/027.png) no-repeat scroll 0px 8px;
+    padding-left: 10px;
+    margin-left: 5px;
+}
+
+.gloden-logo ul {
+    padding: 5px;
+    padding-left: 10px;
+    zoom: 1;
+    overflow: hidden;
+}
+
+.gloden-logo li {
+    float: left;
+    margin-right: 12px;
+}
+
+.gloden-logo li a:link, .gloden-logo li a:visited {
+    display: block;
+    color:#055296;
+    text-decoration: underline;
+}
+
+.gloden-logo li img {
+    display: block;
+    text-align: center;
+    margin: 2px auto;
+}
+
+.gloden-logo li span {
+    text-align: center;
+    margin: 2px auto;
+    color:#055296;
+    text-decoration: underline;
+    display: block;
+}
