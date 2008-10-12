@@ -1,6 +1,6 @@
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
 /**
- * CSS 重置样式
+ * CSS ReSet
  *
  * 重置主流浏览器默认样式，参考 YUI 以及 Blueprint
  *
@@ -21,6 +21,9 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     vertical-align: baseline;
 }
 
+/**
+ * 重置标题大小，不至于看起来一样大
+ */
 h1 {
     font-size: 200%;
 }
