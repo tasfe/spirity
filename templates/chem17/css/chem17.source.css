@@ -137,6 +137,7 @@
     text-align: center;
     margin: 15px auto;
     padding: 1px;
+    zoom: 1;
 }
 
 .training-notice span {
@@ -218,6 +219,12 @@ float: left;
     background: whitesmoke;
     border-top: 0px;
     display: block;
+}
+
+.table-training-list-v2 th span {
+    border: 0px;
+    background: #ccbfac;
+    color: #fff;
 }
 
 .table-training-list td {
