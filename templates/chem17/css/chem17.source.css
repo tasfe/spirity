@@ -657,7 +657,7 @@ zoom: 1;
 }
 
 .column-260 .normal-box .thumb-desption-75 {
-
+    position: relative;
 }
 
 .column-260 .normal-box .thumb-desption-75 .desp {
@@ -749,7 +749,8 @@ zoom: 1;
 }
 
 .thumb-list-1 .tab-view .more span {
-    border-left: 1px solid #d4d4d4;
+    font-weight: normal;
+    border-left: 1px solid #000;
     padding-left: 5px;
 }
 
@@ -800,8 +801,9 @@ zoom: 1;
 .thumb-list-1 .company-logo-list {
     padding-top: 0px;
     padding-bottom: 5px;
-    display: none;
-             *display: block;
+    background: #fff;
+    margin-top: 0px;
+    padding: 10px;
 }
 
 .thumb-list-1 .company-logo-list li {
@@ -1235,4 +1237,83 @@ zoom: 1;
     color:#055296;
     text-decoration: underline;
     display: block;
+}
+
+.column .section-title-bg2 {
+    background-image: url(../images/031.png);
+    padding-left: 30px;
+}
+
+.column .section-title-bg3 {
+    background-image: url(../images/034.png);
+    padding-left: 30px;
+}
+
+.column .section-title-bg4 {
+    background-image: url(../images/035.png);
+    padding-left: 30px;
+}
+
+
+.column .column-two-offer-v2 {
+    background-image: url(../images/032.png);
+    overflow: hidden;
+    zoom: 1;
+}
+
+.column .column-two-offer-v2 .category-broswer,
+.column .column-two-offer-v2 .area-list {
+    background: none;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    zoom: 1;
+}
+
+.column .column-two-offer-v2 .category-broswer {
+
+}
+
+.column .column-two-offer-v2 .tab-view .title {
+    background: none;
+    border: none;
+    margin-left: 37px;
+    _margin-left: 18px;
+}
+
+.column .column-two-offer-v2 .category-broswer dd {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.column .column-two-offer-v2 .category-broswer dd a:link, 
+.column .column-two-offer-v2 .category-broswer dd a:visited {
+    border: none;
+    padding: 0px;
+    overflow: hidden;
+    margin-left: 0px;
+}
+
+.thumb-list-1 .tab-view-v3 {
+    overflow: visible;
+    clear: both;
+}
+
+.thumb-list-1 .tab-view-v3 .title {
+    padding: 0px;
+    background: url(../images/033.png) no-repeat top left;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    width: 95px;
+    margin-bottom: 5px;
+    border: 1px solid #A4CAEF;
+    border-bottom: 0px;
+    position: absolute;
+    top: -2px;
+    left: -1px;
+}
+
+.mingheng-last {
+    background:transparent url(../images/012.png) repeat-x scroll left top;
 }
