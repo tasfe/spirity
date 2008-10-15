@@ -1,0 +1,49 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
+/**
+ * Widget.source.css
+ *
+ * 常用 CSS 控件集合
+ *
+ * @author  i.feelinglucky@gmail.com
+ * @link    http://www.gracecode.com/
+ * @version $Id: reset.source.css 96 2008-10-12 16:49:11Z i.feelinglucky $
+ */
+
+/* Misc classes
+-------------------------------------------------------------- */
+
+.small      { font-size: .8em; margin-bottom: 1.875em; line-height: 1.875em; }
+.large      { font-size: 1.2em; line-height: 2.5em; margin-bottom: 1.25em; }
+.hide       { display: none; }
+
+.quiet      { color: #666; }
+.loud       { color: #000; }
+.highlight  { background:#ff0; }
+.added      { background:#060; color: #fff; }
+.removed    { background:#900; color: #fff; }
+
+.first      { margin-left:0; padding-left:0; }
+.last       { margin-right:0; padding-right:0; }
+.top        { margin-top:0; padding-top:0; }
+.bottom     { margin-bottom:0; padding-bottom:0; }
+
+/**
+ * 清除浮动
+ *
+ * @see http://www.positioniseverything.net/easyclearing.html
+ */
+.clear-float {
+    *zoom: 1; /* triggers hasLayout for IE/Win */
+    *display: block; /* resets display for IE/Win */
+}
+
+.clear-float:after {
+    content: "."; 
+    display: block;
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+
+

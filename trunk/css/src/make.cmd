@@ -41,4 +41,3 @@ for /f "eol=; tokens=1,2,3,4* delims=[:,]" %%i in (%CONFIG_FILE%) do (
 )
 
 endlocal
-pause
