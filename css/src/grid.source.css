@@ -5,6 +5,9 @@
  * 根据 Taobao B2C 栅格系统规范制定
  *
  * @change
+ * 2008-10-15
+ *      解决在 Firefox2 下文字全选的 Bug
+ *
  * 2008-09-19
  *      初始化版本，使用“伪浮动定位布局”
  *
@@ -19,6 +22,17 @@
     overflow:hidden;
     position:relative;
     width:100%;
+}
+
+/**
+ * 针对 Firefox2 的 Hack
+ */
+.body, x:-moz-any-link {
+    -moz-user-select: none;
+}
+
+.body, x:-moz-any-link, x:default {
+    -moz-user-select: text;
 }
 
 .container {
