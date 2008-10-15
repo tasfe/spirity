@@ -14,8 +14,6 @@
  * @version $Id$
  */
 
-@import url('reset.source.css'); /* 首先重置样式 */
-
 .body {
     clear:both;
     overflow:hidden;
