@@ -45,58 +45,75 @@
     visibility: hidden;
 }
 
+
+/**
+ * 实现图片圆角效果
+ *
+ * @see http://itaobao.taobao.com/
+ */
 .spirity-box {
-    color: #fff;
     font-size: 12px;
     border: 1px solid #F5D9BB;
     position: relative;
 }
 
-.spirity-box .box-head, .spirity-box .c, .spirity-box .c b {
-    background: url(../sprites/itaobao.png) no-repeat;
-}
 
+/**
+ * 右上方的“更多"
+ */
 .spirity-box .more {
-    top: 5px;
-    right: 5px;
+    top: 0px; right: 0px;
     position: absolute;
+    display: block;
 }
 
-.spirity-box .box-head {
-    color: #C46039;
-    font-size: 14px;
-    background-position:0 -55px;
-    background-repeat: repeat-x;
-    height:30px;
-    line-height:30px;
-    overflow: hidden;
+.spirity-box .more li {
+    float: left;
+}
+
+/**
+ * 标题共有样式
+ */
+.spirity-box .more, .spirity-box .box-head {
     /*
-    position: relative;
-    top: -2px;
+    line-height: 30px;
+    font-size: 12px;
     */
+    overflow: hidden;
 }
 
-.spirity-box .box-head span {
-    padding-left: 15px;
+/**
+ * 标题样式（通常为大背景）
+ */
+.spirity-box .box-head {
+
+}
+
+.spirity-box .box-head .content {
+    padding-left: 10px;
     display: block;
 }
 
 .spirity-box .box-body {
-    /*
-    height: 10px;
-    padding: 5px;
-    */
-    background: green;
+    padding: 5px 10px;
 }
 
+/**
+ * 针对 Exploer6 的 Bug，所以只能再套层结构
+ */
 .spirity-box .box-foot {
     height: 4px;
-    background: yellow;
-    clear:both;
+    clear: both;
     position: relative;
+    width: 100%;
+    bottom: 0px;
 }
 
-.spirity-box .c, .spirity-box .c b {
+.spirity-box .c, .spirity-box .c span {
+    background: url(../sprites/itaobao.png) no-repeat;
+}
+
+.spirity-box .c, .spirity-box .c span {
     display:block;
     height:4px;
     position:absolute;
@@ -108,20 +125,20 @@
     left: -1px;
 }
 
-.spirity-box .c-t b, .spirity-box .c-b b {
+.spirity-box .c-t span, .spirity-box .c-b span {
     overflow: hidden;
-    right: -2px;
     width: 4px;
+    font-size: 0px;
+    right: -2px;
 }
 
 .spirity-box .c-t {
-    top: -1px;
     background-position: -5px -162px;
+    top: -1px;
 }
 
-.spirity-box .c-t b {
+.spirity-box .c-t span {
     background-position: 0px -162px;
-    float: right;
 }
 
 .spirity-box .c-b {
@@ -129,7 +146,7 @@
     bottom: -1px;
 }
 
-.spirity-box .c-b b {
+.spirity-box .c-b span {
     background-position: 0px -166px;
 }
 
