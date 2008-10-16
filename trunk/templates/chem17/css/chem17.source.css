@@ -1,5 +1,5 @@
-@import url('header.source.css');
-@import url('footer.source.css');
+@import url('headermt.source.css');
+@import url('footermt.source.css');
 @import url('common.source.css');
 
 .container-mingcheng .section {
@@ -7,6 +7,7 @@
     clear: both;
     overflow: hidden;
     zoom: 1;
+    position: relative;
 }
 
 .container-mingcheng .section .column {
@@ -1312,6 +1313,45 @@ zoom: 1;
     position: absolute;
     top: -2px;
     left: -1px;
+}
+
+.normal-box-v3 {
+    background: url(../images/037.png) no-repeat top left;
+    border: 1px solid #d4d4d4;
+    width: 256px;
+    height: 272px;
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.normal-box-v3 .thumb-news-big {
+    width:240px;
+    height: 202px;
+    border: 1px solid #d4d4d4;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.blue-items-news {
+    border: 1px solid #A4CAEF;
+    background: url(../images/036.png) no-repeat top left;
+    zoom: 1;
+    overflow: hidden;
+    position: relative;
+    width: 256px;
+}
+
+.blue-items-news h4 {
+    position: relative;
+    zoom: 1;
+    background-color: transparent;
+    border-bottom: 0px;
 }
 
 .mingheng-last {

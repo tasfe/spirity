@@ -1,0 +1,38 @@
+.footer {
+    margin-top: 10px;
+}
+
+.footer .footer-links {
+    margin-bottom: 10px;
+    text-align: center;
+    background: #3D7FAF;
+    padding: 5px 0px;
+}
+
+.footer .footer-links ul {
+    display: inline-block;
+    *display: inline;
+    margin: 0px auto;
+    zoom: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.footer .footer-links li {
+    position: relative;
+    line-height: 14px;
+    float: left;
+    left: -1px;
+    border-left: 1px solid #fff;
+}
+
+.footer .footer-links a:link, .footer .footer-links a:visited {
+    color: #fff;
+    padding: 0px 10px;
+}
+
+.footer .footer-copyright {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #555;
+}

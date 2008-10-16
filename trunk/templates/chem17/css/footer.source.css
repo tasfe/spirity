@@ -1,15 +1,21 @@
-.footer {
+.footer{width:916px;text-align:center;margin:0px auto;margin-top:8px;}
+.footer .t{height:31px;background:url(../images/big/008.gif) repeat-x;color:white;line-height:31px;}
+.footer .t a:link{color:white;text-decoration:none;}
+.footer .t a:visited{color:white;text-decoration:none;}
+.footer .t a:hover{color:white;text-decoration:underline;}
+.footer .b{color:#5A5A5A;line-height:24px;}
+.footermt {
     margin-top: 10px;
 }
 
-.footer .footer-links {
+.footermt .footer-links {
     margin-bottom: 10px;
     text-align: center;
     background: #3D7FAF;
     padding: 5px 0px;
 }
 
-.footer .footer-links ul {
+.footermt .footer-links ul {
     display: inline-block;
     *display: inline;
     margin: 0px auto;
@@ -18,7 +24,7 @@
     position: relative;
 }
 
-.footer .footer-links li {
+.footermt .footer-links li {
     position: relative;
     line-height: 14px;
     float: left;
@@ -26,12 +32,12 @@
     border-left: 1px solid #fff;
 }
 
-.footer .footer-links a:link, .footer .footer-links a:visited {
+.footermt .footer-links a:link, .footer .footer-links a:visited {
     color: #fff;
     padding: 0px 10px;
 }
 
-.footer .footer-copyright {
+.footermt .footer-copyright {
     margin-bottom: 10px;
     text-align: center;
     color: #555;
