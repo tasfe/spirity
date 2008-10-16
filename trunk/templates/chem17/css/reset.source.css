@@ -20,7 +20,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-family: inherit;
     vertical-align: baseline;
     font-size: 12px;
-    font-family: SimSun, Tahoma，Arial； 
+    font-family: Tahoma,SimSun,Arial;
     color: #333;
 }
 
@@ -54,7 +54,7 @@ h6, p {
 
 body { 
     line-height: 1.5; 
-	background:url(../images/001.gif) repeat-x top;
+    background:url(../images/001.gif) repeat-x top;
 }
 
 table {
