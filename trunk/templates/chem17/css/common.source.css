@@ -96,6 +96,7 @@
 
 .section-links-guid .list-items {
     margin-left: 8px;
+    zoom: 1;
 }
 
 .section-hot-manual {
@@ -331,6 +332,7 @@ zoom: 1;
 
 .blue-items .list-items {
     margin: 10px;
+    zoom: 1;
 }
 
 .blue-items .list-items a {
@@ -429,12 +431,14 @@ zoom: 1;
 .list-item-big {
     margin-left: 15px;
     float: left;
+    zoom: 1;
 }
 
 .list-item-big li {
     width: 440px;
     position: relative;
     margin-bottom: 6px;
+    _margin-bottom: 5px;
 }
 
 .list-item-big li a {
@@ -490,6 +494,7 @@ zoom: 1;
 
 .section-left-container2 .list-items-style2 {
     margin: 10px 10px 10px 10px;
+    zoom: 1;
 }
 
 .active-group {
