@@ -20,7 +20,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-family: inherit;
     vertical-align: baseline;
     font-size: 12px;
-    font-family: Tahoma,SimSun,Arial;
+    font-family: SimSun, Tahoma，Arial； 
     color: #333;
 }
 
