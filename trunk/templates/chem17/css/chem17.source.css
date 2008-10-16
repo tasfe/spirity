@@ -2,6 +2,10 @@
 @import url('footermt.source.css');
 @import url('common.source.css');
 
+body {
+    font-family: SimSun, Tahoma，Arial； 
+}
+
 .container-mingcheng .section {
     margin-bottom: 2px;
     clear: both;
