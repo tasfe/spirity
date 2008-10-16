@@ -1,0 +1,248 @@
+/**
+ * 头部公共样式
+ */
+.header {
+
+}
+
+.header li {
+    float: left;
+}
+
+
+/**
+ * 顶部导航
+ */
+.header .header-guid {
+    height: 25px;
+    border-bottom: 1px solid #d9d9d9;
+    overflow: hidden;
+    zoom: 1;
+    background: url(../images/001.gif) repeat-x top left;
+}
+
+.header .header-guid ul {
+    float: right;
+}
+
+.header .header-guid li {
+    line-height: 25px;
+}
+
+.header .header-guid a:link, .header .header-guid a:visited {
+    padding: 0px 10px;
+}
+
+.header .header-guid .header-guid-register {
+    padding-right: 15px;
+    background: url(../images/003.gif) no-repeat top right;
+}
+
+.header .header-guid .header-guid-register a {
+    background: url(../images/002.gif) no-repeat center left;
+    padding: 0px 20px 0px 15px;
+    color: #09539C;
+    text-decoration: underline;
+}
+
+.header .header-guid .header-guid-links {
+    margin-right: 25px;
+}
+
+.header .header-guid .header-guid-links a {
+    padding: 0px 10px;
+    color: #6E6E6E;
+}
+.header .header-guid .header-guid-links .hot a {
+    color: #FC4C01;
+}
+
+/**
+ * logo 以及连接
+ */
+.header .header-logo {
+    height: 50px;
+    overflow: hidden;
+    zoom: 1;
+    margin: 10px 0px;
+}
+
+.header .header-logo h1 {
+    float: left;
+    background: url(../images/logo.gif) no-repeat top left;
+}
+
+.header .header-logo h1 a {
+    display: block;
+    width: 225px;
+    height: 50px;
+    text-indent: -999em;
+    overflow: hidden;
+}
+
+.header .header-logo .header-logo-hot,
+.header .header-logo .header-logo-nav {
+    height: 50px;
+    width: 255px;
+    float: left;
+    overflow: hidden;
+    margin: 10px 0px 0px 25px;
+    zoom: 1;
+}
+
+.header .header-logo .header-logo-hot li,
+.header .header-logo .header-logo-nav li {
+    position: relative;
+    border-right: 1px solid #d9d9d9;
+    line-height: 14px;
+    padding: 0px 10px;
+    color: #02407B;
+    font-weight: bold;
+    margin: 2px 0px;
+}
+
+.header .header-logo .header-logo-hot li a {
+    color: #02407B;
+    font-weight: bold;
+}
+
+.header .header-logo .header-logo-nav {
+    height: 50px;
+    width: 400px;
+    float: left;
+    overflow: hidden;
+    margin: 10px 0px 0px 0px;
+    overflow: hidden;
+    position: relative;
+}
+
+.header .header-logo .header-logo-nav li {
+    padding: 0px 8px;
+    font-weight: normal;
+    border-left: 1px solid #d9d9d9;
+    border-right: 0px;
+    left: -1px;
+}
+
+.header .header-logo .header-logo-nav li a {
+    color: #2B70BB;
+}
+
+/**
+ * 头部 Banner
+ */
+.header .header-banner {
+    height: 65px;
+    background: #F3F3F3;
+    overflow: hidden;
+    zoom: 1;
+    border: 1px solid #d9d9d9;
+}
+
+.header .header-banner .header-banner-img {
+    width: 685px;
+    height: 65px;
+    overflow: hidden;
+    float: left;
+}
+
+.header .header-banner .header-banner-links {
+    padding-top: 5px;
+    float: left;
+}
+
+.header .header-banner .header-banner-links a {
+    text-decoration: underline;
+    padding: 0px 0px 0px 25px;
+}
+
+.header .header-banner li {
+    float: none;
+}
+
+/**
+ * 搜索输入框
+ */
+.header .header-search {
+    margin: 10px 0px;
+    height: 67px;
+    background: #fff url(../images/004.gif) no-repeat top left;
+    position: relative;
+}
+
+.header .header-search h3{
+    font-size: 22px;
+    line-height: 67px;
+    text-align: center;
+    height: 67px;
+    width: 115px;
+    margin: 0px 15px;
+}
+
+.header .header-search .header-search-relative {
+    position: absolute;
+    height: 14px;
+    line-height: 14px;
+    left: 130px;
+    top: 10px;
+    overflow: hidden;
+}
+
+.header .header-search .header-search-relative li {
+    left: -1px;
+    position: relative;
+    border-left: 1px solid #fff;
+    padding: 0px 15px;
+}
+
+.header .header-search .header-search-relative li a {
+    color: #fff;
+}
+
+.header .header-search .header-search-form {
+    position: absolute;
+    top: 40px;
+    left: 210px;
+}
+
+.header .header-search .header-search-form input {
+    border: 1px solid #5B94BF;
+    border-bottom: 1px solid #C7E3EF;
+    border-right: 1px solid #C7E3EF;
+    width: 260px;
+}
+
+.header .header-search .header-search-form button {
+    margin: 0px 5px;
+    border: none;
+    background: url(../images/005.gif) no-repeat top left;
+    width: 46px;
+    height: 22px;
+}
+
+.header .header-search .header-search-hot {
+    top: 40px;
+    right: 5px;
+    position: absolute;
+    width: 280px;
+    text-align: right;
+    color: #7B7B7B;
+    *top: 43px;
+}
+
+
+.header .header-search .header-search-hot h4 {
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: #7B7B7B;
+}
+
+.header .header-search .header-search-hot li {
+    padding: 0px 5px;
+}
+
+.header .header-search .header-search-hot a {
+    text-decoration: underline;
+    color: #7B7B7B;
+}

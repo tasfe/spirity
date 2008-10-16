@@ -14,12 +14,16 @@
  * 顶部导航
  */
 .header .header-guid {
-    height: 25px;
-    border-bottom: 1px solid #d9d9d9;
+    height: 26px;
     overflow: hidden;
     zoom: 1;
     background: url(../images/001.gif) repeat-x top left;
 }
+.header-guid
+{width:916px;
+text-align:center;
+margin:0px auto;
+color:#6D6D6D;}
 
 .header .header-guid ul {
     float: right;
@@ -102,7 +106,7 @@
 }
 
 .header .header-logo .header-logo-hot li a {
-    color: #02407B;
+    color: #3A3A3A;
     font-weight: bold;
 }
 
@@ -125,7 +129,11 @@
 }
 
 .header .header-logo .header-logo-nav li a {
-    color: #2B70BB;
+    color: #2E2E2E;
+}
+
+.header-logo-nav .hot{
+background:url(../images/006.gif) no-repeat top right;
 }
 
 /**
@@ -177,6 +185,7 @@
     height: 67px;
     width: 115px;
     margin: 0px 15px;
+	font-weight:bold;
 }
 
 .header .header-search .header-search-relative {
