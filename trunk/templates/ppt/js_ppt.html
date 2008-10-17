@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <style type="text/css">
+            .section {
+                height: 50px; width: 50px;
+                background: red;
+                margin-bottom: 5px;
+            }
+        </style>
+        <script type="text/javascript" src="mootools-1.2.1-core-nc.js"></script>
+        <script type="text/javascript">
+            /*
+            $(window).addEvent('load', function(){
+                    alert('clicked!');
+            });
+            */
+
+            /*
+            window.addEvent('domready', function() {
+                alert("The DOM is ready.");
+            });
+            */
+
+        /*
+            var ppt = (function () {
+                var config = {"a": 1, "b": 2};
+                var handle = {};
+
+                return {
+                    init: function () {
+                        console.info(config);
+                        handle.start = function () {
+                            alert('ok');
+                        }
+                        return handle;
+                    }
+                }
+            })();
+
+            var ppt = ppt.init('ppt');
+            console.info(ppt);
+            ppt.start();
+        */
+        
+
+            var ppt = new function () {
+                var config = {"a": 1, "b": 2};
+                var handle = {};
+                this.init = function () {
+                    console.info(config);
+                    handle.start = function () {
+                        alert('ok');
+                    }
+
+                    return handle;
+                }
+            };
+
+            var ppt = ppt.init('ppt');
+            console.info(ppt);
+            ppt.start();
+        </script>
+    </head>
+    <body>
+        <div id="ppt">
+            <div class="section">1</div>
+            <div class="section">2</div>
+            <div class="section">3</div>
+            <div class="section">4</div>
+            <div class="section">5</div>
+        </div>
+    </body>
+</html>
