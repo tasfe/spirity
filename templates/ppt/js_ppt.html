@@ -5,10 +5,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
         <style type="text/css">
+            .ppt {
+                overflow: hidden;
+            }
             .section {
-                height: 50px; width: 50px;
+                position: relative;
+                height: 500px;
+                width: 100%;
                 background: red;
                 margin-bottom: 5px;
+                border: 2px solid green;
             }
 
             .ppt {
@@ -18,61 +24,17 @@
         <script type="text/javascript" src="mootools-1.2.1-core-nc.js"></script>
         <script type="text/javascript" src="accordian.source.js"></script>
         <script type="text/javascript">
-            /*
-            $(window).addEvent('load', function(){
-                    alert('clicked!');
+            window.addEvent('domready', function() {
+                var handle = new Accordian('ppt');
             });
-            */
-        /*
-            var ppt = (function () {
-                var config = {"a": 1, "b": 2};
-                var handle = {};
-
-                return {
-                    init: function () {
-                        console.info(config);
-                        handle.start = function () {
-                            alert('ok');
-                        }
-                        return handle;
-                    }
-                }
-            })();
-
-            var ppt = ppt.init('ppt');
-            console.info(ppt);
-            ppt.start();
-        */
-        
-        /*
-            var ppt = new function () {
-                var config = {"a": 1, "b": 2};
-                var handle = {};
-                this.init = function () {
-                    console.info(config);
-                    handle.start = function () {
-                        alert('ok');
-                    }
-
-                    return handle;
-                }
-            };
-
-            var ppt = ppt.init('ppt');
-            console.info(ppt);
-            ppt.start();
-          */
-        window.addEvent('domready', function() {
-            var handle = new Accordian('ppt');
-        });
         </script>
     </head>
     <body>
         <div id="ppt" class="ppt">
             <div class="section">1</div>
-            <div class="section">2</div>
+            <div class="section"><img src="spirity.png" /></div>
             <div class="section">3</div>
-            <div class="section">4</div>
+            <div class="section"><img src="spirity.png" /></div>
             <div class="section">5</div>
         </div>
     </body>
