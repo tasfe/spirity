@@ -6,6 +6,7 @@
  * @date   2008-10-20
  * @link   http://www.gracecode.com/
  * @link   http://www.planabc.net/2008/05/11/password_strength_meter/
+ * @link   http://www.taobao.com/home/js/pwdintensity.js
  */
 function gCheckPassword(password) {
     var _score = 0; // 初始化积分
