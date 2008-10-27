@@ -17,6 +17,8 @@ function Accordian(el, config) {
         "jumpTo" : 1
     };
 
+    '<div class="pager"></div>';
+
     config = config || _config;
 
     var _pagers       = $(el).getElements('div.section');
@@ -26,8 +28,12 @@ function Accordian(el, config) {
 
     if (config.status) {
         var _status = document.createElement('div');
-        _status.className = _status.id = "status";
+        _status.className = _status.id = "pager";
+        _status.innerHTML  = '<a class="back" title="上一页" id="back" href="#">上一页</a>';
+        _status.innerHTML += '<span class="status" id="status"></span>';
+        _status.innerHTML += '<a class="next" title="下一页" id="next" href="#">下一页</a>';
         document.body.appendChild(_status);
+        _status = $('status');
 
         var _setStatus = function() {
             var str = (_current_page + 1) + "/" + _total_page;
@@ -62,11 +68,13 @@ function Accordian(el, config) {
         el.setStyle('display', 'none');
     }
 
+
     var handle = {
         /**
          * 跳转到下一页
          */
-        next: function() {
+        next: function(e) {
+            
             if (_current_page >= _total_page - 1) {
                 if (config.repeat) {
                     this.jump(0);
@@ -83,7 +91,7 @@ function Accordian(el, config) {
         /**
          * 跳转到上一页
          */
-        prev: function() {
+        back: function(e) {
             if (_current_page <= 0) {
                 _current_page = 0;
                 return;
@@ -108,9 +116,16 @@ function Accordian(el, config) {
         }
     };
 
+
     /**
      * 注册事件
      */
+
+    if (config.status) {
+        $('next').addEvent('click', handle.next);
+        $('back').addEvent('click', handle.back);
+    }
+
     document.addEvent('keypress', function(e) {
         switch(e.key) {
             case 'space': case 'right': case 'j':
@@ -118,7 +133,7 @@ function Accordian(el, config) {
                 break;
 
             case 'backspace': case 'left': case 'k':
-                handle.prev();
+                handle.back();
                 break;
         }
         e.stop();
