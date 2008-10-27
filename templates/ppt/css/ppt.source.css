@@ -37,6 +37,7 @@ ul, ol {
 
 .section {
     margin: 1em auto;
+    display: none;
 }
 
 .rows {
@@ -75,12 +76,12 @@ ul, ol {
     bottom: .5em;
     right: .5em;
     padding: .5em;
-    z-index: 999;
     border-radius: .3em;
     -webkit-border-radius: .3em;
     -moz-border-radius: .3em;
     filter: Alpha(opacity=75);   
     opacity:0.75;  
+    zoom: 1;
 }
 
 .pager a:link, .pager a:visited {

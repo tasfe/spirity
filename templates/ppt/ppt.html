@@ -7,53 +7,23 @@
 <link rel="stylesheet" type="text/css" href="css/grid.source.css" />
 <link rel="stylesheet" type="text/css" href="css/ppt.source.css" />
 <title>这是幻灯片的标题</title>
-<script type="text/javascript" src="mootools-1.2.1-core-nc.js"></script>
-<script type="text/javascript" src="accordian.source.js"></script>
-<script type="text/javascript">
-    window.addEvent('domready', function() {
-        var handle = new Accordian('article');
-    });
-</script>
 </head>
 <body>
 <div class="article" id="article">
     <div class="section">
         <div class="rows">
-            <div class="column-100"><h1 class="center">这是幻灯片的标题</h1></div>
-        </div>
-        <div class="rows">
             <div class="column-50">
-                <div class="content">
-                    <h2>这里是副标题</h2>
-                    <ul>
-                        <li>项目项目项目项目</li>
-                        <li>项目项目项目项目</li>
-                        <li>项目项目项目项目</li>
-                        <li>项目项目项目项目</li>
-                        <li>项目项目项目项目</li>
-                        <li>项目项目项目项目</li>
-                    </ul>
+                <div class="content center">
+                    <p><img src="images/vim-editor_logo.png" /></p>
                 </div>
             </div>
-            <div class="column-50">
-                <div class="content">
-                    hek
-                </div>
-            </div>
-        </div>
-        <div class="rows">
-            <div class="column-30">
-                <div class="content">
-                    hek
-                </div>
-            </div>
-            <div class="column-70">
-                <div class="content">
-                    hek
-                </div>
+            <div class="column-50 center">
+                <h1>Vim 新手上路</h1>
+                <p>明城</p>
             </div>
         </div>
     </div>
+
 
     <div class="section">
         <div class="rows">
@@ -77,5 +47,12 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="mootools-1.2.1-core-nc.js"></script>
+<script type="text/javascript" src="accordian.source.js"></script>
+<script type="text/javascript">
+    window.addEvent('domready', function() {
+        var handle = new Accordian('article');
+    });
+</script>
 </body>
 </html>
