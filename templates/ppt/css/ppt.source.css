@@ -1,34 +1,110 @@
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
 /**
+ * PPT 样式
  *
  * @author  i.feelinglucky@gmail.com
- * @since   2008-09-19
+ * @since   2008-10-12
  * @link    http://www.gracecode.com/
  * @version $Id$
  */
-body {
+
+ul, ol {
+    list-style-position: inside;
+    padding-left: 1em;
+}
+
+.article {
     overflow: hidden;
     font-size: 1em;
     background: #fff url(../images/flower.gif) no-repeat top right;
-}
-
-.page {
+    position: absolute;
     height: 100%;
     width: 100%;
-    position: absolute;
-    padding: 5em 2em 2em 2em;
-    page-break-after: always;
 }
 
-.page .title {
-    font-size: 3em;
+.center {
     text-align: center;
 }
 
-.page .title-2 {
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+
+}
+
+.section {
+    margin: 1em auto;
+}
+
+.rows {
+    height: 100%;
+    margin: .5em auto;
+}
+
+.section h1 , .section h2 , .section h3 , .section h4 {
+    font-size: 3em;
+    margin-bottom: .5em;
+}
+
+.section h2 {
     font-size: 2em;
 }
 
-.page .content {
+.section h3 {
+    font-size: 1.5em;
+}
 
+.section h4 {
+    font-size: 1em;
+}
+
+.column-100, .column-50, .column-30, .column-70 {
+
+}
+
+.column-100 .content, .column-50 .content, .column-30 .content, .column-70 .content {
+    padding: 1em;
+}
+
+.pager {
+    background: #999;
+    position: absolute;
+    bottom: .5em;
+    right: .5em;
+    padding: .5em;
+    z-index: 999;
+    border-radius: .3em;
+    -webkit-border-radius: .3em;
+    -moz-border-radius: .3em;
+    filter: Alpha(opacity=75);   
+    opacity:0.75;  
+}
+
+.pager a:link, .pager a:visited {
+    text-decoration: none;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    text-indent: -999em;
+    overflow: hidden;
+    outline: none;
+}
+
+.pager .next {
+    background: url(../images/next.png) no-repeat;
+}
+
+.pager .back {
+    background: url(../images/back.png) no-repeat;
+}
+
+.pager .status {
+    line-height: 22px;
+    display: inline-block;
+    height: 22px;
+    vertical-align: top;
+    margin: auto 5px;
 }
