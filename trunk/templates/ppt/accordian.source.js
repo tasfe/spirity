@@ -29,12 +29,12 @@ function Accordian(el, config) {
     if (config.status) {
         var _status = document.createElement('div');
         _status.className = _status.id = "pager";
-        _status.innerHTML  = '<a class="back" title="上一页" id="back" href="#">上一页</a>';
+        _status.innerHTML  = '<a class="back" id="back" href="#">上一页</a>';
         _status.innerHTML += '<span class="status" id="status"></span>';
-        _status.innerHTML += '<a class="next" title="下一页" id="next" href="#">下一页</a>';
+        _status.innerHTML += '<a class="next" id="next" href="#">下一页</a>';
         document.body.appendChild(_status);
-        _status = $('status');
 
+        _status = $('status');
         var _setStatus = function() {
             var str = (_current_page + 1) + "/" + _total_page;
             _status.innerHTML =  str;
@@ -47,7 +47,7 @@ function Accordian(el, config) {
             _setStatus();
         }
 
-        el.setStyle('display', '');
+        el.setStyle('display', 'block');
         /*
         var myFx = new Fx.Morph(el, {duration: 'long', transition: Fx.Transitions.Cubic.easeOut});
         //console.info(el.getSize());
