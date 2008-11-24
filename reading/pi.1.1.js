@@ -8,8 +8,11 @@
 	 */
 	
 	_scope.pi = Object(3.14159265358979323846);
-	var pi  = _scope.pi; pi.version = [1.1,2008091000];
+	var pi  = _scope.pi;pi.version = [1.1,2008091000];
 
+    /**
+     * 检测浏览器类型* mootools 的更合理些
+     */
 	pi.env = {
 		ie: /MSIE/i.test(navigator.userAgent),
 		ie6: /MSIE 6/i.test(navigator.userAgent),
