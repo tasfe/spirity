@@ -1,0 +1,95 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
+/**
+ * Gracecode.com 导航页面
+ *
+ * @author  mingcheng@taobao.com
+ * @date    2008-09-016
+ * @version $Id: intro.source.css 186 2008-09-17 05:05:11Z i.feelinglucky $
+ */
+body {
+    background: #fff url(http://blog.gracecode.com/images/bg_gracecode.png) no-repeat scroll left 300px;
+    font-family: YaHei, "Microsoft YaHei";
+}
+
+.intro {
+    position:relative;
+    width: 950px;
+    height: 500px;
+    margin: 50px auto;
+}
+
+.intro a:link, .intro a:visited {
+    color: #0066cc;
+    font-size: 36px;
+    text-decoration: none;
+}
+
+.intro a:hover {
+    text-decoration: underline;
+}
+
+.intro a span{
+    font-size: 24px;
+}
+
+.intro li {
+    list-style: none;
+    position: absolute;
+}
+
+.intro li.blog {
+    top: 30px;
+    left: 300px;
+}
+
+.intro li.lab {
+    left:200px;
+    top:150px;
+}
+
+.intro li.resume {
+    left:300px;
+    top:250px;
+}
+
+.intro li.histories {
+    right:150px;
+    top:325px;
+}
+
+.intro li.footnote a:link, .intro li.footnote a:visited {
+    font-size: 18px;
+}
+
+.intro li.rss {
+    right:135px;
+    top:415px;
+}
+
+.intro li.sitemap {
+    right:50px;
+    top:415px;
+}
+
+.intro h1 {
+    position: absolute;
+    right: 50px;
+    top: 50px;
+}
+
+.intro h1 a:link, .intro h1 a:visited {
+    width: 443px;
+    height: 151px;
+    display: block;
+    outline: none;
+    overflow: hidden;
+    text-indent: -999em;
+    background: url(http://blog.gracecode.com/images/logo_gracecode.png) no-repeat top left;
+}
+
+.intro .status {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    font-size: 12px;
+}
