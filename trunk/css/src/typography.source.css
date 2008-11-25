@@ -16,7 +16,9 @@ body {
     font-size: 75%;
     color: #222; 
     background: #fff;
+    /*
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+     */
 }
 
 /**
@@ -24,15 +26,20 @@ body {
  * 
  * feelinglucky: 应慎用“雅黑字体
  * @link: http://www.3user.com/topic/index/14019
+ * @change
+ *     2008-10-28 取消雅黑字体配置
  */
+/*
 .yahei { 
     font-family: "Microsoft YaHei";
 }
+ */
 
 /**
  * Windows 平台的“宋体”
+ *
  */
-.simsun { 
+.simsun {
     font-family: Tahoma,SimSun,Arial;
 }
 
@@ -40,8 +47,7 @@ body {
  * 重置标题
  */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: normal;
-    color: #111;
+    font-weight: bold;
 }
 
 h1 {
@@ -90,22 +96,10 @@ p {
     margin: 0 0 1.5em;
 }
 
-p img {
-    float: left; margin: 1.5em 1.5em 1.5em 0; padding: 0;
-}
-
-p img.right { float: right; margin: 1.5em 0 1.5em 1.5em; }
-
-a:focus, a:hover {
-    color: #000;
-}
-
-a {
-    color: #009; text-decoration: underline;
-}
-
 blockquote {
-    margin: 1.5em; color: #666; font-style: italic;
+    margin: 1.5em;
+    color: #666;
+    font-style: italic;
 }
 
 strong {
@@ -120,12 +114,12 @@ dfn {
     font-weight: bold;
 }
 
-sup, sub    {
+sup, sub {
     line-height: 0;
 }
 
 abbr, acronym {
-    border-bottom: 1px dotted #666;
+
 }
 
 address {
@@ -134,15 +128,15 @@ address {
 }
 
 del {
-    color:#666;
+
 }
 
 pre, code {
-    margin: 1.5em 0; white-space: pre;
+    margin: 1.5em 0;
+    white-space: pre;
 }
 
 pre, code, tt {
-    font: 1em 'andale mono', 'lucida console', monospace;
     line-height: 1.5;
 }
 
@@ -150,12 +144,8 @@ pre, code, tt {
 /**
  * 列表
  */
-li ul, li ol {
-    margin:0 1.5em;
-}
-
-ul, ol {
-    margin: 0 1.5em 1.5em 1.5em;
+li ul, li ol, ul, ol {
+    margin: 0 1.5em;
 }
 
 ul {
@@ -182,7 +172,6 @@ dd {
  * 表格
  */
 table {
-    margin-bottom: 1.4em;
     width:100%;
 }
 

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title> - Gracecode.com</title>
+        <link type="text/css" rel="stylesheet" href="../reset.source.css" />
+        <style type="text/css">
+            .circuar {
+                position: relative;
+                background: #fcfcfc;
+                border: 1px solid #e5e5e5;
+                padding: 10px;
+                z-index: 1;
+            }
+
+            .circuar span.corner {
+                display: block;
+                position: absolute;
+                width: 6px; height: 6px;
+                background: url(../circular.png) no-repeat;
+                overflow: hidden;
+                margin: 0; padding: 0;
+                z-index: 9;
+                font-size: 0px;
+                line-height: 0px;
+            }
+
+            .circuar span.corner-tl {
+                top: -1px; left: -1px;
+                background-position: 0px 0px;
+            }
+
+
+
+            .circuar span.corner-tr {
+                top: -1px; right: -1px;
+                background-position: -6px 0px;
+            }
+
+            .circuar span.corner-bl {
+                bottom: -1px; left: -1px;
+                background-position: 0px -6px;
+            }
+
+            .circuar span.corner-br {
+                bottom: -1px; right: -1px;
+                background-position: -6px -6px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="circuar" style="width: 500px; height: 200px; margin: 100px auto;">
+            <span class="corner corner-tl"></span>
+            <span class="corner corner-tr"></span>
+
+
+
+
+            <span class="corner corner-bl"></span>
+            <span class="corner corner-br"></span>
+        </div>
+    </body>
+</html>
