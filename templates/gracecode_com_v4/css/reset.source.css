@@ -1,0 +1,106 @@
+/**
+ * CSS ReSet
+ *
+ * @author  i.feelinglucky@gmail.com
+ * @link    http://www.gracecode.com/
+ * @version $Id: reset.source.css 124 2008-11-24 13:42:19Z i.feelinglucky $
+ */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, code,
+del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0em; padding: 0em; border: 0em;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    vertical-align: baseline;
+}
+
+h1 {
+    font-size: 200%;
+}
+
+h2 {
+    font-size: 180%;
+}
+
+h3 {
+    font-size: 160%;
+}
+
+h4 {
+    font-size: 140%;
+}
+
+h5 {
+    font-size: 120%;
+}
+
+h6, p {
+    font-size: 100%;
+}
+
+body { 
+    line-height: 1.5; 
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+caption, th, td {
+    text-align: left;
+    font-weight: normal;
+}
+
+table, td, th {
+    vertical-align: middle;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: "";
+}
+
+blockquote, q {
+    quotes: "" "";
+}
+
+a img {
+    border: none;
+    outline: none;
+}
+
+/* Fixes incorrect styling of legend in IE6. */
+* html legend {
+    margin: -18px -8px 16px 0;
+    padding: 0;
+}
+
+/* Fixes incorrect placement of ol numbers in IE6/7. */
+ol {
+    margin-left: 2em;
+}
+
+/* Fixes wrong line-height on sup/sub in IE. */
+sup {
+    vertical-align: text-top;
+}
+
+sub {
+    vertical-align: text-bottom;
+}
+
+/* Fixes IE7 missing wrapping of code elements. */
+html>body p code {
+    white-space: normal;
+}
+
+/* IE 6&7 has problems with setting proper <hr> margins. */
+hr {
+    margin: -8px auto 11px;
+}
+
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */

@@ -1,0 +1,153 @@
+/**
+ * Global CSS for Gracecode.com
+ *
+ * @author i.feelinglucky@gmail.com
+ * @date   2008-11-25
+ * @link   http://www.gracecode.com/
+ */
+
+body {
+    background: #eaeaea;
+    font-size: 12px;
+    font-family: arial,helvetica,clean,sans-serif;
+    color: #333;
+}
+
+.body {
+    margin: 20px auto 10px auto;
+    background: #fff;
+
+    -webkit-border-radius:5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/**
+ * Layout
+ */
+.header {
+    margin: 10px 10px 10px 10px;
+    border-bottom: 2px solid #333;
+    overflow: hidden;
+}
+
+.header .logo, .header .nav {
+    float: left;
+}
+
+.content {
+    margin: 0px 0px 10px 10px;
+    min-height:100px;
+    background: red;
+}
+
+.sidebar {
+    margin: 0px 10px 10px 0px;
+    min-height:100px;
+    background: red;
+}
+
+/**
+ * 闪动条
+ */
+.lighter {
+    height: 3px;
+    background: #eaeaea;
+    position: absolute;
+    bottom: 12px;
+    /*
+    opacity: .75;
+    */
+}
+
+
+/**
+ * Logo
+ */
+.logo {
+    line-height: 2.5em;
+    font-size: 12px;
+    margin: 0 2em 0 .5em;
+}
+
+.logo a:link, .logo a:visited {
+    /*
+    display: block;
+    background: url(../images/logo.png) no-repeat top left;
+    width: 200px;
+    height: 78px;
+    text-indent: -9999em;
+    */
+    outline: none;
+    font-weight: 700;
+    color: #000;
+}
+
+.logo a:hover {
+    text-decoration: none;
+}
+
+/**
+ *
+ */
+.nav {
+    overflow: hidden;
+}
+
+.nav li {
+    float: left;
+    padding: 0px .6em;
+    margin: 0px 2px 0px 0px;
+}
+
+.nav li a:link, .nav li a:visited {
+    line-height: 2.5em;
+    color: #555;
+}
+
+.nav li a:hover,
+.nav li.current a:link, .nav li.current a:visited {
+    color: #333;
+    text-decoration: none;
+}
+
+
+/**
+ * search
+ */
+/*
+.search {
+    overflow: hidden;
+    position:absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.search .keywords {
+    float: left;
+    margin: 0px 5px;
+}
+
+.search .keywords input {
+    width: 150px;
+}
+
+.search .submit {
+    float: left;
+    display: none;
+}
+*/
+
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
