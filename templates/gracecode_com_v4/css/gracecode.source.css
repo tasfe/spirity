@@ -195,6 +195,24 @@ a:hover {
     width: 90px;
     text-align: right;
     position: absolute;
+    color: #999;
+}
+
+.archive .meta {
+    text-align: right;
+    padding: 1em none;
+    color: #555;
+    line-height: 2em;
+}
+
+.archive .meta a:link, .archive .meta a:visited {
+    background: none;
+    border: none;
+    color: #555;
+}
+
+.archive .meta a:hover {
+    text-decoration: underline;
 }
 
 .archive ul , .archive ol {
@@ -246,19 +264,25 @@ a:hover {
 }
 
 .footer {
-    border-top: 2px solid #eaeaea;
-    min-height: 50px;
-    margin: 20px 10px 10px 10px;
+    color: #999;
+    font-size: 12px;
+    margin: 1em 10px 10px 10px;
     padding-top: .5em;
 }
 
 .footer p {
-    text-align: center;
+    text-align: left;
     margin: .2em auto;
 }
 
-.footer p a {
-    margin: 0px .2em;
+.footer p a:link, .footer p a:visited {
+    margin: 0px .1em;
+    color: #999;
+}
+
+.footer p a:hover {
+    text-decoration: none;
+    color: #333;
 }
 
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
