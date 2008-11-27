@@ -14,12 +14,13 @@ body {
 }
 
 .body {
-    margin: 20px auto 10px auto;
+    margin: 50px auto 20px auto;
     background: #fff;
-
     -webkit-border-radius:5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    *border: 1px solid #ccc;
+    *zoom: 1;
 }
 
 ul, ol {
@@ -27,6 +28,7 @@ ul, ol {
 }
 
 a:link, a:visited {
+    color: #222;
     text-decoration: none;
 }
 
@@ -43,14 +45,15 @@ a:hover {
     overflow: hidden;
 }
 
+/*
 .header .logo, .header .nav {
     float: left;
 }
+*/
 
 .content {
     margin: 0px 0px 10px 10px;
     min-height:100px;
-    background: red;
 }
 
 .sidebar {
@@ -67,6 +70,7 @@ a:hover {
     background: #eaeaea;
     position: absolute;
     bottom: 12px;
+    font-size: 0px;
     /*
     opacity: .75;
     */
@@ -80,6 +84,7 @@ a:hover {
     line-height: 2.5em;
     font-size: 12px;
     margin: 0 2em 0 .5em;
+    display: none;
 }
 
 .logo a:link, .logo a:visited {
@@ -104,6 +109,7 @@ a:hover {
  */
 .nav {
     overflow: hidden;
+    zoom: 1;
 }
 
 .nav li {
@@ -149,5 +155,110 @@ a:hover {
     display: none;
 }
 */
+
+.archive {
+    font-size: 14px;
+    padding-left: 100px;
+}
+
+.archive a:link, .archive a:visited {
+    background: whitesmoke;
+    border-bottom: 1px dotted;
+    padding: 1px;
+}
+
+.archive a:hover {
+    background: #ffc;
+    text-decoration: none;
+}
+
+.archive dt , .archive .title {
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 2em;
+    font-family: "palatino linotype",palatino,georgia,"times new roman",times,serif;;
+}
+
+.archive dt a:link, .archive .title a:link,
+.archive dt a:visited, .archive .title a:visited {
+    border: none;
+    background: none;
+}
+
+.archive dt a:hover, .archive .title a:hover {
+    text-decoration: none;
+}
+
+.archive .date {
+    text-indent: 0;
+    margin-left: -100px;
+    width: 90px;
+    text-align: right;
+    position: absolute;
+}
+
+.archive ul , .archive ol {
+    margin: 1em 0px 1em .5em;
+    list-style-position: inside;
+}
+
+.archive ul {
+    list-style-type: disc;
+}
+
+.archive ol {
+    list-style-type: decimal;
+}
+
+.archive pre , .archive code, .archive em, .archive .date {
+    font-family: "Courier New", "Courier";
+}
+
+.archive pre {
+    margin: .5em 0 .5em 2em;
+}
+
+.archive p {
+    line-height: 18px;
+    text-indent: 2em;
+    margin-bottom: .5em;
+    text-align: justify;
+}
+
+.archive h1, .archive h2 ,
+.archive h3, .archive h4 ,
+.archive h5, .archive h6 {
+    margin: .5em 0px;
+    font-weight: bold;
+}
+
+.archive h1, .archive h2 {
+    font-size: 18px;
+}
+
+
+.archive h3, .archive h4 {
+    font-size: 16px;
+}
+
+.archive h5, .archive h6 {
+    font-size: 14px;
+}
+
+.footer {
+    border-top: 2px solid #eaeaea;
+    min-height: 50px;
+    margin: 20px 10px 10px 10px;
+    padding-top: .5em;
+}
+
+.footer p {
+    text-align: center;
+    margin: .2em auto;
+}
+
+.footer p a {
+    margin: 0px .2em;
+}
 
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
