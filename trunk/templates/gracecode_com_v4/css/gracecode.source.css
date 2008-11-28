@@ -7,20 +7,19 @@
  */
 
 body {
-    background: #eaeaea;
     font-size: 12px;
     font-family: arial,helvetica,clean,sans-serif;
-    color: #333;
+    color: #111;
+    background: #eaeaea url(../images/paint2.gif) no-repeat top center;
 }
 
 .body {
     margin: 50px auto 20px auto;
+    opacity: .99;
     background: #fff;
     -webkit-border-radius:5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    *border: 1px solid #ccc;
-    *zoom: 1;
 }
 
 ul, ol {
@@ -47,9 +46,9 @@ a:hover {
 
 /*
 .header .logo, .header .nav {
-    float: left;
+float: left;
 }
-*/
+ */
 
 .content {
     margin: 0px 0px 10px 10px;
@@ -73,31 +72,30 @@ a:hover {
     font-size: 0px;
     /*
     opacity: .75;
-    */
+     */
 }
-
 
 /**
  * Logo
  */
 .logo {
-    line-height: 2.5em;
-    font-size: 12px;
-    margin: 0 2em 0 .5em;
-    display: none;
+    width: 950px;
+    margin: 0px auto;
+    position: relative;
+    z-index: 99;
 }
 
 .logo a:link, .logo a:visited {
-    /*
+    text-indent: -999em;
     display: block;
-    background: url(../images/logo.png) no-repeat top left;
+    background: url(../images/logo2.png) no-repeat top left;
     width: 200px;
     height: 78px;
-    text-indent: -9999em;
-    */
     outline: none;
-    font-weight: 700;
     color: #000;
+    position: absolute;
+    right: 10px;
+    top: -40px;
 }
 
 .logo a:hover {
@@ -135,26 +133,26 @@ a:hover {
  */
 /*
 .search {
-    overflow: hidden;
-    position:absolute;
-    right: 10px;
-    top: 10px;
+overflow: hidden;
+position:absolute;
+right: 10px;
+top: 10px;
 }
 
-.search .keywords {
+    .search .keywords {
     float: left;
     margin: 0px 5px;
 }
 
-.search .keywords input {
+    .search .keywords input {
     width: 150px;
 }
 
-.search .submit {
+    .search .submit {
     float: left;
     display: none;
 }
-*/
+ */
 
 .archive {
     font-size: 14px;
