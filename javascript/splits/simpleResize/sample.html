@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <style>
+            @import url('http://mingcheng.ued.taobao.net/assets/tbra/2.0/reset-grids.css');
+
+            .contraner {
+                width: 950px;
+                margin: 10px auto;
+            }
+
+            .box {
+                background: #eaeaea;
+                width: 200px;
+                height: 200px;
+                border: 1px solid #ccc;
+            }
+
+            .trigger {
+                border: 1px solid #fff;
+                width: 14px;
+                height: 14px;
+                background: #fff url(resize.png) no-repeat center;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                z-index: 99;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="contraner">
+            <div class="box" id="box"></div>
+        </div>
+        <!--
+        <div class="trigger" id="trigger"></div>
+        -->
+        <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/tbra-widgets.js"></script>
+        <script type="text/javascript">
+            (function() {
+                var simpleResize = function(container, trigger, defConfig) {
+                    var Y = YAHOO.util, D = Y.Dom, E = Y.Event;
+                    var config = {
+                        max: [500, 500], // 最大高宽
+                        min: [100, 100]  // 最小高宽
+                    };
+
+                    config    = TB.applyIf(defConfig||{}, config);
+                    container = D.get(container);
+                    trigger   = D.get(trigger);
+
+                    var reSetTrigger = function (container, trigger) {
+                        container = container || handle.container;
+                        cr = D.getRegion(container);
+                        // Trigger 的位置（右下角）
+                        D.setXY(trigger, [cr.right - trigger.offsetWidth, cr.bottom - trigger.offsetHeight]);
+                    };
+
+                    var startdrag = function(e) {
+                        E.on(document, 'mousemove', dragging);
+                        E.on(document, 'mouseup', enddrag);
+                        E.stopEvent(e);
+                    };
+
+                    var dragging = function(e) {
+                        e = E.getEvent();
+                        var xy = D.getXY(container);
+                        var newWidth  = e.clientX - xy[0] + trigger.offsetWidth/2,
+                            newHeight = e.clientY - xy[1] + trigger.offsetHeight/2;
+                            resizeTo(container, [newWidth, newHeight]);
+                        E.stopEvent(e);
+                    };
+
+                    var enddrag = function(e) {
+                        E.removeListener(document, 'mousemove', dragging);
+                        E.removeListener(document, 'mouseup', enddrag);
+                        E.stopEvent(e);
+                    };
+
+                    var resizeTo = function(el, dimension) {
+                        var width = dimension[0], height = dimension[1];
+                        if (width  > config.max[0]) { width  = config.max[0]; }
+                        if (width  < config.min[0]) { width  = config.min[0]; }
+                        if (height > config.max[1]) { height = config.max[1]; }
+                        if (height < config.min[1]) { height = config.min[1]; }
+                        D.setStyle(el, 'width',  width+'px');
+                        D.setStyle(el, 'height', height+'px');
+                        reSetTrigger(container, trigger); // 重置 Trigger
+                    };
+
+                    E.on(trigger, 'mousedown', startdrag);
+                    reSetTrigger(container, trigger);
+
+                    return {
+                        resizeTo: function(dimension) {
+                            resizeTo(container, dimension);
+                        }
+                    }
+                };
+
+
+                YAHOO.util.Event.onDOMReady(function() { 
+                    var trigger = document.createElement('div');
+                    YAHOO.util.Dom.addClass(trigger, 'trigger');
+                    document.body.appendChild(trigger);
+                    var resize = new simpleResize('box', trigger, {});
+                    resize.resizeTo(['200', '500']);
+                }); 
+            })(); 
+        </script>
+    </body>
+</html>
