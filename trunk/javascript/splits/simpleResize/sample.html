@@ -41,43 +41,46 @@
         <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/tbra-widgets.js"></script>
         <script type="text/javascript">
             (function() {
-                var simpleResize = function(container, trigger, defConfig) {
-                    var Y = YAHOO.util, D = Y.Dom, E = Y.Event;
+                TB.widget.simpleResize = (function(container, trigger, defConfig) {
+                    var Y = YAHOO.util, Dom = Y.Dom, Event = Y.Event;
                     var config = {
                         max: [500, 500], // 最大高宽
                         min: [100, 100]  // 最小高宽
                     };
 
-                    config    = TB.applyIf(defConfig||{}, config);
-                    container = D.get(container);
-                    trigger   = D.get(trigger);
+                    config = TB.applyIf(config, defConfig||{});
+                    console.info(config);
+
+                    container = Dom.get(container);
+                    trigger   = Dom.get(trigger);
 
                     var reSetTrigger = function (container, trigger) {
-                        container = container || handle.container;
-                        cr = D.getRegion(container);
+                        container = Dom.get(container);
+                        cr = Dom.getRegion(container);
                         // Trigger 的位置（右下角）
-                        D.setXY(trigger, [cr.right - trigger.offsetWidth, cr.bottom - trigger.offsetHeight]);
+                        Dom.setXY(trigger, [cr.right - trigger.offsetWidth, cr.bottom - trigger.offsetHeight]);
                     };
 
                     var startdrag = function(e) {
-                        E.on(document, 'mousemove', dragging);
-                        E.on(document, 'mouseup', enddrag);
-                        E.stopEvent(e);
+                        Event.on(document, 'mousemove', dragging);
+                        Event.on(document, 'mouseup', enddrag);
+                        Event.stopEvent(e);
                     };
 
                     var dragging = function(e) {
-                        e = E.getEvent();
-                        var xy = D.getXY(container);
-                        var newWidth  = e.clientX - xy[0] + trigger.offsetWidth/2,
-                            newHeight = e.clientY - xy[1] + trigger.offsetHeight/2;
+                        e = Event.getEvent();
+                        var xy = Dom.getXY(container);
+                        var offset = Event.getXY(container);
+                        var newWidth  = offset[0] - xy[0] + trigger.offsetWidth/2,
+                            newHeight = offset[1] - xy[1] + trigger.offsetHeight/2;
                             resizeTo(container, [newWidth, newHeight]);
-                        E.stopEvent(e);
+                        Event.stopEvent(e);
                     };
 
                     var enddrag = function(e) {
-                        E.removeListener(document, 'mousemove', dragging);
-                        E.removeListener(document, 'mouseup', enddrag);
-                        E.stopEvent(e);
+                        Event.removeListener(document, 'mousemove', dragging);
+                        Event.removeListener(document, 'mouseup', enddrag);
+                        Event.stopEvent(e);
                     };
 
                     var resizeTo = function(el, dimension) {
@@ -86,27 +89,31 @@
                         if (width  < config.min[0]) { width  = config.min[0]; }
                         if (height > config.max[1]) { height = config.max[1]; }
                         if (height < config.min[1]) { height = config.min[1]; }
-                        D.setStyle(el, 'width',  width+'px');
-                        D.setStyle(el, 'height', height+'px');
+                        Dom.setStyle(el, 'width',  width+'px');
+                        Dom.setStyle(el, 'height', height+'px');
                         reSetTrigger(container, trigger); // 重置 Trigger
                     };
 
-                    E.on(trigger, 'mousedown', startdrag);
+                    Event.on(trigger, 'mousedown', startdrag);
                     reSetTrigger(container, trigger);
 
                     return {
                         resizeTo: function(dimension) {
                             resizeTo(container, dimension);
+                        },
+
+                        attach: function(container, trigger, config) {
+
                         }
                     }
-                };
+                })();
 
 
                 YAHOO.util.Event.onDOMReady(function() { 
                     var trigger = document.createElement('div');
                     YAHOO.util.Dom.addClass(trigger, 'trigger');
                     document.body.appendChild(trigger);
-                    var resize = new simpleResize('box', trigger, {});
+                    var resize = new TB.widget.simpleResize.attach('box', trigger, {max:[1000, 1000]});
                     resize.resizeTo(['200', '500']);
                 }); 
             })(); 
