@@ -28,92 +28,40 @@
                 top: 0px;
                 left: 0px;
                 z-index: 99;
+                cursor: se-resize;
             }
         </style>
     </head>
     <body>
         <div class="contraner">
-            <div class="box" id="box"></div>
+            <textarea class="box" id="box">
+                background: #eaeaea;
+                width: 200px;
+                height: 200px;
+                border: 1px solid #ccc;
+                border: 1px solid #fff;
+                width: 14px;
+                height: 14px;
+                background: #fff url(resize.png) no-repeat center;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                z-index: 99;
+                cursor: se-resize;
+            </textarea>
         </div>
         <!--
         <div class="trigger" id="trigger"></div>
         -->
         <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/tbra-widgets.js"></script>
+        <script type="text/javascript" src="simpleResize.js"></script>
         <script type="text/javascript">
             (function() {
-                TB.widget.simpleResize = (function(container, trigger, defConfig) {
-                    var Y = YAHOO.util, Dom = Y.Dom, Event = Y.Event;
-                    var config = {
-                        max: [500, 500], // 最大高宽
-                        min: [100, 100]  // 最小高宽
-                    };
-
-                    config = TB.applyIf(config, defConfig||{});
-                    console.info(config);
-
-                    container = Dom.get(container);
-                    trigger   = Dom.get(trigger);
-
-                    var reSetTrigger = function (container, trigger) {
-                        container = Dom.get(container);
-                        cr = Dom.getRegion(container);
-                        // Trigger 的位置（右下角）
-                        Dom.setXY(trigger, [cr.right - trigger.offsetWidth, cr.bottom - trigger.offsetHeight]);
-                    };
-
-                    var startdrag = function(e) {
-                        Event.on(document, 'mousemove', dragging);
-                        Event.on(document, 'mouseup', enddrag);
-                        Event.stopEvent(e);
-                    };
-
-                    var dragging = function(e) {
-                        e = Event.getEvent();
-                        var xy = Dom.getXY(container);
-                        var offset = Event.getXY(container);
-                        var newWidth  = offset[0] - xy[0] + trigger.offsetWidth/2,
-                            newHeight = offset[1] - xy[1] + trigger.offsetHeight/2;
-                            resizeTo(container, [newWidth, newHeight]);
-                        Event.stopEvent(e);
-                    };
-
-                    var enddrag = function(e) {
-                        Event.removeListener(document, 'mousemove', dragging);
-                        Event.removeListener(document, 'mouseup', enddrag);
-                        Event.stopEvent(e);
-                    };
-
-                    var resizeTo = function(el, dimension) {
-                        var width = dimension[0], height = dimension[1];
-                        if (width  > config.max[0]) { width  = config.max[0]; }
-                        if (width  < config.min[0]) { width  = config.min[0]; }
-                        if (height > config.max[1]) { height = config.max[1]; }
-                        if (height < config.min[1]) { height = config.min[1]; }
-                        Dom.setStyle(el, 'width',  width+'px');
-                        Dom.setStyle(el, 'height', height+'px');
-                        reSetTrigger(container, trigger); // 重置 Trigger
-                    };
-
-                    Event.on(trigger, 'mousedown', startdrag);
-                    reSetTrigger(container, trigger);
-
-                    return {
-                        resizeTo: function(dimension) {
-                            resizeTo(container, dimension);
-                        },
-
-                        attach: function(container, trigger, config) {
-
-                        }
-                    }
-                })();
-
-
                 YAHOO.util.Event.onDOMReady(function() { 
                     var trigger = document.createElement('div');
                     YAHOO.util.Dom.addClass(trigger, 'trigger');
                     document.body.appendChild(trigger);
-                    var resize = new TB.widget.simpleResize.attach('box', trigger, {max:[1000, 1000]});
+                    var resize = TB.widget.simpleResize.attach('box', trigger, {max:[1000, 500]});
                     resize.resizeTo(['200', '500']);
                 }); 
             })(); 
