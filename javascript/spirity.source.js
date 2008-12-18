@@ -9,7 +9,7 @@
 
 (function (_scope) {
     var spirity = _scope.spirity = {};
-    spirity.version = '$Id';
+    spirity.version = '$Id$';
 
     // 检测浏览器类型
     spirity.browser.ua = {
@@ -19,12 +19,13 @@
           gecko: !!document.getBoxObjectFor
     };
 
+    // lang
+
     // dom
     spirity.dom = {};
 
     // event
 
     // ajax
-
 
 })(window);
