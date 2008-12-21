@@ -239,5 +239,5 @@
      */
 
     scope[namespace] = {"bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr,
-        "ver": '$Id$'};
+        "version": '$Id$'};
 })(window, 'spirity');
