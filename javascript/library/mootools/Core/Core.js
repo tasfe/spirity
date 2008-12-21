@@ -122,12 +122,14 @@ Native.implement = function(objects, properties){
 
 //方法静态化
 Native.genericize = function(object, property, check){
-	if ((!check || !object[property]) && typeof object.prototype[property] == 'function') object[property] = function(){
+    if ((!check || !object[property]) && typeof object.prototype[property] == 'function') {
+        object[property] = function(){
 		//将arguments数组化
 		var args = Array.prototype.slice.call(arguments);
 		//将第一个参数作为原来实例方法的this指向
 		return object.prototype[property].apply(args.shift(), args);
-	};
+	    };
+    }
 };
 
 Native.typize = function(object, family){

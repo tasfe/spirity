@@ -311,15 +311,6 @@ Spirity.dom = Spirity.dom || {
         return {width: originalWidth, height: originalHeight};
     }, // getDimensions
 
-    /**
-     * 设置节点的可视面积
-     *
-     * @todo
-     */
-    setDimensions: function(element) {
-        //...
-    },
-
     getWidth: function(element) {
         return Spirity.dom.getDimensions(element).width;
     }, // getWidth
