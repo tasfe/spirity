@@ -195,10 +195,9 @@
             };
         };
 
-        // http://realazy.org/blog/2007/08/16/lazy-function-definition-pattern/
-        return lang = (function () {
-            return {"is":is, "curry":curry, "json":json, "genericize":genericize};
-        })();
+        return {
+            "is":is, "curry":curry, "json":json, "genericize":genericize
+        };
     })(); // lang
 
     /**
@@ -231,13 +230,11 @@
     /**
      * Mix
      */
-    /*
     ['indexOf', 'lastIndexOf', 'forEach', 'filter', 'map', 'some', 'every', 'copy'].forEach(
         function(c) {
             lang.genericize(Array, c);
         }
     );
-    */
 
     scope[namespace] = {"bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr,
         "version": '$Id$'};
