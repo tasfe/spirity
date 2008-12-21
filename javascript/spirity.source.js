@@ -5,7 +5,6 @@
  * 名叫 Spirity 的小型 Javascript 库
  *
  * @author feelinglucky<i.feelinglucky@gmail.com>
- * @verson $Id$
  * @link   http://www.gracecode.com/
  * @link   http://spirity.googlecode.com/
  * @since  2008-11-09
@@ -239,5 +238,6 @@
      );
      */
 
-    scope[namespace] = {"bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr};
+    scope[namespace] = {"bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr,
+        "ver": '$Id$'};
 })(window, 'spirity');
