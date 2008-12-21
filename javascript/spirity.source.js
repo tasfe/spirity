@@ -95,60 +95,58 @@
      * Lang
      */
     var lang = (function() {
-        var lang = {
-            is: {
-                obj: function(object) {
-                    return (object && (typeof object === 'object' || lang.is.func(object))) || false;
-                },
+        var is = {
+            obj: function(object) {
+                return (object && (typeof object === 'object' || lang.is.func(object))) || false;
+            },
 
-                str: function(object) {
-                    return typeof object === 'string';
-                },
+            str: function(object) {
+                return typeof object === 'string';
+            },
 
-                bool: function(object) {
-                    return typeof object === 'boolean';
-                },
+            bool: function(object) {
+                return typeof object === 'boolean';
+            },
 
-                element: function(object) {
-                    return object && object.nodeType == 1;
-                },
+            element: function(object) {
+                return object && object.nodeType == 1;
+            },
 
-                null: function(object) {
-                    return object === null;
-                },
+            null: function(object) {
+                return object === null;
+            },
 
-                undef: function(object) {
-                    return typeof object === 'undefined';
-                },
+            undef: function(object) {
+                return typeof object === 'undefined';
+            },
 
-                array: function(object){
-                    if (object) {
-                        return lang.is.num(object.length) && lang.is.func(object.splice);
-                    }
-                    return false;
-                },
-
-                num: function() {
-                    return typeof object === 'number' && isFinite(object);
-                },
-
-                func: function(object) {
-                    return typeof object === 'function';
-                },
-
-                json: function(object) {
-                    if (!lang.is.str(object)) {
-                        return false;
-                    }
-
-                    return /^[\],:{}\s]*$/.test(object.replace(/\\./g,'@').
-                        replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').
-                        replace(/(?:^|:|,)(?:\s*\[)+/g,''));
+            array: function(object){
+                if (object) {
+                    return lang.is.num(object.length) && lang.is.func(object.splice);
                 }
+                return false;
+            },
+
+            num: function() {
+                return typeof object === 'number' && isFinite(object);
+            },
+
+            func: function(object) {
+                return typeof object === 'function';
+            },
+
+            json: function(object) {
+                if (!lang.is.str(object)) {
+                    return false;
+                }
+
+                return /^[\],:{}\s]*$/.test(object.replace(/\\./g,'@').
+                    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').
+                    replace(/(?:^|:|,)(?:\s*\[)+/g,''));
             }
         };
 
-        lang.json = {
+        var json = {
             encode: function(object) {
                 var type = typeof object;
                 switch (type) {
@@ -180,7 +178,7 @@
             }
         };
 
-        lang.curry = function(func, scope) {
+        var curry = function(func, scope) {
             var _func = func, _scope = scope || window;
             var _args = Array.prototype.slice.call(arguments, 2);
             return function() {
@@ -188,7 +186,7 @@
             }
         };
 
-        lang.genericize = function(object, property, check) {
+        var genericize = function(object, property, check) {
             if ((!check || !object[property]) && lang.is.func(object.prototype[property])) {
                 object[property] = function () {
                     var _args = Array.prototype.slice.call(arguments);
@@ -197,7 +195,10 @@
             };
         };
 
-        return lang;
+        // http://realazy.org/blog/2007/08/16/lazy-function-definition-pattern/
+        return lang = (function () {
+            return {"is":is, "curry":curry, "json":json, "genericize":genericize};
+        })();
     })(); // lang
 
     /**
@@ -231,12 +232,12 @@
      * Mix
      */
     /*
-     ['indexOf', 'lastIndexOf', 'forEach', 'filter', 'map', 'some', 'every', 'copy'].forEach(
-         function(c) {
-             lang.genericize(Array, c);
-         }
-     );
-     */
+    ['indexOf', 'lastIndexOf', 'forEach', 'filter', 'map', 'some', 'every', 'copy'].forEach(
+        function(c) {
+            lang.genericize(Array, c);
+        }
+    );
+    */
 
     scope[namespace] = {"bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr,
         "version": '$Id$'};
