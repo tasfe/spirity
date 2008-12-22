@@ -12,13 +12,13 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2008-12-22
+ *     增加 lang.format
+ *
  * [+] 2008-12-21
  *     增加 bom 和 lang 模块
  */
 (function (scope, namespace) {
-    /**
-     * BOM
-     */
     var bom = {
         agent: {
             ie: !!(window.attachEvent && !window.opera),
@@ -91,9 +91,7 @@
         */
     }; // bom
 
-    /**
-     * Lang
-     */
+
     var lang = (function() {
         var is = {
             obj: function(object) {
@@ -195,33 +193,39 @@
             };
         };
 
+       /**
+         * lang.format('{0}天有{1}个小时', [1, 24]) / lang.format('{day}天有{hour}个小时', {day:1, hour:24})
+         */
+        var format = function(msg, values, filter) {
+            var pattern = /\{([\w-]+)?\}/g;
+            return function(msg, values, filter) {
+                return msg.replace(pattern, function(match, key) {
+                    return filter ? filter(values[key], key) : values[key];
+                });
+            }
+        }();
+
         return {
-            "is":is, "curry":curry, "json":json, "genericize":genericize
+            "is":is, "curry":curry, "json":json, "genericize":genericize, "format": format
         };
     })(); // lang
 
-    /**
-     * DOM
-     */
-    var dom = (function(){
+
+    var dom = (function() {
         var dom;
 
         return dom;
     })(); // dom
 
-    /**
-     * Event
-     */
-    var event = (function(){
+
+    var event = (function() {
         var event;
 
         return event;
     })(); // event
 
-    /**
-     * XHR
-     */
-    var xhr = (function(){
+
+    var xhr = (function() {
         var xhr;
 
         return xhr;
@@ -230,12 +234,16 @@
     /**
      * Mix
      */
+    /*
     ['indexOf', 'lastIndexOf', 'forEach', 'filter', 'map', 'some', 'every', 'copy'].forEach(
         function(c) {
             lang.genericize(Array, c);
         }
     );
+    */
 
-    scope[namespace] = {"bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr,
-        "version": '$Id$'};
+    scope[namespace] = {
+        "bom":bom, "lang":lang, "dom":dom, "event":event, "xhr":xhr,
+        "version": '$Id$'
+    };
 })(window, 'spirity');
