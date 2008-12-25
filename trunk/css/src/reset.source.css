@@ -4,7 +4,13 @@
  * @author  i.feelinglucky@gmail.com
  * @link    http://www.gracecode.com/
  * @version $Id$
+ * @change
+ *     [+]new feature  [*]improvement  [!]change  [x]bug fix
+ *
+ * [+] 2008-12-25
+ *     增加 :focus 的 outline 属性，防止 Firefox 出现需线框
  */
+
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, code,
@@ -16,6 +22,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-style: inherit;
     font-family: inherit;
     vertical-align: baseline;
+}
+
+:focus {
+	outline: none;
 }
 
 h1 {
@@ -73,18 +83,10 @@ a img {
     outline: none;
 }
 
-/* Fixes incorrect styling of legend in IE6. */
-* html legend {
-    margin: -18px -8px 16px 0;
-    padding: 0;
-}
-
-/* Fixes incorrect placement of ol numbers in IE6/7. */
 ol {
     margin-left: 2em;
 }
 
-/* Fixes wrong line-height on sup/sub in IE. */
 sup {
     vertical-align: text-top;
 }
@@ -93,13 +95,17 @@ sub {
     vertical-align: text-bottom;
 }
 
-/* Fixes IE7 missing wrapping of code elements. */
+/* hack for ie */
 html>body p code {
     white-space: normal;
 }
 
-/* IE 6&7 has problems with setting proper <hr> margins. */
-hr {
+* html legend {
+    margin: -18px -8px 16px 0;
+    padding: 0;
+}
+
+* html hr, html>body hr {
     margin: -8px auto 11px;
 }
 
