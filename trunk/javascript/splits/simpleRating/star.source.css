@@ -1,0 +1,78 @@
+/**
+ * star.source.css
+ *
+ * @author i.feelinglucky@gmail.com
+ * @date   2008-12-26
+ * @link   http://www.gracecode.com/
+ */
+
+.rating, .rating label {
+    background: url(star.png) repeat-x scroll 1000px 1000px;
+}
+
+.rating {
+    list-style: none;
+    position: relative;
+}
+
+.rating label {
+    width: 125px;
+    height: 18px;
+    background-position: 0px -23px;
+    display: inline-block;
+    text-indent: -999em;
+}
+
+.rating label.star1 {
+    width: 25px;
+    z-index: 5;
+}
+
+.rating label.star2 {
+    width: 50px;
+    z-index: 4;
+}
+
+.rating label.star3 {
+    width: 75px;
+    z-index: 3;
+}
+
+.rating label.star4 {
+    width: 100px;
+    z-index: 2;
+}
+
+.rating label.star5 {
+    width: 125px;
+    z-index: 1;
+}
+
+/** version2 **/
+.rating-inline {
+    background-position: 0px 0px;
+    position: relative;
+    height: 18px;
+    width: 125px;
+}
+
+.rating-inline input {
+    display: none;
+}
+
+.rating-inline li {
+    display: inline;
+}
+
+.rating-inline label {
+    background-position: 1000px 1000px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.rating-inline label.hover {
+    background-position: 0px -23px;
+}
+
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
