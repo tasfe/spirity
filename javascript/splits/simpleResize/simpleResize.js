@@ -60,10 +60,9 @@ TB.widget.simpleResize = new function() {
 
     this.attach = function(c, t, defConfig) {
         container = Dom.get(c), trigger = Dom.get(t);
-        config = TB.applyIf(defConfig||{}, config);
+        config = YAHOO.lang.merge(config, defConfig||{});
         reSetTrigger(container, trigger);
         Event.on(trigger, 'mousedown', startdrag);
-
         return handle;
     };
 };
