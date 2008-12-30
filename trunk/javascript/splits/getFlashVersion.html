@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>getFlashVersion</title>
+    </head>
+    <body>
+        <h1>getFlashVersion</h1>
+        <p>version: 
+        <script>
+            function getFlashVersion() {
+                if (navigator.plugins && navigator.mimeTypes.length) {
+                    var ver = (navigator.plugins["Shockwave Flash"] || 0).description;
+                } else {
+                    var ver = new ActiveXObject('ShockwaveFlash.ShockwaveFlash').GetVariable('$version');
+                }
+
+                return !!ver ? ver.replace(/\D+/g, ' ').match(/(\d)+/g).slice(0,3) : [];
+            }
+
+            document.write(getFlashVersion());
+        </script> 
+        </p>
+    </body>
+</html>
