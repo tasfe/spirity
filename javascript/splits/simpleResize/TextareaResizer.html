@@ -5,8 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
         <style>
-            @import url('http://mingcheng.ued.taobao.net/assets/tbra/2.0/reset-grids.css');
-
+            @import url('reset.source.css');
             .contraner {
                 width: 950px;
                 margin: 10px auto;
@@ -54,15 +53,21 @@
         <div class="trigger" id="trigger"></div>
         -->
         <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/tbra-widgets.js"></script>
-        <script type="text/javascript" src="simpleResize.js"></script>
+        <script type="text/javascript" src="TextareaResizer.js"></script>
         <script type="text/javascript">
             (function() {
                 YAHOO.util.Event.onDOMReady(function() { 
                     var trigger = document.createElement('div');
                     YAHOO.util.Dom.addClass(trigger, 'trigger');
                     document.body.appendChild(trigger);
-                    var resize = TB.widget.simpleResize.attach('box', trigger, {max:[999, 999]});
-                    resize.resizeTo(['400', '200']);
+
+                    var resizer = new TB.widget.TextareaResizer('box', trigger, {
+                        max: [599, 599], onScroll: function() {
+                            console.info(this);
+                        }
+                    });
+
+                    resizer.resizeTo('400', '200');
                 }); 
             })(); 
         </script>
