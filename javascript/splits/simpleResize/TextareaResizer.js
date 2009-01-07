@@ -6,6 +6,26 @@
  *
  * @update
  *      2009-1-2  更新程序逻辑
+ *
+1.  不要再迷信utf8，我们在写中文源码
+2.  xxxx = new function() {} 的形式不推荐了，推荐的是：
+
+(function() {
+     var privateMethod = function() {...}
+     TB.xx.xx = {
+         init:funciton() { invoke privateMethod(); }
+     };
+       
+});
+
+3.  trigger 应该由程序来自动创建，（发现是webkit时，不创建？）
+
+4.  使用 YAHOO.lang.augmentObject 替换  TB.applyIf
+
+5.   this.attach = function(c, t, defConfig) {  ... 拜托请把参数名写全， YUICompressor 会搞定性能问题。
+
+6.  是否应该增加一个 onresize 事件回调？
+ *      
  */
 (function(){
     var Y = YAHOO.util, Dom = Y.Dom, Event = Y.Event;
