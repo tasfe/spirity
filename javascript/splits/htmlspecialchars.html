@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+        <title></title>
+    </head>
+    <body>
+        <div id="test1"></div>
+        <div id="test2"></div>
+        <script type="text/javascript">
+            function htmlspecialchars(str) {
+                var node = document.createElement('div');
+                node.appendChild(document.createTextNode(str));
+                return node.innerHTML;  
+            };
+
+            document.getElementById("test1").innerHTML = 
+                '<img src="http://is.gd/fXjv" onload="javascript:alert(\'xss\')" />';
+
+            document.getElementById("test2").innerHTML = 
+                htmlspecialchars('<img src="http://is.gd/fXjv" onload="javascript:javascript:alert(\'xss\')" />');
+        </script>
+    </body>
+</html>
