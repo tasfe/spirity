@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+        <div><img src="" id="container" width="500" height="300" /></div>
+        <div><input type="file" id="trigger" /></div>
+        <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/tbra-widgets.js"></script>
+        <script type="text/javascript">
+            $E.on('trigger', 'change', function(e) {
+               if (!/(.jpg|.jpeg|.gif|.png)$/i.test(this.value)) {
+                    alert('请您选择图片文件');
+                    return;
+               };
+               var imgSrc = this.value;
+               //alert(this.value);
+               if (this.files && this.files[0].getAsDataURL) {
+                   imgSrc = this.files[0].getAsDataURL();
+               }
+
+               $D.get('container').src = ((YAHOO.env.ua.webkit) ? 'file://' : '') + imgSrc;
+            }, $D.get('trigger'), true);
+        </script>
+    </body>
+</html>
