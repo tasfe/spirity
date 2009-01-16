@@ -6,7 +6,7 @@
         <title></title>
     </head>
     <body>
-        <div><img src="" id="container" width="500" height="300" /></div>
+        <div><img id="container" width="500" height="300" /></div>
         <div><input type="file" id="trigger" /></div>
         <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/tbra-widgets.js"></script>
         <script type="text/javascript">
@@ -15,13 +15,27 @@
                     alert('请您选择图片文件');
                     return;
                };
-               var imgSrc = this.value;
-               //alert(this.value);
-               if (this.files && this.files[0].getAsDataURL) {
-                   imgSrc = this.files[0].getAsDataURL();
-               }
 
-               $D.get('container').src = ((YAHOO.env.ua.webkit) ? 'file://' : '') + imgSrc;
+               var img = $D.get('container');
+               var imgSrc = this.value;
+
+               if (this.files && this.files[0].getAsDataURL)
+               {
+                   img.src = this.files[0].getAsDataURL();
+               }
+               else if (img.filters)
+               {
+                   var fliter = 'DXImageTransform.Microsoft.AlphaImageLoader';
+                   if (img.style.cssText.indexOf(fliter) == -1) {
+                       img.style.cssText += 'filter:progid:' + fliter + '(sizingMethod=scale);';
+                   };
+                   img.src = 'http://assets.taobaocdn.com/img/app/album/mask.png';
+                   img.filters.item(fliter).src = imgSrc;
+               }
+               else
+               {
+                   img.src = imgSrc;
+               }
             }, $D.get('trigger'), true);
         </script>
     </body>
