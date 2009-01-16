@@ -17,7 +17,12 @@
                };
 
                var img = $D.get('container');
+
                var imgSrc = this.value;
+               if (!!window.XDomainRequest) {
+                    this.select();
+                    imgSrc = document.selection.createRange().text;
+               };
 
                if (this.files && this.files[0].getAsDataURL)
                {
