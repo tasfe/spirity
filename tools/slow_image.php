@@ -8,6 +8,10 @@
  * @version $Id$
  */
 
-sleep(2);
+if (!isset($_GET['sleep']) || !$sleep = intval($_GET['sleep'])) {
+    $sleep = 5;
+}
+sleep($sleep);
+
 header('Content-type: image/png');
-imagepng(imagecreatefromjpeg(''));
+die(imagepng(imagecreatefromgif('sample.gif')));
