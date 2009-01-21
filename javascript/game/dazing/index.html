@@ -12,7 +12,10 @@
        <script type="text/javascript" src="dazing.source.js"></script>
        <script type="text/javascript">
            window.onload = function() {
-               var handle = new Dazing('dazing');
+               var onFinished = function() {
+                   alert('score: ' + this.current);
+               };
+               var handle = new Dazing('dazing', {group: 10, step: 3, onFinished: onFinished});
                handle.start();
            };
        </script>

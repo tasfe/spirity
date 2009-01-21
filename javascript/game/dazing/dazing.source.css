@@ -31,11 +31,6 @@
     overflow: hidden;
 }
 
-.dazing li.done span {
-    opacity: .2;
-    filter:alpha(opacity=20);
-}
-
 .dazing li span {
     background: url('arrow.png') no-repeat scroll 1000px 1000px;
     display: inline-block;
@@ -62,6 +57,11 @@
 
 .dazing li.right span {
     background-position: 0px -261px;
+}
+
+.dazing li.done span {
+    opacity: .2;
+    filter:alpha(opacity=20);
 }
 
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
