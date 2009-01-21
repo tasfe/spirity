@@ -1,0 +1,67 @@
+/**
+ * 基本样式
+ *
+ * @author mingcheng@taobao.com
+ * @date   2009-01-21
+ * @link   http://www.gracecode.com/
+ */
+.container {
+    border: 1px solid #eaeaea;
+    width: 768px;
+    height: 256px;
+    margin: 10% auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.dazing {
+    overflow: auto;
+    list-style: none;
+    white-space: nowrap;
+    position:absolute;
+    height: 128px;
+    top: 20%;
+    width: 768px;
+}
+
+.dazing li {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+.dazing li.done span {
+    opacity: .2;
+    filter:alpha(opacity=20);
+}
+
+.dazing li span {
+    background: url('arrow.png') no-repeat scroll 1000px 1000px;
+    display: inline-block;
+    text-indent: -999em;
+    width: 128px;
+    height: 128px;
+    overflow: hidden;
+    *zoom: 1;
+    *font-size: 0px;
+    *text-indent: 0px;
+}
+
+.dazing li.up span {
+    background-position: 0px -130px;
+}
+
+.dazing li.down span {
+    background-position: 0px 1px;
+}
+
+.dazing li.left span {
+    background-position: 0px -392px;
+}
+
+.dazing li.right span {
+    background-position: 0px -261px;
+}
+
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */
