@@ -55,7 +55,7 @@
 
     proto.start = function() {
         var _self = this, f = arguments.callee;
-        this.container.scrollLeft += (this.level + 1) * 1.5;
+        this.container.scrollLeft += (this.level + 1) * 1.25;
 
         var node = this.container.childNodes[this.current];
         if (node && (this.container.scrollLeft > node.offsetLeft)) { 
