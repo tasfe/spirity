@@ -5,23 +5,40 @@
  * @date   2009-01-21
  * @link   http://www.gracecode.com/
  */
+body {
+    font-family: Georgia,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana;
+}
+
+h1 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .container {
-    border: 1px solid #eaeaea;
     width: 768px;
-    height: 256px;
+    height: 200px;
     margin: 10% auto;
     position: relative;
     overflow: hidden;
+}
+
+.content {
+    border: 1px solid #eaeaea;
+    position:absolute;
+    height: 128px;
+    top: 20%;
+    width: 768px;
+}
+
+.status {
+    position:absolute;
+    bottom: 0px;
 }
 
 .dazing {
     overflow: auto;
     list-style: none;
     white-space: nowrap;
-    position:absolute;
-    height: 128px;
-    top: 20%;
-    width: 768px;
 }
 
 .dazing li {
@@ -62,6 +79,46 @@
 .dazing li.done span {
     opacity: .2;
     filter:alpha(opacity=20);
+}
+
+.msg {
+    width: 768px;
+    height: 200px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: #ccc;
+    opacity: .75;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
+}
+
+.msg h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: .5em;
+}
+
+.msg p {
+    font-size: 12px;
+    margin-bottom: .5em;
+}
+
+.msg button {
+    font-weight: bold;
+    font-size: 14px;
+    padding: .2em;
+}
+
+.msg div {
+    text-align: center;
+    margin: 6% auto;
+    padding: 5px;
+    width: 70%;
+    border: 2px solid #000;
+    background: #fff;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
 }
 
 /* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 */

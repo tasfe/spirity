@@ -5,19 +5,19 @@
  * @date   2009-01-21
  * @link   http://www.gracecode.com/
  *
+ * @change  2009-01-22
+ *      增加 3 次出错机会，增加 this.score 属性
  * @change  2009-01-21
  *      完成基本逻辑 @TODO 代码需要优化
  */
 (function(_scope) {
-    var defConfig = {group: 10, step: 1.25};
+    var defConfig = {group: 10, step: 1.25, life: 3};
     var arrow = ['up', 'down', 'left', 'right'];
     var keyCode = {'38': 'up', '40':'down', '37': 'left', '39': 'right'};
 
     _scope.Dazing = function(container, config) {
-        this.container = document.getElementById(container);
+        this.container = container;
         this.config = config || defConfig;
-        this.score = this.current = 0;
-        this.step = this.config.step || 1.25;
         this.init();
     };
 
@@ -25,6 +25,8 @@
 
     proto.init = function() {
         this.container.innerHTML = '';
+        this.score = this.current = this.life = 0;
+        this.step = this.config.step || 1.25;
         this.container.style.overflow = 'hidden';
         this.container.style.paddingLeft = this.container.clientWidth + 'px';
         var _self = this;
@@ -48,16 +50,22 @@
         var node = this.container.childNodes[this.current], answerName = node.className;
         if (answerName == className) {
             node.className += ' done';
-            this.current++;
         } else {
-            this.stop();
-            if ('function' == typeof this.config.onFinished) {
-                this.config.onFinished.call(this);
+            if (this.life < this.config.life) {
+                node.style.visibility = 'hidden';
+                this.life++;
+            } else {
+                this.stop();
+                if ('function' == typeof this.config.onFinished) {
+                    this.config.onFinished.call(this);
+                }
+                return;
             }
         }
+        this.current++;
     };
-
-    proto.start = function() {
+    
+    proto.scrolling = function() {
         var _self = this, f = arguments.callee;
         this.container.scrollLeft += (this.level + 1) * this.step;
 
@@ -76,8 +84,19 @@
             };
             this.timer = setTimeout(function() {f.call(_self);}, 20);
         }
+        this.score = this.current - this.life;
+
+        if ('function' == typeof this.config.onScrolling) {
+            this.config.onScrolling.call(this);
+        }
     };
 
-    proto.stop = function() { clearTimeout(this.timer); document.onkeydown = null; };
+    proto.stop = function() {
+        clearTimeout(this.timer); document.onkeydown = null; 
+    };
+
+    proto.start = function() {
+        this.scrolling(); 
+    };
 })(window);
 // vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
