@@ -18,6 +18,8 @@
     _scope.Dazing = function(container, config) {
         this.container = container;
         this.config = config || defConfig;
+        this.container.style.overflow = 'hidden';
+        this.container.style.paddingLeft = this.container.clientWidth + 'px';
         this.init();
     };
 
@@ -27,8 +29,7 @@
         this.container.innerHTML = '';
         this.score = this.current = this.life = 0;
         this.step = this.config.step || 1.25;
-        this.container.style.overflow = 'hidden';
-        this.container.style.paddingLeft = this.container.clientWidth + 'px';
+        this.container.scrollLeft = 0;
         var _self = this;
         document.onkeydown = function(e) {
             e = e || window.event;
