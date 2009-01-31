@@ -2,9 +2,10 @@
 /**
  * 视觉动画组件
  *
- * @author mingcheng<i.feelinglucky@gmail.com>
- * @date   2009-01-26
- * @link   http://www.gracecode.com/
+ * @author  mingcheng<i.feelinglucky@gmail.com>
+ * @date    2009-01-26
+ * @link    http://www.gracecode.com/
+ * @version $Id$
  * @change
  *
  *  2009-01-27
