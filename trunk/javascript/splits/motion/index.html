@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <script src="motion.source.js"></script>
+        <script src="motion.js"></script>
         <script>
             window.onload = function() {
                 var motionContainer = document.getElementById('motion');
@@ -155,15 +155,19 @@
                     setPosition(flag, [position.x.to, position.y.to]);
                     chart.innerHTML = '';
 
+                    // 动画逻辑
                     var d = duration.options[duration.selectedIndex || 0].value;
                     var t = type.options[type.selectedIndex || 0].value;
                     motion = new Motion(d, t);
+                    // 初始化
                     motion.onInit = function() {
                         this.fps = fps.options[fps.selectedIndex || 0].value;
                     };
+                    // 动画开始时
                     motion.onStart = function() {
                         this.timeStart = new Date();
                     };
+                    // 动画行进时
                     motion.onTweening = function() {
                         var dot = document.createElement('div');
                         var x = position.x, y = position.y;
@@ -175,6 +179,7 @@
                         setPosition(ball, [move.x, move.y]);
                         chart.appendChild(dot);
                     };
+                    // 动画已经完成时
                     motion.onComplete = function() {
                         var res = [
                             '动画类型：' + this.tween, 
@@ -184,7 +189,6 @@
                             '指定运行：' + this.duration + '毫秒',
                             '实际运行：' + (new Date() - this.timeStart) + '毫秒'
                         ];
-
                         result.innerHTML = res.join('<br />');
                     };
                     motion.start();
