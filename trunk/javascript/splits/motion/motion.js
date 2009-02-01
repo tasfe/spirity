@@ -8,6 +8,10 @@
  * @version $Id$
  * @change
  *
+ *  2009-02-01
+ *      将 setTimeout 改成了 setInterval 方式，详情参见
+ *         @see http://ejohn.org/blog/how-javascript-timers-work/
+ *
  *  2009-01-27
  *      调整接口，优化代码
  *
@@ -19,6 +23,9 @@
     /**
      * Easing Equations
      *
+     * 参考 YUI 的动画组件
+     *
+     * @see http://developer.yahoo.com/yui/animation/
      * @see http://www.robertpenner.com/profmx
      */
     var Tween = {
@@ -166,25 +173,23 @@
         }
     };
 
-
     var _Tweening = function() {
-        if (this.tweening) { return; }
-        var _self = this, f = arguments.callee;
-
+        // 动画进行时的回调
         if ('function' == typeof this.onTweening) {
             this.onTweening.call(this);
         }
 
-        if (this.current < this.frames) {
-            this.timer = setTimeout(function() {f.call(_self);}, this.duration/this.frames);
-        } else {
-            this.tweening = false;
+        if (this.current >= this.frames) {
+            this.stop();
+            // 动画完成后的回调
             if ('function' == typeof this.onComplete) {
                 this.onComplete.call(this);
             }
+            return;
         }
+
         this.current++;
-    }
+    };
 
     /**
      * @param Int duration 过程动画时间
@@ -220,11 +225,14 @@
         if ('function' == typeof this.onStart) {
             this.onStart.call(this);
         }
-        _Tweening.call(this);
+        var _self = this, d = this.duration / this.frames;
+        this.timer = setInterval(function() {_Tweening.call(_self);}, d);
     };
 
     proto.stop = function() {
-        clearTimeout(this.timer);
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
         this.tweening = false;
     };
 })(window);
