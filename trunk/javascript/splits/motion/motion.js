@@ -201,6 +201,8 @@
     };
 
     var proto = scope.Motion.prototype;
+
+    // 初始化
     proto.init = function() {
         if ('function' == typeof this.onInit) {
             this.onInit.call(this);
@@ -213,6 +215,7 @@
         if ('function' != typeof Tween[this.tween]) {
             this.tween = 'linear';
         }
+        // 确定动画函数，便于计算当前位置
         var f = Tween[this.tween];
         this.equation = function(from, to) {
             return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
@@ -220,6 +223,7 @@
         this.current = 1;
     };
 
+    //  开始动画
     proto.start = function() {
         this.init();
         if ('function' == typeof this.onStart) {
@@ -229,6 +233,7 @@
         this.timer = setInterval(function() {_Tweening.call(_self);}, d);
     };
 
+    // 停止动画
     proto.stop = function() {
         if (this.timer) {
             clearInterval(this.timer);
