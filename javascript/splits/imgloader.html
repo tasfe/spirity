@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <script>
+        (function(scope) {
+            // 默认配置
+            var defConfig = {
+                timeout: 5000 // 图片载入超时时间
+            };
+
+            var _loadSingleImg = function(img, addr) {
+                var _self = this;
+                img.onload = function() {
+                    img.onerror = img.onload = img.onabort = null;
+                    _self.loaded++;
+                    runCustomEvent(_self.config.onLoad, _self);
+                    _self.next();
+                };
+
+                img.onerror = function() {
+                    _self.error++;
+                    runCustomEvent(_self.config.onError, _self);
+                };
+
+                img.onabort = function() {
+                    _self.aborted++;
+                    runCustomEvent(_self.config.onAbort, _self);
+                };
+
+                this.timer = setTimeout(function() {
+                    img.src = '';
+                    _self.timeout++;
+                    img.onerror = img.onload = img.onabort = null;
+                    runCustomEvent(_self.config.onTimeout, _self);
+                    _self.next();
+                }, this.config.timeout);
+
+                img.src = addr;
+            };
+
+            scope.imgLoader = function(toload, config) {
+                this.config = config || defConfig;
+                this.toload = toload || [];
+                this.total  = this.toload.length;
+                this.loaded = this.processed = 0;
+                this.error  = this.aborted = this.timeout = 0;
+            };
+
+            var proto = scope.imgLoader.prototype;
+
+            var runCustomEvent = function(func, scope) {
+                if (typeof func == 'function') {
+                    return func.call(scope || this);
+                }
+            };
+
+            proto.load = function() {
+                this.current = this.toload.shift();
+                if (this.current && this.processed <= this.total) {
+                    this.processed++;
+                    _loadSingleImg.call(this, this.current.img, this.current.addr);
+                } else {
+                    runCustomEvent(this.config.onComplete, this);
+                };
+            };
+
+            proto.stop = function() {
+                clearTimeout(this.timer);
+            };
+
+            proto.start = function() {
+                this.load();
+            };
+
+            proto.next = function() {
+                this.stop();
+                this.start();
+            };
+        })(window);
+    </script>
+    <body>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=2" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+        <p><img alt="http://www.gracecode.com/lab/slow_image/?sleep=1" /></p>
+
+        <script>
+            var imgs = document.getElementsByTagName('img');
+            for (var toload = [], i = 0, len = imgs.length; i < len; i++) {
+                toload.push({'img': imgs[i], 'addr': imgs[i].alt});
+            };
+
+            var loader = new imgLoader(toload, {
+                onComplete: function() {
+                    alert('全部搞定，娘的累死我了！');
+                },
+                timeout: 2500
+            });
+            loader.start();
+        </script>
+    </body>
+</html>

@@ -16,10 +16,10 @@
             };
 
             document.getElementById("test1").innerHTML = 
-                '<img src="http://is.gd/fXjv" onload="javascript:alert(\'xss\')" />';
+                '<img src="http://is.gd/fXjv" onload="javascript:alert(/xss/)" />';
 
             document.getElementById("test2").innerHTML = 
-                htmlspecialchars('<img src="http://is.gd/fXjv" onload="javascript:javascript:alert(\'xss\')" />');
+                htmlspecialchars('<img src="http://is.gd/fXjv" onload="javascript:javascript:alert(/xss/)" />');
         </script>
     </body>
 </html>
