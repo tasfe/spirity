@@ -1,0 +1,57 @@
+* 获取客户端基本信息(浏览器版本/OS version/客户端IP/代理IP/Referer/Request URI);
+* Ajax库支持
+* 窃取客户端Cookie
+* 跨域窃取Cookie（比如我在淘宝上窃取百度的cookie）
+* 灵活的XSRF模块
+* 客户端DDOS攻击（发起大量请求，CC）
+* hook表单提交（Form Sniffer 功能）
+* hook 任意javascript 函数；注入任意javascript函数
+* 一个优秀的Javascript Keylogger;
+* 支持数据加密传输(出于性能考虑，目前暂时使用base64)
+* 注入iframe模块（可以实施挂马）
+* 模块之间互相通信
+* 独特的客户端水印，使得删除cookie、切换浏览器也能识别到用户
+* logger虚拟守护进程（定时检查所有模块的输出，并记录到服务器）
+    窃取剪贴板的内容（仅仅支持IE）
+* 客户端地理位置查询
+* 在线的web代理，支持自定义cookie访问站点（第三方实现）
+* 实时命令模块
+* 扫描浏览器的历史记录
+    一个基于JS的端口扫描器
+* 获取客户端软件信息（比如是否安装了QQ、迅雷等）
+* 邮件通知模块
+
+Client-Side：
+* GIFAR支持
+    ClickJacking/XSIO支持
+    XSS Worm Module
+    获取显示器分辨率
+    钓鱼模块（可以欺骗用户从而获取密码等）
+    获取客户端真实IP
+* 更加强大的扫描模块
+    JS压缩、变形（让anehta更小巧）
+    Cross Site Sql Injection 模块（对注射的支持）
+* 客户端代理模块（直接利用客户端访问网站，这在攻击内部系统时很有用）
+* 检查IM或者网站的登录状态
+* 更多的子窗口控制功能
+* 调用activex的一些方法
+* pipeline（管道功能，具体作用暂且保密）
+* 验证码的支持
+    将大量功能集成到flash和java中
+    Heap Spray 、 Heap Fengshui 模块，帮助更方便写客户端exploit
+    升级和传播模块
+    支持加载第三方攻击库，比如attackAPI
+    新技术的支持（HTML5,AS3,CSS3等）
+    ......
+
+Server-Side:
+* 通过IM自动通知Master
+* 通过手机短信自动通知Master
+    客户端session保持以及session fixation支持
+* 良好的多主机管理以及更加友好的界面
+    feed.js 生成器
+* 数据库支持(Mysql 或 sqlite);
+    更加友好的log输出
+
+Both Client and Server:
+* 窃取客户端文件(Ajax Upload)
