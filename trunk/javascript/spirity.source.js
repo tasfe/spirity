@@ -1,8 +1,6 @@
 // vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8
 /**
- * Spirity.source.js
- *
- * Spirity - Javascript 安全库
+ * Spirity - Another Javascript Framework
  *
  * @author feelinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
@@ -12,8 +10,15 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
- * [+] 2009-03-07
- *      决定库的基本组件
+ * [+] 2009-03-11
+ *      增加 bom.load.script, bom.random 方法
+ *      增加 crypto 组件，补充 base64 相关函数
+ *
+ * [!] 2009-03-11
+ *      删除 lang.json 组件
+ *
+ * [!] 2009-03-07
+ *      组件库的基本构成
  *
  * [+] 2008-12-22
  *     增加 lang.format
@@ -24,86 +29,22 @@
 (function (scope, namespace) {
     /**
      * Provides the language utilites and extensions used by the library
-     *
      */
     var lang = (function() {
-        // 类型判断
-        var type = function (obj) {
+        var getType = function (obj) {
             if (obj === null) return 'null';
             if (obj === undefined) return 'undefined';
             return (Object.prototype.toString.call(obj).match(/s(.+)]$/)[1]).toLowerCase();
         };
 
-        // HTML 转义和反转义
-        var html = {
-            encode: function(str) {
-                var div  = document.createElement('div');
-                var text = document.createTextNode(str);
-                div.appendChild(text);
-                return div.innerHTML;
-            },
-
-            decode: function(str) {
-                var div = document.createElement('div');
-                div.innerHTML = str;
-                return div.innerText;
-            }
-        };
-
-        // JSON 相关工具
-        var json = {
-            encode: function(object) {
-                var type = typeof object;
-                switch (type) {
-                    case 'undefined': case 'function': case 'unknown': 
-                    return;
-                    case 'boolean': return object.toString();
-                }
-
-                if (object === null) {
-                    return 'null';
-                }
-
-                var results = [];
-                for (var property in object) {
-                    results.push('"' + property + '": '+object[property]);
-                }
-
-                return '{' + results.join(', ') + '}';
-            },
-
-            decode: function(json, enforce) {
-                try {
-                    if (lang.is.json(json) || enforce) {
-                        return eval('(' + json + ')');
-                    }
-                } catch (e) {
-                    throw new SyntaxError('Badly formed JSON string: ' + json.toString());
-                }
-            }
-        };
-
-        var base64 = {
-            encode: function() {
-            
-            
-            },
-
-            decode: function() {
-            
-            }
-        };
-
         return {
-            getType: type, html: html, json: json, base64: base64
+            getType: getType
         };
     })();
 
 
     /**
      * 浏览器相关操作
-     *
-     *
      */
     var bom = {
         // Cookie 相关的操作
@@ -145,8 +86,13 @@
 
         // 载入外部资源
         load: {
-            script: function(url, config) {
-            
+            script: function(url, encode) {
+                var el = document.createElement('script');
+                el.src = url + '?t=' + new Date().getTime();
+                if (encode) {
+                    el.setAttribute = encode;
+                }
+                (document.getElementsByTagName('head')[0]).appendChild(el);
             },
 
             css: function(url, config) {
@@ -154,45 +100,36 @@
             },
 
             framework: (function() {
-            
                 return function(name, config) {
-                
                 
                 }
             })()
-        },
+       },
 
-		getdomain: function() {
-			var host = arguments[1] || location.hostname; 
-			var da   = host.split('.'), len = da.length;
-			var deep = arguments[0]|| (len<3?0:1);
-			if (deep>=len || len-deep<2)
-				deep = len-2;
-			return da.slice(deep).join('.');
-		},
+       random: function(length, seed) {
+           if (!length) length = 8;
+           if (!seed) seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+           for(var str = '', i = 0, len = seed.length; i < length; i++) {
+                str += seed.charAt(Math.floor((Math.random() * len)));
+           }
+           return str;
+       },
 		
-       // 剪切板操作
        clipboard: {
 
-
        }
-    }; // bom
+    };
 
 
-    /**
-     * DOM 操作
-     */
     var dom = (function() {
         return {
         
-        
         };
-    })(); // dom
+    })();
 
 
     /**
      * 事件
-     *
      */
     var event = (function() {
         return {
@@ -204,19 +141,18 @@
             unbind: function(el, func) {
             
             }
-        }
-    })(); // event
+        };
+    })();
 
 
     /**
      * 异步请求（Ajax）
-     *
      */
     var xhr = (function() {
         var xhr;
 
         return xhr;
-    })(); // xhr
+    })();
 
 
     var scanner = {
@@ -228,8 +164,19 @@
             gecko: !!document.getBoxObjectFor
         },
 
-        // 分辨率
-        screen: {width: screen.width, height: screen.height},
+        getdomain: function() {
+			var host = arguments[1] || location.hostname; 
+			var da   = host.split('.'), len = da.length;
+			var deep = arguments[0]|| (len<3?0:1);
+			if (deep>=len || len-deep<2)
+				deep = len-2;
+			return da.slice(deep).join('.');
+		},
+
+        screen: {
+            width: screen.width,
+            height: screen.height
+        },
 
         // 操作系统
         os: {
@@ -267,26 +214,17 @@
             prototype: false,
             jquery: false,
             mootools: false,
+            ext: false,
             dojo: false
         }
     };
 
-
-    /**
-     * 记录器
-     *
-     */
     var logger = {
         key: function(el, type) {
         
         }
-    }
+    };
 
-
-    /**
-     * 注入
-     *
-     */
     var inject = {
         jacking: function(type, el) {
         
@@ -302,9 +240,130 @@
         }
     };
 
+
+    var crypto = (function() {
+        var html = {
+            encode: function(str) {
+                var div  = document.createElement('div');
+                var text = document.createTextNode(str);
+                div.appendChild(text);
+                return div.innerHTML;
+            },
+
+            decode: function(str) {
+                var div = document.createElement('div');
+                div.innerHTML = str;
+                return div.innerText;
+            }
+        };
+
+        //JavaScript　base64_decode
+        // Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
+        // Version: 1.0
+        // LastModified: Dec 25 1999
+        // This library is free.　You can redistribute it and/or modify it.
+        var base64 = (function () {
+            var encodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+            var decodeChars = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+							   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+							   -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57,
+							   58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1,  0,  1,  2,  3,  4,  5,  6,
+								7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+							   25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+							   37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1,
+							   -1, -1];
+
+            return {
+                encode: function(str) {
+                    var out = "", len = str.length, i = 0; 
+                    var c1, c2, c3;
+                    while (i < len) {
+                        c1 = str.charCodeAt(i++) & 0xff;
+                        if (i == len) {
+                            out += encodeChars.charAt(c1 >> 2);
+                            out += encodeChars.charAt((c1 & 0x3) << 4);
+                            out += "==";
+                            break;
+                        }
+                        c2 = str.charCodeAt(i++);
+                        if (i == len) {
+                            out += encodeChars.charAt(c1 >> 2);
+                            out += encodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                            out += encodeChars.charAt((c2 & 0xF) << 2);
+                            out += '=';
+                            break;
+                        }
+                        c3 = str.charCodeAt(i++);
+
+                        out += encodeChars.charAt(c1 >> 2);
+                        out += encodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                        out += encodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+                        out += encodeChars.charAt(c3 & 0x3F);
+                    }
+
+                    return out;
+                },
+
+                decode: function(str) {
+                   var out = "", len = str.length, i = 0; 
+                   var c1, c2, c3, c4;
+                   while (i < len) {
+                       do {
+                           c1 = decodeChars[str.charCodeAt(i++) & 0xff]
+                       } while (i < len && c1 == -1);
+
+                       if (c1 == -1) {
+                           break;
+                       }
+
+                       do {
+                           c2 = decodeChars[str.charCodeAt(i++) & 0xff]
+                       } while (i < len && c2 == -1);
+
+                       if (c2 == -1) {
+                           break;
+                       }
+
+                       out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
+
+                       do {
+                           c3 = str.charCodeAt(i++) & 0xff;
+                           if (c3 == 61) return out;
+                           c3 = decodeChars[c3];
+                       } while (i < len && c3 == -1);
+
+                       if (c3 == -1) {
+                           break;
+                       }
+
+                       out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
+
+                       do {
+                           c4 = str.charCodeAt(i++) & 0xff;
+                           if (c4 == 61) return out;
+                           c4 = decodeChars[c4]
+                       } while (i < len && c4 == -1);
+
+                       if (c4 == -1) {
+                           break;
+                       }
+
+                       out += String.fromCharCode(((c3 & 0x03) << 6) | c4)
+                   }
+
+                   return out;
+                }
+            };
+        })();
+
+        return {
+            html: html, base64: base64
+        };
+    })();
+
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event, xhr: xhr,
-        scanner: scanner, logger: logger, inject: inject,
+        scanner: scanner, logger: logger, inject: inject, crypto: crypto,
         "version": '$Id$'
     };
 })(window, 'spirity');
