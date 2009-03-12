@@ -8,24 +8,30 @@
     <body>
         <script src="spirity.source.js" type="text/javascript"></script>
         <script type="text/javascript">
-            console.dir(spirity);
-            //spirity.bom.load.script('http://www.gracecode.com/javascript/jquery.js');
-            console.info(spirity.bom.random(10));
-            console.info(spirity.crypto.base64.encode('hello, world!'));
-            console.info(spirity.crypto.base64.decode('aGVsbG8sIHdvcmxkIQ=='));
+            console.dir(spirity); // @todo 编写测试用例
+        </script>
+        <h4>
+        随机数测试：<script type="text/javascript">document.write(spirity.bom.random(10));</script>
+        </h4>
 
+        <h4>
+        base64.encode('hello, world!') // 'aGVsbG8sIHdvcmxkIQ==' //
+        <script type="text/javascript">
+            document.write(spirity.crypto.base64.encode('hello, world!'));
+        </script>
+        </h4>
 
-            /*
-            spirity.lang.genericize(Array, 'forEach');
-            Array.forEach(['0', '1', '2'], function(c) {
-                console.info(c);
-            });
-            */
-            /*
-            console.info(spirity.lang.is.func(function() {}));
-            console.info(spirity.lang.json.decode('{}'));
-             */
-            //spirity.bom.cookie.set('a', '1', '1');
+        <h4>
+        base64.decode('aGVsbG8sIHdvcmxkIQ==') // 'hello, world!' //
+        <script type="text/javascript">
+            document.write(spirity.crypto.base64.decode('aGVsbG8sIHdvcmxkIQ=='));
+        </script>
+        </h4>
+        <div style="width:40px; height: 40px; background: red;" id="test"></div>
+        <script>
+            var a = function(e) {alert(this)};
+            spirity.event.bind('test', 'click', a, window);
+            spirity.event.unbind('test', 'click', a);
         </script>
     </body>
 </html>
