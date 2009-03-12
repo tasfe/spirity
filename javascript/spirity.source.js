@@ -10,6 +10,12 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-03-12
+ *      增加 event.bind, event.unbind, dom.get 方法
+ *
+ * [*] 2009-03-12
+ *      改进 lang.type 方法
+ *
  * [+] 2009-03-11
  *      增加 bom.load.script, bom.random 方法
  *      增加 crypto 组件，补充 base64 相关函数
@@ -34,17 +40,17 @@
         var getType = function (obj) {
             if (obj === null) return 'null';
             if (obj === undefined) return 'undefined';
-            return (Object.prototype.toString.call(obj).match(/s(.+)]$/)[1]).toLowerCase();
+            return (Object.prototype.toString.call(obj).match(/\s(.+)\]$/)[1]).toLowerCase();
         };
 
         return {
-            getType: getType
+            type: getType
         };
     })();
 
 
     /**
-     * 浏览器相关操作
+     * 浏览器相关
      */
     var bom = {
         // Cookie 相关的操作
@@ -77,7 +83,7 @@
 			    bom.cookie.set(name, '', -1);
             },
 
-            // 持久某个 Cookie 的值
+            // 持久某个 Cookie
             persist: function(name) {
                 var value = this.get(name);
                 return value ? this.set(name, value, 365) : false;
@@ -113,33 +119,61 @@
                 str += seed.charAt(Math.floor((Math.random() * len)));
            }
            return str;
-       },
-		
-       clipboard: {
-
        }
     };
 
 
     var dom = (function() {
         return {
-        
+            get: function(el) {
+                return 'string' == lang.type(el) ? document.getElementById(el) : el;
+            }
         };
     })();
 
 
-    /**
-     * 事件
-     */
     var event = (function() {
         return {
-            bind: function(el, type) {
-            
-            
+            bind: function(el, type, func) {
+                el = dom.get(el);
+                if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
+                    return;
+                }
+                if (el.addEventListener) {
+                    el.addEventListener(type, func, false);
+                } else if (el.attachEvent) {
+                    el.attachEvent('on' + type, func);
+                } else {
+                    var handler = el['on' + type];
+                    if (handler) {
+                        el['on' + type] = function(event){ 
+                            handler(event);
+                            func(event);
+                        }
+                    } else {
+                        el['on' + type] = function(event) {
+                            func(event);
+                        }
+                    }
+                }
             },
 
-            unbind: function(el, func) {
-            
+            unbind: function(el, type, func) {
+                el = dom.get(el);
+                if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
+                    return;
+                }
+
+                if (el.removeEventListener) {  
+                    el.removeEventListener(type, func, false);
+                } else if (o.detachEvent) {
+                    el.detachEvent('on' + type, func);
+                } else {
+                    var handler = el['on' + type];
+                    if (handler) {
+                        el['on' + type] = function() {};
+                    }
+                }
             }
         };
     })();
@@ -156,7 +190,6 @@
 
 
     var scanner = {
-        // 浏览器
         browser: {
             ie: !!(window.attachEvent && !window.opera),
             opera: !!window.opera,
@@ -194,7 +227,8 @@
         })(),
         */
 
-        // 获取浏览器的插件 @TODO 支持其他浏览器
+       // 获取浏览器的插件
+       // @TODO 支持其他浏览器
         plugins: (function() {
             var plugins = [];
             if (navigator.plugins) {
@@ -219,15 +253,16 @@
         }
     };
 
+
     var logger = {
         key: function(el, type) {
         
         }
     };
 
+
     var inject = {
         jacking: function(type, el) {
-        
 
         },
 
@@ -239,7 +274,6 @@
         
         }
     };
-
 
     var crypto = (function() {
         var html = {
@@ -364,6 +398,6 @@
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event, xhr: xhr,
         scanner: scanner, logger: logger, inject: inject, crypto: crypto,
-        "version": '$Id$'
+        version: '$Id$'
     };
 })(window, 'spirity');
