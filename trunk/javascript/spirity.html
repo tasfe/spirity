@@ -30,8 +30,9 @@
         <div style="width:40px; height: 40px; background: red;" id="test"></div>
         <script>
             var a = function(e) {alert(this)};
-            spirity.event.bind('test', 'click', a, window);
-            spirity.event.unbind('test', 'click', a);
+            //spirity.event.bind('test', 'click', a, window);
+            //spirity.event.unbind('test', 'click', a);
+            spirity.dom.insertAtfer('test', document.createElement('p'));
         </script>
     </body>
 </html>
