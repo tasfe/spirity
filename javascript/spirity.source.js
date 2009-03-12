@@ -5,13 +5,15 @@
  * @author feelinglucky<i.feelinglucky@gmail.com>
  * @link   http://www.gracecode.com/
  * @link   http://spirity.googlecode.com/
- * @since  2008-11-09
  *
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-03-13
+ *      增加 scanner.os 检测模块
+ *
  * [+] 2009-03-12
- *      增加 event.bind, event.unbind, dom.get 方法
+ *      增加 event.bind, event.unbind, dom.get, dom.insertAtfer 方法
  *
  * [*] 2009-03-12
  *      改进 lang.type 方法
@@ -33,9 +35,7 @@
  *     增加 bom 和 lang 模块
  */
 (function (scope, namespace) {
-    /**
-     * Provides the language utilites and extensions used by the library
-     */
+
     var lang = (function() {
         var getType = function (obj) {
             if (obj === null) return 'null';
@@ -53,7 +53,6 @@
      * 浏览器相关
      */
     var bom = {
-        // Cookie 相关的操作
         cookie: {
             set: function(name, value, expire, domain, path) {
                 var value  = escape(value);
@@ -122,11 +121,16 @@
        }
     };
 
-
     var dom = (function() {
         return {
             get: function(el) {
                 return 'string' == lang.type(el) ? document.getElementById(el) : el;
+            },
+
+            // http://soopergeek.blogspot.com/2007/10/javascript-insertafter.html
+            insertAtfer: function(ref, n) {
+                ref = this.get(ref);
+                ref.parentNode[ref.nextSibling ? 'insertBefore' : 'appendChild'](n, ref.nextSibling || {});
             }
         };
     })();
@@ -211,11 +215,15 @@
             height: screen.height
         },
 
-        // 操作系统
-        os: {
+        os: (function() {
+            var pf = navigator.platform.toLocaleLowerCase();
+            return {
+                win32: 'win32' == pf || 'windows' == pf,
+                mac: -1 == pf.indexOf('mac') ? false : true,
+                unix: 'x11' == pf && !this.win32 && !this.mac
+            };
+        })(),
         
-        },
-
         /*
         // 检测 IE 载入的 ActiveX 组件
         activex: (function() {
