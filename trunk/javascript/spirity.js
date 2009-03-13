@@ -10,6 +10,9 @@
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
  * [+] 2009-03-13
+ *      增加 bom.load.css 方法
+ *
+ * [+] 2009-03-13
  *      增加 scanner.os 检测模块
  *
  * [+] 2009-03-12
@@ -91,17 +94,17 @@
 
         // 载入外部资源
         load: {
-            script: function(url, encode) {
+            script: function(url ) {
                 var el = document.createElement('script');
                 el.src = url + '?t=' + new Date().getTime();
-                if (encode) {
-                    el.setAttribute = encode;
-                }
                 (document.getElementsByTagName('head')[0]).appendChild(el);
             },
 
-            css: function(url, config) {
-            
+            css: function(url) {
+                var el = document.createElement('link');
+                el.setAttribute('rel',  'stylesheet');
+                el.setAttribute('type', 'text/css');
+                el.setAttribute('href', url + '?t=' + new Date().getTime());
             },
 
             framework: (function() {
