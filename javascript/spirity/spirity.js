@@ -9,6 +9,9 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-03-14
+ *      增加 event(getEvent|stopEvent|getCharCode|getPageX|getPageY) 方法 - from YUI
+ *
  * [!] 2009-03-14
  *      更改 scanner 模块名称为 sniffer, 增加 lang.parseURL 方法
  *
@@ -33,12 +36,6 @@
  *
  * [!] 2009-03-07
  *      组件库的基本构成
- *
- * [+] 2008-12-22
- *     增加 lang.format
- *
- * [+] 2008-12-21
- *     增加 bom 和 lang 模块
  */
 (function (scope, namespace) {
 
@@ -50,27 +47,27 @@
         },
 
         parseURL: function (url) {
-            var a =  document.createElement('a');
-            a.href = url;
+            var link = document.createElement('a');
+            link.href = url;
             return {
                 source: url,
-                protocol: a.protocol.replace(':',''),
-                host: a.hostname,
-                port: a.port,
-                query: a.search,
+                protocol: link.protocol.replace(':', ''),
+                host: link.hostname,
+                port: link.port,
+                query: link.search,
                 params: (function() {
-                    for (var ret = {}, seg = a.search.replace(/^\?/,'').split('&'), len = seg.length, i = 0, s; i < len; i++) {
+                    for (var ret = {}, seg = link.search.replace(/^\?/,'').split('&'), len = seg.length, i = 0, s; i < len; i++) {
                         if (!seg[i]) { continue; }
                         s = seg[i].split('=');
                         ret[s[0]] = s[1];
                     }
                     return ret;
                 })(),
-                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
-                hash: a.hash.replace('#',''),
-                path: a.pathname.replace(/^([^\/])/,'/$1'),
-                relative: (a.href.match(/tp:\/\/[^\/]+(.+)/) || [,''])[1],
-                segments: a.pathname.replace(/^\//,'').split('/')
+                file: (link.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+                hash: link.hash.replace('#',''),
+                path: link.pathname.replace(/^([^\/])/,'/$1'),
+                relative: (link.href.match(/tp:\/\/[^\/]+(.+)/) || [,''])[1],
+                segments: link.pathname.replace(/^\//,'').split('/')
             };
         }
     };
@@ -82,12 +79,6 @@
             opera: !!window.opera,
             webkit: !navigator.taintEnabled,
             gecko: !!document.getBoxObjectFor
-        },
-
-
-        screen: {
-            width: screen.width,
-            height: screen.height
         },
 
         os: (function() {
@@ -142,7 +133,8 @@
         })(),
         */
 
-        location: location
+        screen: window.screen,
+        location: window.location
     };
 
 
@@ -198,18 +190,19 @@
 
             framework: (function() {
                 // from http://code.google.com/intl/zh-CN/apis/ajaxlibs/documentation/index.html
-                var loc = {
-                    'yui': 'http://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yuiloader/yuiloader-min.js',
-                    'mootools': 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools-yui-compressed.js',
-                    'dojo': 'http://ajax.googleapis.com/ajax/libs/dojo/1.2.3/dojo/dojo.xd.js',
-                    'swfobject': 'http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js',
-                    'jquery': 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js',
-                    'prototype': 'http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype.js'
+                var base = 'http://ajax.googleapis.com/ajax/libs/';
+                var path = {
+                    'yui': base + 'yui/2.7.0/build/yuiloader/yuiloader-min.js',
+                    'mootools': base + 'mootools/1.2.1/mootools-yui-compressed.js',
+                    'dojo': base + 'dojo/1.2.3/dojo/dojo.xd.js',
+                    'swfobject': base + 'swfobject/2.1/swfobject.js',
+                    'jquery': base + 'jquery/1.3.2/jquery.min.js',
+                    'prototype': base + 'prototype/1.6.0.3/prototype.js'
                 };
 
                 return function(name) {
-                    var toload = loc[name.toLowerCase()];
-                    if (toload) this.script(toload, true);
+                    var loadPath = path[name.toLowerCase()];
+                    if (loadPath) this.script(loadPath, true);
                 }
             })()
        },
@@ -280,6 +273,65 @@
                     el['on' + type] = function() {};
                 }
             }
+        },
+
+        getEvent: function (event) {
+            var event = event || window.event;
+            if (!event) {
+                var c = this.getEvent.caller;
+                while (c) {
+                    event = c.arguments[0];
+                    if (event && Event == event.constructor) {
+                        break;
+                    }
+                    c = c.caller;
+                }
+            }
+
+            return event;
+        },
+
+        stopEvent: function (event) {
+            event = event || this.getEvent(event);
+
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            } else {
+                event.cancelBubble = true;
+            }
+
+            if (event.preventDefault) {
+                event.preventDefault();
+            } else {
+                event.returnValue = false;
+            }
+        },
+
+        getCharCode: function(event) {
+            event = event || this.getEvent(event);
+            var code = event.keyCode || event.charCode || 0;
+            if (sniffer.broswer.webkit && (code in webkitKeymap)) {
+                code = webkitKeymap[code];
+            }
+            return code;
+        },
+
+        getPageX: function(event) {
+            event = event || this.getEvent(event);
+            var x = event.pageX || event.clientX || 0;
+            if ( Spirity.broswer.ua.explorer) {
+                x += this._getScroll()[1];
+            }
+            return x;
+        },
+
+        getPageY: function(event) {
+            event = event || this.getEvent(event);
+            var y = event.pageY || event.clientY || 0;
+            if (sniffer.broswer.ie) {
+                y += this._getScroll()[0];
+            }
+            return y;
         }
     };
 
@@ -336,6 +388,7 @@
         // Version: 1.0
         // LastModified: Dec 25 1999
         // This library is free.　You can redistribute it and/or modify it.
+        /*
         var base64 = (function () {
             var encodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
             var decodeChars = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -429,9 +482,10 @@
                 }
             };
         })();
+        */
 
         return {
-            html: html, base64: base64
+            html: html //, base64: base64
         };
     })();
 
