@@ -438,6 +438,6 @@
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event, xhr: xhr,
         sniffer: sniffer, logger: logger, injector: injector, crypto: crypto,
-        version: '$Id$'
+        version: '$Id: spirity.js 193 2009-03-14 14:43:51Z i.feelinglucky $'
     };
 })(window, 'spirity');
