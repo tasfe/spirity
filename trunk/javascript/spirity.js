@@ -9,8 +9,11 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [!] 2009-03-14
+ *      更改 scanner 模块名称为 sniffer, 增加 lang.parseURL 方法
+ *
  * [+] 2009-03-13
- *      增加 bom.load.css 方法
+ *      增加 bom.load.css, bom.load.framework 方法
  *
  * [+] 2009-03-13
  *      增加 scanner.os 检测模块
@@ -39,164 +42,41 @@
  */
 (function (scope, namespace) {
 
-    var lang = (function() {
-        var getType = function (obj) {
+    var lang = {
+        type: function (obj) {
             if (obj === null) return 'null';
             if (obj === undefined) return 'undefined';
             return (Object.prototype.toString.call(obj).match(/\s(.+)\]$/)[1]).toLowerCase();
-        };
-
-        return {
-            type: getType
-        };
-    })();
-
-
-    /**
-     * 浏览器相关
-     */
-    var bom = {
-        cookie: {
-            set: function(name, value, expire, domain, path) {
-                var value  = escape(value);
-                    value += (domain) ? '; domain=' + domain : '';
-                    value += (path) ? "; path=" + path : '';
-
-                if (expire) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (expire * 86400000));
-                    value += "; expires=" + date.toGMTString();
-                }
-
-                try {
-                    document.cookie = name + "=" + value;
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            },
-
-            get: function(name) {
-                var value = document.cookie.match('(?:^|;)\\s*'+name+'=([^;]*)');
-                return value ? unescape(value[1]) : '';
-            },
-
-            remove: function(name) {
-			    bom.cookie.set(name, '', -1);
-            },
-
-            // 持久某个 Cookie
-            persist: function(name) {
-                var value = this.get(name);
-                return value ? this.set(name, value, 365) : false;
-            }
         },
 
-        // 载入外部资源
-        load: {
-            script: function(url ) {
-                var el = document.createElement('script');
-                el.src = url + '?t=' + new Date().getTime();
-                (document.getElementsByTagName('head')[0]).appendChild(el);
-            },
-
-            css: function(url) {
-                var el = document.createElement('link');
-                el.setAttribute('rel',  'stylesheet');
-                el.setAttribute('type', 'text/css');
-                el.setAttribute('href', url + '?t=' + new Date().getTime());
-            },
-
-            framework: (function() {
-                return function(name, config) {
-                
-                }
-            })()
-       },
-
-       random: function(length, seed) {
-           if (!length) length = 8;
-           if (!seed) seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-           for(var str = '', i = 0, len = seed.length; i < length; i++) {
-                str += seed.charAt(Math.floor((Math.random() * len)));
-           }
-           return str;
-       }
+        parseURL: function (url) {
+            var a =  document.createElement('a');
+            a.href = url;
+            return {
+                source: url,
+                protocol: a.protocol.replace(':',''),
+                host: a.hostname,
+                port: a.port,
+                query: a.search,
+                params: (function() {
+                    for (var ret = {}, seg = a.search.replace(/^\?/,'').split('&'), len = seg.length, i = 0, s; i < len; i++) {
+                        if (!seg[i]) { continue; }
+                        s = seg[i].split('=');
+                        ret[s[0]] = s[1];
+                    }
+                    return ret;
+                })(),
+                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+                hash: a.hash.replace('#',''),
+                path: a.pathname.replace(/^([^\/])/,'/$1'),
+                relative: (a.href.match(/tp:\/\/[^\/]+(.+)/) || [,''])[1],
+                segments: a.pathname.replace(/^\//,'').split('/')
+            };
+        }
     };
 
-    var dom = (function() {
-        return {
-            get: function(el) {
-                return 'string' == lang.type(el) ? document.getElementById(el) : el;
-            },
 
-            // http://soopergeek.blogspot.com/2007/10/javascript-insertafter.html
-            insertAtfer: function(ref, n) {
-                ref = this.get(ref);
-                ref.parentNode[ref.nextSibling ? 'insertBefore' : 'appendChild'](n, ref.nextSibling || {});
-            }
-        };
-    })();
-
-
-    var event = (function() {
-        return {
-            bind: function(el, type, func) {
-                el = dom.get(el);
-                if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
-                    return;
-                }
-                if (el.addEventListener) {
-                    el.addEventListener(type, func, false);
-                } else if (el.attachEvent) {
-                    el.attachEvent('on' + type, func);
-                } else {
-                    var handler = el['on' + type];
-                    if (handler) {
-                        el['on' + type] = function(event){ 
-                            handler(event);
-                            func(event);
-                        }
-                    } else {
-                        el['on' + type] = function(event) {
-                            func(event);
-                        }
-                    }
-                }
-            },
-
-            unbind: function(el, type, func) {
-                el = dom.get(el);
-                if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
-                    return;
-                }
-
-                if (el.removeEventListener) {  
-                    el.removeEventListener(type, func, false);
-                } else if (o.detachEvent) {
-                    el.detachEvent('on' + type, func);
-                } else {
-                    var handler = el['on' + type];
-                    if (handler) {
-                        el['on' + type] = function() {};
-                    }
-                }
-            }
-        };
-    })();
-
-
-    /**
-     * 异步请求（Ajax）
-     */
-    var xhr = (function() {
-        var xhr;
-
-        return xhr;
-    })();
-
-
-    var scanner = {
+    var sniffer = {
         browser: {
             ie: !!(window.attachEvent && !window.opera),
             opera: !!window.opera,
@@ -204,14 +84,6 @@
             gecko: !!document.getBoxObjectFor
         },
 
-        getdomain: function() {
-			var host = arguments[1] || location.hostname; 
-			var da   = host.split('.'), len = da.length;
-			var deep = arguments[0]|| (len<3?0:1);
-			if (deep>=len || len-deep<2)
-				deep = len-2;
-			return da.slice(deep).join('.');
-		},
 
         screen: {
             width: screen.width,
@@ -254,15 +126,172 @@
         })(),
 
         // 检测已经载入的 Javascript 框架
-        framework: {
-            yui: false,
-            prototype: false,
-            jquery: false,
-            mootools: false,
-            ext: false,
-            dojo: false
+        /*
+        framework: (function () {
+            var checkDefined = function (obj) {
+                return lang.type(obj) == 'undefined' ? true : false;
+            }
+            
+            return {
+                yui: typeof YAHOO == 'undefined' ? false : true,
+                prototype: false,
+                jquery: false,
+                mootools: false,
+                dojo: false
+            };
+        })(),
+        */
+
+        location: location
+    };
+
+
+    var bom = {
+        cookie: {
+            set: function(name, value, expire, domain, path) {
+                var value  = escape(value);
+                    value += (domain) ? '; domain=' + domain : '';
+                    value += (path) ? "; path=" + path : '';
+
+                if (expire) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (expire * 86400000));
+                    value += "; expires=" + date.toGMTString();
+                }
+
+                try {
+                    document.cookie = name + "=" + value;
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            },
+
+            get: function(name) {
+                var value = document.cookie.match('(?:^|;)\\s*'+name+'=([^;]*)');
+                return value ? unescape(value[1]) : '';
+            },
+
+            remove: function(name) {
+			    bom.cookie.set(name, '', -1);
+            },
+
+            persist: function(name) {
+                var value = this.get(name);
+                return value ? this.set(name, value, 365) : false;
+            }
+        },
+
+        load: {
+            script: function(url, cache) {
+                var el = document.createElement('script');
+                el.src = url + (cache ? '' : '?t=' + new Date().getTime());
+                (document.getElementsByTagName('head')[0]).appendChild(el);
+            },
+
+            css: function(url) {
+                var el = document.createElement('link');
+                el.setAttribute('rel',  'stylesheet');
+                el.setAttribute('type', 'text/css');
+                el.setAttribute('href', url + '?t=' + new Date().getTime());
+            },
+
+            framework: (function() {
+                // from http://code.google.com/intl/zh-CN/apis/ajaxlibs/documentation/index.html
+                var loc = {
+                    'yui': 'http://ajax.googleapis.com/ajax/libs/yui/2.7.0/build/yuiloader/yuiloader-min.js',
+                    'mootools': 'http://ajax.googleapis.com/ajax/libs/mootools/1.2.1/mootools-yui-compressed.js',
+                    'dojo': 'http://ajax.googleapis.com/ajax/libs/dojo/1.2.3/dojo/dojo.xd.js',
+                    'swfobject': 'http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js',
+                    'jquery': 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js',
+                    'prototype': 'http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.3/prototype.js'
+                };
+
+                return function(name) {
+                    var toload = loc[name.toLowerCase()];
+                    if (toload) this.script(toload, true);
+                }
+            })()
+       },
+
+       random: function(length, seed) {
+           if (!length) length = 8;
+           if (!seed) seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+           for(var str = '', i = 0, len = seed.length; i < length; i++) {
+                str += seed.charAt(Math.floor((Math.random() * len)));
+           }
+           return str;
+       }
+    };
+
+    var dom = (function() {
+        return {
+            get: function(el) {
+                return 'string' == lang.type(el) ? document.getElementById(el) : el;
+            },
+
+            // http://soopergeek.blogspot.com/2007/10/javascript-insertafter.html
+            insertAtfer: function(ref, n) {
+                ref = this.get(ref);
+                ref.parentNode[ref.nextSibling ? 'insertBefore' : 'appendChild'](n, ref.nextSibling || {});
+            }
+        };
+    })();
+
+
+    var event = {
+        bind: function(el, type, func) {
+            el = dom.get(el);
+            if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
+                return;
+            }
+            if (el.addEventListener) {
+                el.addEventListener(type, func, false);
+            } else if (el.attachEvent) {
+                el.attachEvent('on' + type, func);
+            } else {
+                var handler = el['on' + type];
+                if (handler) {
+                    el['on' + type] = function(event){ 
+                        handler(event);
+                        func(event);
+                    }
+                } else {
+                    el['on' + type] = function(event) {
+                        func(event);
+                    }
+                }
+            }
+        },
+
+        unbind: function(el, type, func) {
+            el = dom.get(el);
+            if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
+                return;
+            }
+
+            if (el.removeEventListener) {  
+                el.removeEventListener(type, func, false);
+            } else if (o.detachEvent) {
+                el.detachEvent('on' + type, func);
+            } else {
+                var handler = el['on' + type];
+                if (handler) {
+                    el['on' + type] = function() {};
+                }
+            }
         }
     };
+
+
+    /**
+     * 异步请求（Ajax）
+     */
+    var xhr = (function() {
+        var xhr;
+
+        return xhr;
+    })();
 
 
     var logger = {
@@ -272,7 +301,7 @@
     };
 
 
-    var inject = {
+    var injector = {
         jacking: function(type, el) {
 
         },
@@ -408,7 +437,7 @@
 
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event, xhr: xhr,
-        scanner: scanner, logger: logger, inject: inject, crypto: crypto,
+        sniffer: sniffer, logger: logger, injector: injector, crypto: crypto,
         version: '$Id$'
     };
 })(window, 'spirity');
