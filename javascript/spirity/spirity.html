@@ -17,14 +17,14 @@
         <h4>
         base64.encode('hello, world!') // 'aGVsbG8sIHdvcmxkIQ==' //
         <script type="text/javascript">
-            document.write(spirity.crypto.base64.encode('hello, world!'));
+            //document.write(spirity.crypto.base64.encode('hello, world!'));
         </script>
         </h4>
 
         <h4>
         base64.decode('aGVsbG8sIHdvcmxkIQ==') // 'hello, world!' //
         <script type="text/javascript">
-            document.write(spirity.crypto.base64.decode('aGVsbG8sIHdvcmxkIQ=='));
+            //document.write(spirity.crypto.base64.decode('aGVsbG8sIHdvcmxkIQ=='));
         </script>
         </h4>
         <div style="width:40px; height: 40px; background: red;" id="test"></div>
@@ -34,7 +34,8 @@
             //spirity.event.unbind('test', 'click', a);
             //spirity.dom.insertAtfer('test', document.createElement('p'));
             //spirity.bom.load.css('http://assets.taobaocdn.com/tbra/2.0/tbsp.css');
- //           spirity.bom.load.framework('yui');
+            //spirity.bom.load.framework('yui', {success: function(){alert(this.toString())}}, spirity);
+            spirity.bom.load.css('http://assets.taobaocdn.com/tbra/dev/reset-grids-base.css', {success: function(){alert('')}});
         </script>
     </body>
 </html>

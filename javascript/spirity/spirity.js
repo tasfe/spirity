@@ -9,6 +9,13 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ *
+ * [!] 2009-03-17
+ *      删除 xhr, dom（部分）, event（部分） 组件
+ *
+ * [*] 2009-03-17
+ *      改进 bom.load.css, bom.load.framework 支持回调
+ *
  * [+] 2009-03-14
  *      增加 event(getEvent|stopEvent|getCharCode|getPageX|getPageY) 方法 - from YUI
  *
@@ -70,18 +77,19 @@
                 segments: link.pathname.replace(/^\//,'').split('/')
             };
         }
+
     };
 
 
     var sniffer = {
-        browser: {
+        broswer: {
             ie: !!(window.attachEvent && !window.opera),
             opera: !!window.opera,
             webkit: !navigator.taintEnabled,
             gecko: !!document.getBoxObjectFor
         },
 
-        os: (function() {
+        platform: (function() {
             var pf = navigator.platform.toLocaleLowerCase();
             return {
                 win32: 'win32' == pf || 'windows' == pf,
@@ -89,7 +97,7 @@
                 unix: 'x11' == pf && !this.win32 && !this.mac
             };
         })(),
-        
+
         /*
         // 检测 IE 载入的 ActiveX 组件
         activex: (function() {
@@ -175,21 +183,42 @@
         },
 
         load: {
-            script: function(url, cache) {
-                var el = document.createElement('script');
-                el.src = url + (cache ? '' : '?t=' + new Date().getTime());
-                (document.getElementsByTagName('head')[0]).appendChild(el);
+            script: function(url, callback, scope, cache) {
+                var js = document.createElement('script');
+                js.src = url + (cache ? '' : '?t=' + new Date().getTime());
+                (document.getElementsByTagName('head')[0]).appendChild(js);
+
+                if (callback && (callback.success || callback.failed)) {
+                    var success = function () {
+                        if (!sniffer.broswer.ie || (js.readyState == 'loaded' || js.readyState == 'complete')) {
+                            event.customEvent(callback.success, scope || window);
+                        }
+                    }
+                    event.bind(js, 'load', success);
+                    event.bind(js, 'readystatechange', success);
+                }
             },
 
-            css: function(url) {
-                var el = document.createElement('link');
-                el.setAttribute('rel',  'stylesheet');
-                el.setAttribute('type', 'text/css');
-                el.setAttribute('href', url + '?t=' + new Date().getTime());
+            css: function(url, callback, scope, cache) {
+                var css = document.createElement('link');
+                css.setAttribute('rel',  'stylesheet');
+                css.setAttribute('type', 'text/css');
+                css.setAttribute('href', url + (cache ? '' : '?t=' + new Date().getTime()));
+                (document.getElementsByTagName('head')[0]).appendChild(css);
+
+                if (callback && (callback.success || callback.failed)) {
+                    var success = function () {
+                        if (!sniffer.broswer.ie || (css.readyState == 'loaded' || css.readyState == 'complete')) {
+                            event.customEvent(callback.success, scope || window);
+                        }
+                    }
+                    event.bind(css, 'load', success);
+                    event.bind(css, 'readystatechange', success);
+                }
             },
 
             framework: (function() {
-                // from http://code.google.com/intl/zh-CN/apis/ajaxlibs/documentation/index.html
+                // http://code.google.com/intl/zh-CN/apis/ajaxlibs/documentation/index.html
                 var base = 'http://ajax.googleapis.com/ajax/libs/';
                 var path = {
                     'yui': base + 'yui/2.7.0/build/yuiloader/yuiloader-min.js',
@@ -200,9 +229,9 @@
                     'prototype': base + 'prototype/1.6.0.3/prototype.js'
                 };
 
-                return function(name) {
+                return function(name, callback, scope) {
                     var loadPath = path[name.toLowerCase()];
-                    if (loadPath) this.script(loadPath, true);
+                    if (loadPath) this.script(loadPath, callback, scope);
                 }
             })()
        },
@@ -316,35 +345,14 @@
             return code;
         },
 
-        getPageX: function(event) {
-            event = event || this.getEvent(event);
-            var x = event.pageX || event.clientX || 0;
-            if ( Spirity.broswer.ua.explorer) {
-                x += this._getScroll()[1];
+        customEvent: function(func, scope) {
+            var args = Array.prototype.slice.call(arguments);
+                args = args.slice(2);
+            if (typeof func == 'function') {
+                return func.apply(scope || this, args);
             }
-            return x;
-        },
-
-        getPageY: function(event) {
-            event = event || this.getEvent(event);
-            var y = event.pageY || event.clientY || 0;
-            if (sniffer.broswer.ie) {
-                y += this._getScroll()[0];
-            }
-            return y;
         }
     };
-
-
-    /**
-     * 异步请求（Ajax）
-     */
-    var xhr = (function() {
-        var xhr;
-
-        return xhr;
-    })();
-
 
     var logger = {
         key: function(el, type) {
@@ -352,9 +360,12 @@
         }
     };
 
-
     var injector = {
-        jacking: function(type, el) {
+        clickjacking: function(el, overrides) {
+        
+        },
+
+        hook: function(func, overrides) {
 
         },
 
@@ -490,7 +501,7 @@
     })();
 
     scope[namespace] = {
-        lang: lang, bom: bom, dom: dom, event: event, xhr: xhr,
+        lang: lang, bom: bom, dom: dom, event: event,
         sniffer: sniffer, logger: logger, injector: injector, crypto: crypto,
         version: '$Id: spirity.js 193 2009-03-14 14:43:51Z i.feelinglucky $'
     };
