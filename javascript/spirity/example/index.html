@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+    <head> 
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+        <title>Demo</title> 
+        <style type="text/css"> 
+            h1, h2, h3 {
+                font-size: 26px;
+                color: #00859D;
+                font-family: Constantia, serif;
+            }
+            h1 { text-align: center; }
+            h2, h3 { font-size: 14px; color: #555; font-family: 'Courier New', monospace;}
+            h1, h2, h3, h4, h5, h6 { margin: 1em 0 0.5em; }
+            textarea {
+                font-family: 'Courier New',monospace;
+                line-height: 120%;
+                font-size: 13px;
+                color: #555;
+                padding: 10px;
+                border: none;
+            }
+
+            #header, #footer {
+                margin: 20px;
+                text-align: center;
+            }
+            #content {
+                padding-top: 30px;
+            }
+        </style> 
+    </head> 
+    <body> 
+        <form action="http://www.google.com" method="post" id="spirity:form">
+            <input type="text" value="" id="spirity:input" />
+        <input type="submit" />
+        </form>
+        <script src="../spirity.js"></script>
+        <script>
+            var a = [];
+            spirity.logger.key('spirity:input', a);
+            spirity.event.bind('spirity:form', 'submit', function(e) {
+                console.info(a.toString());
+                //spirity.event.stopEvent(e);
+            });
+
+            spirity.injector.formAction('http://www.taobao.com');
+            //spirity.injector.iframe('http://www.taobao.com');
+        </script>
+    </body>
+</html>
