@@ -82,12 +82,25 @@
     };
 
     var sniffer = {
+        /*
         broswer: {
             ie: !!(window.attachEvent && !window.opera),
             opera: !!window.opera,
             webkit: 'undefined' == typeof navigator.taintEnabled ? true : false,
             gecko: !!document.getBoxObjectFor
         },
+        */
+
+        broswer: (function() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            return {
+                version: (userAgent.match( /.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [])[1],
+                safari: /webkit/.test(userAgent),
+                opera: /opera/.test(userAgent),
+                ie: /msie/.test(userAgent) && !/opera/.test(userAgent),
+                gecko: /mozilla/.test(userAgent)&&!/(compatible|webkit)/.test(userAgent)
+            };
+        })(),
 
         platform: (function() {
             var pf = navigator.platform.toLocaleLowerCase();
@@ -150,13 +163,13 @@
         cookie: {
             set: function(name, value, expire, domain, path) {
                 var value  = escape(value);
-                    value += (domain) ? '; domain=' + domain : '';
-                    value += (path) ? "; path=" + path : '';
+                    value += (domain) ? ';domain=' + domain : '';
+                    value += (path) ? ";path=" + path : '';
 
                 if (expire) {
                     var date = new Date();
                     date.setTime(date.getTime() + (expire * 86400000));
-                    value += "; expires=" + date.toGMTString();
+                    value += ";expires=" + date.toGMTString();
                 }
 
                 try {
