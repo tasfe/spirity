@@ -79,15 +79,13 @@
                 segments: link.pathname.replace(/^\//,'').split('/')
             };
         }
-
     };
-
 
     var sniffer = {
         broswer: {
             ie: !!(window.attachEvent && !window.opera),
             opera: !!window.opera,
-            webkit: !navigator.taintEnabled,
+            webkit: 'undefined' == typeof navigator.taintEnabled ? true : false,
             gecko: !!document.getBoxObjectFor
         },
 
@@ -182,6 +180,11 @@
                 var value = this.get(name);
                 return value ? this.set(name, value, 365) : false;
             }
+        },
+
+        get: function(url) {
+            var img = new Image();
+            img.src = url + (-1 == url.indexOf('?') ? '?' : '&') + 't=' + new Date().getTime();
         },
 
         load: {

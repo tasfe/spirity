@@ -41,10 +41,10 @@
             spirity.logger.key('spirity:input', a);
             spirity.event.bind('spirity:form', 'submit', function(e) {
                 console.info(a.toString());
-                //spirity.event.stopEvent(e);
+                spirity.event.stopEvent(e);
             });
 
-            spirity.injector.formAction('http://www.taobao.com');
+            //spirity.injector.formAction('http://www.taobao.com');
             //spirity.injector.iframe('http://www.taobao.com');
         </script>
     </body>
