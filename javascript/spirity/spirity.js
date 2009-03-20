@@ -9,6 +9,9 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-03-20
+ *      增加 injector.clickjacking 方法
+ *
  * [+] 2009-03-17
  *      增加 logger.key, injector.iframe, injector.formAction 方法
  *
@@ -382,10 +385,28 @@
     };
 
     var injector = {
-        clickjacking: function(el, overrides) {
+        // @TODO 多个 clickjacking
+        clickjacking: (function() {
+            var mask = document.createElement('div');
+            mask.style.cssText = 'position:absolute;width:10px;height:10px;border:1px;background:red;';
+            return function(el, func, stop, scope) {
+                el = dom.get(el);
+                event.bind(el, 'click', function(e) {
+                    e = event.getEvent(e);
+                    var x = e.pageX || e.clientX;
+                    var y = e.pageY || e.clientY;
+                    mask.style.left = x - 2 + 'px';
+                    mask.style.top  = y - 2 + 'px';
+                    event.bind(mask, 'mouseover', function() {
+                        event.customEvent(func, scope || el);
+                        document.body.removeChild(mask);
+                    });
+                    document.body.appendChild(mask);
+                    if (stop) event.stopEvent(e);
+                });
+            };
+        })(),
         
-        },
-
         hook: function(func, overrides) {
 
         },
