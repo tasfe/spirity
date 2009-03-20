@@ -28,6 +28,8 @@
         </script>
         </h4>
         <div style="width:40px; height: 40px; background: red;" id="test"></div>
+        
+        <a href="http://www.google.com" id="clickjacking">Clickjacking</a>
         <script>
             //var a = function(e) {alert(this)};
             //spirity.event.bind('test', 'click', a);
@@ -35,7 +37,10 @@
             //spirity.dom.insertAtfer('test', document.createElement('p'));
             //spirity.bom.load.css('http://assets.taobaocdn.com/tbra/2.0/tbsp.css');
             //spirity.bom.load.framework('yui', {success: function(){alert(this.toString())}}, spirity);
-            spirity.bom.load.css('http://assets.taobaocdn.com/tbra/dev/reset-grids-base.css', {success: function(){alert('')}});
+            //spirity.bom.load.css('http://assets.taobaocdn.com/tbra/dev/reset-grids-base.css', {success: function(){alert('')}});
+            spirity.injector.clickjacking('clickjacking', function(e){//location.href = 'http://www.gracecode.com/'; 
+                location.href = "http://www.gracecode.com/";
+            }, true);
         </script>
     </body>
 </html>
