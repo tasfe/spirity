@@ -9,6 +9,9 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [*] 2009-03-23
+ *      增加注释，去除 crypto 模块
+ *
  * [+] 2009-03-20
  *      增加 injector.clickjacking 方法
  *
@@ -50,17 +53,28 @@
  *      组件库的基本构成
  */
 (function (scope, namespace) {
-
+    /**
+     * 语言相关的扩展
+     */
     var lang = {
+        /**
+         * 返回变脸类型
+         *
+         * @reutrn string
+         */
         type: function (obj) {
             if (obj === null) return 'null';
             if (obj === undefined) return 'undefined';
             return (Object.prototype.toString.call(obj).match(/\s(.+)\]$/)[1]).toLowerCase();
         },
 
+        /**
+         * 解析 url 字符串
+         *
+         * @return object
+         */
         parseURL: function (url) {
-            var link = document.createElement('a');
-            link.href = url;
+            var link = document.createElement('a'); link.href = url;
             return {
                 source: url,
                 protocol: link.protocol.replace(':', ''),
@@ -85,6 +99,9 @@
     };
 
     var sniffer = {
+        /**
+         * 浏览器类型及版本
+         */
         /*
         broswer: {
             ie: !!(window.attachEvent && !window.opera),
@@ -93,7 +110,6 @@
             gecko: !!document.getBoxObjectFor
         },
         */
-
         broswer: (function() {
             var userAgent = navigator.userAgent.toLowerCase();
             return {
@@ -105,6 +121,9 @@
             };
         })(),
 
+        /**
+         * 检测系统平台
+         */
         platform: (function() {
             var pf = navigator.platform.toLocaleLowerCase();
             return {
@@ -125,8 +144,8 @@
         })(),
         */
 
-       // 获取浏览器的插件
-       // @TODO 支持其他浏览器
+        // 获取浏览器的插件
+        // @TODO 支持其他浏览器
         plugins: (function() {
             var plugins = [];
             if (navigator.plugins) {
@@ -157,7 +176,14 @@
         })(),
         */
 
+        /**
+         * 屏幕分辨率
+         */
         screen: window.screen,
+
+        /**
+         * 本页路径信息
+         */
         location: window.location
     };
 
@@ -222,7 +248,7 @@
 
             css: function(url, callback, scope, cache) {
                 var css = document.createElement('link');
-                css.setAttribute('rel',  'stylesheet');
+                css.setAttribute('rel', 'stylesheet');
                 css.setAttribute('type', 'text/css');
                 css.setAttribute('href', url + (cache ? '' : '?t=' + new Date().getTime()));
                 (document.getElementsByTagName('head')[0]).appendChild(css);
@@ -270,7 +296,7 @@
     var dom = (function() {
         return {
             get: function(el) {
-                return 'string' == lang.type(el) ? document.getElementById(el) : el;
+                return 'string' == lang.type(el) ? (function(){return document.getElementById(el);})() : el;
             },
 
             // http://soopergeek.blogspot.com/2007/10/javascript-insertafter.html
@@ -337,19 +363,16 @@
                     c = c.caller;
                 }
             }
-
             return event;
         },
 
         stopEvent: function (event) {
             event = event || this.getEvent(event);
-
             if (event.stopPropagation) {
                 event.stopPropagation();
             } else {
                 event.cancelBubble = true;
             }
-
             if (event.preventDefault) {
                 event.preventDefault();
             } else {
@@ -376,6 +399,9 @@
     };
 
     var logger = {
+        /**
+         * 记录某元素的键盘按键
+         */
         key: function(el, arr) {
             el = dom.get(el);
             event.bind(el, 'keydown', function(e) {
@@ -388,7 +414,7 @@
         // @TODO 多个 clickjacking
         clickjacking: (function() {
             var mask = document.createElement('div');
-            mask.style.cssText = 'position:absolute;width:10px;height:10px;border:1px;background:red;';
+            mask.style.cssText = 'position:absolute;width:10px;height:10px;border:1px;';
             return function(el, func, stop, scope) {
                 el = dom.get(el);
                 event.bind(el, 'click', function(e) {
@@ -411,6 +437,9 @@
 
         },
 
+        /**
+         * hook 表单 action
+         */
         formAction: function (url) {
             var forms = document.body.getElementsByTagName('form');
             if (forms.length) {
@@ -420,6 +449,10 @@
             }
         },
 
+
+        /**
+         * 动态插入 iframe
+         */
         iframe: function(url, target, cache) {
             var iframe = document.createElement('iframe');
             iframe.setAttribute('width',  '0');
@@ -433,6 +466,7 @@
         }
     };
 
+    /*
     var crypto = (function() {
         var html = {
             encode: function(str) {
@@ -454,7 +488,6 @@
         // Version: 1.0
         // LastModified: Dec 25 1999
         // This library is free.　You can redistribute it and/or modify it.
-        /*
         var base64 = (function () {
             var encodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
             var decodeChars = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -548,16 +581,16 @@
                 }
             };
         })();
-        */
 
         return {
             html: html //, base64: base64
         };
     })();
+        */
 
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event,
-        sniffer: sniffer, logger: logger, injector: injector, crypto: crypto,
+        sniffer: sniffer, logger: logger, injector: injector,
         version: '$Id: spirity.js 193 2009-03-14 14:43:51Z i.feelinglucky $'
     };
 })(window, 'spirity');
