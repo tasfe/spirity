@@ -6,25 +6,25 @@
         <title></title>
     </head>
     <body>
-        <script src="spirity.js" type="text/javascript"></script>
+        <script src="ergate.js" type="text/javascript"></script>
         <script type="text/javascript">
-            console.dir(spirity); // @todo 编写测试用例
+            console.dir(ergate); // @todo 编写测试用例
         </script>
         <h4>
-        随机数测试：<script type="text/javascript">document.write(spirity.bom.random(10));</script>
+        随机数测试：<script type="text/javascript">document.write(ergate.bom.random(10));</script>
         </h4>
 
         <h4>
         base64.encode('hello, world!') // 'aGVsbG8sIHdvcmxkIQ==' //
         <script type="text/javascript">
-            //document.write(spirity.crypto.base64.encode('hello, world!'));
+            //document.write(ergate.crypto.base64.encode('hello, world!'));
         </script>
         </h4>
 
         <h4>
         base64.decode('aGVsbG8sIHdvcmxkIQ==') // 'hello, world!' //
         <script type="text/javascript">
-            //document.write(spirity.crypto.base64.decode('aGVsbG8sIHdvcmxkIQ=='));
+            //document.write(ergate.crypto.base64.decode('aGVsbG8sIHdvcmxkIQ=='));
         </script>
         </h4>
         <div style="width:40px; height: 40px; background: red;" id="test"></div>
@@ -32,13 +32,13 @@
         <a href="http://www.google.com" id="clickjacking">Clickjacking</a>
         <script>
             //var a = function(e) {alert(this)};
-            //spirity.event.bind('test', 'click', a);
-            //spirity.event.unbind('test', 'click', a);
-            //spirity.dom.insertAtfer('test', document.createElement('p'));
-            //spirity.bom.load.css('http://assets.taobaocdn.com/tbra/2.0/tbsp.css');
-            //spirity.bom.load.framework('yui', {success: function(){alert(this.toString())}}, spirity);
-            //spirity.bom.load.css('http://assets.taobaocdn.com/tbra/dev/reset-grids-base.css', {success: function(){alert('')}});
-            spirity.injector.clickjacking('clickjacking', function(e){//location.href = 'http://www.gracecode.com/'; 
+            //ergate.event.bind('test', 'click', a);
+            //ergate.event.unbind('test', 'click', a);
+            //ergate.dom.insertAtfer('test', document.createElement('p'));
+            //ergate.bom.load.css('http://assets.taobaocdn.com/tbra/2.0/tbsp.css');
+            //ergate.bom.load.framework('yui', {success: function(){alert(this.toString())}}, ergate);
+            //ergate.bom.load.css('http://assets.taobaocdn.com/tbra/dev/reset-grids-base.css', {success: function(){alert('')}});
+            ergate.injector.clickjacking('clickjacking', function(e){//location.href = 'http://www.gracecode.com/'; 
                 location.href = "http://www.gracecode.com/";
             }, true);
         </script>
