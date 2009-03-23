@@ -471,4 +471,4 @@
         sniffer: sniffer, logger: logger, injector: injector,
         version: '$Id$'
     };
-})(window, 'spirity');
+})(window, 'ergate');
