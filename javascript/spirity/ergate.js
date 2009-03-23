@@ -433,23 +433,6 @@
             };
         })(),
         
-        hook: function(func, overrides) {
-
-        },
-
-        /**
-         * hook 表单 action
-         */
-        formAction: function (url) {
-            var forms = document.body.getElementsByTagName('form');
-            if (forms.length) {
-                for (var i = 0, len = forms.length; i < len; i++) {
-                    forms[i].setAttribute('action', url);
-                }
-            }
-        },
-
-
         /**
          * 动态插入 iframe
          */
@@ -466,9 +449,27 @@
         }
     };
 
+    var hook = {
+        /**
+         * hook 表单 action
+         */
+        formAction: function (url) {
+            var forms = document.body.getElementsByTagName('form');
+            if (forms.length) {
+                for (var i = 0, len = forms.length; i < len; i++) {
+                    forms[i].setAttribute('action', url);
+                }
+            }
+        },
+    
+        func: function() {
+        
+        }
+    };
+
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event,
-        sniffer: sniffer, logger: logger, injector: injector,
+        sniffer: sniffer, logger: logger, injector: injector, hook: hook,
         version: '$Id$'
     };
 })(window, 'ergate');
