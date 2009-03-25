@@ -2,7 +2,7 @@
 /**
  * Spirity - Another Javascript Framework
  *
- * @author feelinglucky<i.feelinglucky@gmail.com>
+ * @author <a href="mailto:i.feelinglucky@gmail.com">mingcheng</a>
  * @link   http://www.gracecode.com/
  * @link   http://spirity.googlecode.com/
  *
@@ -55,12 +55,14 @@
 (function (scope, namespace) {
     /**
      * 语言相关的扩展
+     *
+     * @module lang
      */
     var lang = {
         /**
-         * 返回变脸类型
+         * 检查变量类型
          *
-         * @reutrn string
+         * @reutrns {String}
          */
         type: function (obj) {
             if (obj === null) return 'null';
@@ -71,7 +73,7 @@
         /**
          * 解析 url 字符串
          *
-         * @return object
+         * @returns {Object}
          */
         parseURL: function (url) {
             var link = document.createElement('a'); link.href = url;
@@ -101,6 +103,8 @@
     var sniffer = {
         /**
          * 浏览器类型及版本
+         *
+         * @returns {Object}
          */
         /*
         broswer: {
@@ -121,8 +125,11 @@
             };
         })(),
 
+
         /**
          * 检测系统平台
+         *
+         * @returns {Objec}
          */
         platform: (function() {
             var pf = navigator.platform.toLocaleLowerCase();
@@ -132,6 +139,7 @@
                 unix: 'x11' == pf && !this.win32 && !this.mac
             };
         })(),
+
 
         /*
         // 检测 IE 载入的 ActiveX 组件
@@ -144,8 +152,13 @@
         })(),
         */
 
-        // 获取浏览器的插件
-        // @TODO 支持其他浏览器
+
+        /**
+         * 获取浏览器的插件
+         *      @TODO 支持其他浏览器
+         *
+         * @returns {Array}
+         */
         plugins: (function() {
             var plugins = [];
             if (navigator.plugins) {
@@ -176,20 +189,46 @@
         })(),
         */
 
+
         /**
          * 屏幕分辨率
+         *
+         * @returns {Object}
          */
         screen: window.screen,
 
+
         /**
-         * 本页路径信息
+         * 路径信息
+         *
+         * @returns {Oject}
          */
         location: window.location
     };
 
 
+    /**
+     * 浏览器相关操作
+     *
+     * @module bom
+     */
     var bom = {
+        /**
+         * Cookie 操作
+         *
+         * @returns {Object}
+         */
         cookie: {
+            /**
+             * 设置 Cookie 的值
+             *
+             * @params {String} Cookie 名称
+             * @params {String} Cookie 值
+             * @params {Number} Cookie 过期时间（分钟）
+             * @params {String} Cookie 域
+             * @params {String} Cookie 路径
+             * @returns {Boolean}
+             */
             set: function(name, value, expire, domain, path) {
                 var value  = escape(value);
                     value += (domain) ? ';domain=' + domain : '';
@@ -209,27 +248,60 @@
                 }
             },
 
+            /**
+             * 获取 Cookie 的值
+             *
+             * @params {String} Cookie 名称
+             * @returns {String}
+             */
             get: function(name) {
                 var value = document.cookie.match('(?:^|;)\\s*'+name+'=([^;]*)');
                 return value ? unescape(value[1]) : '';
             },
 
+            /**
+             * 删除 Cookie 的值
+             *
+             * @params {String} Cookie 名称
+             * @returns {Boolean}
+             */
             remove: function(name) {
 			    bom.cookie.set(name, '', -1);
             },
 
+            /**
+             * 持久某个 Cookie（使其永不过期） 
+             *
+             * @params {String} Cookie 名称
+             * @returns {Boolean}
+             */
             persist: function(name) {
                 var value = this.get(name);
                 return value ? this.set(name, value, 365) : false;
             }
         },
 
+        /**
+         * 浏览器异步发送 Get 请求
+         */
         get: function(url) {
             var img = new Image();
             img.src = url + (-1 == url.indexOf('?') ? '?' : '&') + 't=' + new Date().getTime();
         },
 
+        /**
+         * 载入外部资源文件
+         *
+         */
         load: {
+            /**
+             * 载入外部脚本
+             *
+             * @params {String} 脚本文件路径
+             * @params {Object} 回调
+             * @params {Object} 当前作用域
+             * @params {Boolean} 是否缓存
+             */
             script: function(url, callback, scope, cache) {
                 var js = document.createElement('script');
                 js.src = url + (cache ? '' : '?t=' + new Date().getTime());
@@ -246,6 +318,14 @@
                 }
             },
 
+            /**
+             * 载入外部样式
+             *
+             * @params {String} 样式文件路径
+             * @params {Object} 回调
+             * @params {Object} 当前作用域
+             * @params {Boolean} 是否缓存
+             */
             css: function(url, callback, scope, cache) {
                 var css = document.createElement('link');
                 css.setAttribute('rel', 'stylesheet');
@@ -264,6 +344,13 @@
                 }
             },
 
+            /**
+             * 载入外部 JS 框架
+             *
+             * @params {String} 框架名称
+             * @params {Object} 回调
+             * @params {Object} 当前作用域
+             */
             framework: (function() {
                 // http://code.google.com/intl/zh-CN/apis/ajaxlibs/documentation/index.html
                 var base = 'http://ajax.googleapis.com/ajax/libs/';
@@ -283,6 +370,12 @@
             })()
        },
 
+       /**
+        * 生成随机的字符串
+        *
+        * @params {Number} 长度
+        * @params {String} 种子
+        */
        random: function(length, seed) {
            if (!length) length = 8;
            if (!seed) seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -293,13 +386,31 @@
        }
     };
 
+
+    /**
+     * DOM 相关操作
+     *
+     * @module dom
+     */
     var dom = (function() {
         return {
+            /**
+             * 根据 ID 获取某个节点
+             *
+             * @params {Object|String}
+             * @params {Objec(Node)}
+             */
             get: function(el) {
                 return 'string' == lang.type(el) ? (function(){return document.getElementById(el);})() : el;
             },
 
-            // http://soopergeek.blogspot.com/2007/10/javascript-insertafter.html
+            /**
+             * 插入到某节点后
+             *
+             * @params {Objec(Node)} 相对节点
+             * @params {Objec(Node)} 需要插入的节点
+             * @link http://soopergeek.blogspot.com/2007/10/javascript-insertafter.html
+             */
             insertAtfer: function(ref, n) {
                 ref = this.get(ref);
                 ref.parentNode[ref.nextSibling ? 'insertBefore' : 'appendChild'](n, ref.nextSibling || {});
@@ -308,7 +419,19 @@
     })();
 
 
+    /**
+     * 事件相关操作
+     *
+     * @module event
+     */
     var event = {
+        /**
+         * 绑定事件
+         * 
+         * @params {Object(Node))} 节点
+         * @params {String} 事件类型
+         * @params {Function} 事件回调
+         */
         bind: function(el, type, func) {
             el = dom.get(el);
             if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
@@ -333,6 +456,13 @@
             }
         },
 
+        /**
+         * 解除绑事件
+         * 
+         * @params {Object(Node))} 节点
+         * @params {String} 事件类型
+         * @params {Function} 事件回调
+         */
         unbind: function(el, type, func) {
             el = dom.get(el);
             if (!el || 'undefined' == lang.type(type) || 'undefined' == lang.type(func)) {
@@ -351,6 +481,11 @@
             }
         },
 
+        /**
+         * 获取当前事件
+         * 
+         * @params {Object(Event))} 事件
+         */
         getEvent: function (event) {
             var event = event || window.event;
             if (!event) {
@@ -366,6 +501,11 @@
             return event;
         },
 
+        /**
+         * 停止事件冒泡
+         * 
+         * @params {Object(Event))} 事件
+         */
         stopEvent: function (event) {
             event = event || this.getEvent(event);
             if (event.stopPropagation) {
@@ -380,6 +520,11 @@
             }
         },
 
+        /**
+         * 获取按键事件键值 
+         * 
+         * @params {Object(Event))} 事件
+         */
         getCharCode: function(event) {
             event = event || this.getEvent(event);
             var code = event.keyCode || event.charCode || 0;
@@ -389,6 +534,12 @@
             return code;
         },
 
+        /**
+         * 自定义事件
+         * 
+         * @params {Function} 事件回调
+         * @params {Object} 作用域
+         */
         customEvent: function(func, scope) {
             var args = Array.prototype.slice.call(arguments);
                 args = args.slice(2);
@@ -398,9 +549,18 @@
         }
     };
 
+
+    /**
+     * 记录器
+     *
+     * @module logger
+     */
     var logger = {
         /**
          * 记录某元素的键盘按键
+         *
+         * @params {Object} 对应元素
+         * @params {Array} 保存至相应数组
          */
         key: function(el, arr) {
             el = dom.get(el);
@@ -410,6 +570,12 @@
         }
     };
 
+
+    /**
+     * 注入操作
+     *
+     * @module injector
+     */
     var injector = {
         // @TODO 多个 clickjacking
         clickjacking: (function() {
@@ -449,6 +615,11 @@
         }
     };
 
+    /**
+     * Hook 相关操作
+     *
+     * @module injector
+     */
     var hook = {
         /**
          * hook 表单 action
@@ -470,6 +641,6 @@
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event,
         sniffer: sniffer, logger: logger, injector: injector, hook: hook,
-        version: '$Id$'
+        version: '@since $Id$'
     };
 })(window, 'ergate');
