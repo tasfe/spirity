@@ -172,9 +172,9 @@
                 return Tween['bounceIn'](t*2, 0, c, d) * 0.5 + b;
             }
             return Tween['bounceOut'](t*2-d, 0, c, d) * 0.5 + c*0.5 + b;
-        },
+        } /* */ ,
 
-        /** extra, form http://hikejun.com/demo/yui-base/yui_2x_animation.html **/ 
+        // extra, form http://hikejun.com/demo/yui-base/yui_2x_animation.html
         easeInQuad: function (t, b, c, d) {
             return c*(t/=d)*t + b;
         },
@@ -328,6 +328,7 @@
             if (t < d/2) return Tween['easeInBounce']( t*2, 0, c, d) * 0.5 + b;
             return Tween['easeOutBounce']( t*2-d, 0, c, d) * 0.5 + c*0.5 + b;
         }
+        /* */
     };
 
     // 动画行进中
