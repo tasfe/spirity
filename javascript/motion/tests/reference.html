@@ -96,23 +96,7 @@
                 </div>
                 <div class="item">
                     动画类型：
-                    <select id="type">
-                        <option value="linear">linear</option>
-                        <option value="easeIn">easeIn</option>
-                        <option value="easeOut">easeOut</option>
-                        <option value="easeBoth">easeBoth</option>
-                        <option value="easeInStrong">easeInStrong</option>
-                        <option value="easeOutStrong">easeBothStrong</option>
-                        <option value="elasticIn">elasticIn</option>
-                        <option value="elasticOut">elasticOut</option>
-                        <option value="elasticBoth">elasticBoth</option>
-                        <option value="backIn">backIn</option>
-                        <option value="backOut">backOut</option>
-                        <option value="backBoth">backBoth</option>
-                        <option value="bounceIn">bounceIn</option>
-                        <option value="bounceOut">bounceOut</option>
-                        <option value="bounceBoth">bounceBoth</option>
-                    </select>
+                    <select id="type"></select>
                 </div>
                 <div class="item">
                     <div id="chart"></div>
@@ -137,6 +121,12 @@
                     el.style.left = position[0] + 'px';
                     el.style.top  = position[1] + 'px';
                 };
+
+                for(var i in Motion.getTween()) {
+                    var o = document.createElement("option");
+                    o.text = o.value= i;
+                    type.options.add(o);
+                }
 
                 ball.id = "ball"; flag.id = "flag";
                 motionContainer.appendChild(ball);
