@@ -17,27 +17,21 @@
  * assertNaN
  * assertNotNaN
  */
-jsUnity.attachAssertions();
 
-var MotionTestSuite = {
-    suiteName: 'MotionTweens',
-    setUp: function () {
+// 全局测试语句
+jsUnity.attachAssertions(window);
 
-    },
+// 测试动画方程式
+var MotionTweens = { suiteName: 'MotionTweens' }; 
 
-    tearDown: function () {
-
-    }
-}; // MotionTestSuite
-
-for (var i in Motion.getTweens()) {
+var Tweens = Motion.getTweens();
+for (var i in Tweens) {
     (function () {
-        MotionTestSuite['test' + i.replace(/^[a-z]{1}/, function(c){return c.toUpperCase()})] = function() {
+        MotionTweens['test' + i.replace(/^[a-z]{1}/, function(c){return c.toUpperCase()})] = function() {
             var duration = 2000, frames = Math.ceil((duration/1000)*35);
             var from = 0, to = 1000, current = 1, result = 0;
-            var tween = Motion.getTweens()[i];
             while (current++ < frames) {
-                result = tween((current/frames)*duration, from, to - from, duration);
+                result = Tweens[i]((current/frames)*duration, from, to - from, duration);
             }
             assertEqual(1000, result);
         }
