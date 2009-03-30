@@ -369,10 +369,12 @@
         this.duration = duration || 1000;
         this.tween = tween || 'linear';
     };
-    scope.Motion.getTween = function(){return Tween};
 
+    // 返回动画公式
+    scope.Motion.getTweens = function(){return Tween};
+
+    // 原型继承
     var proto = scope.Motion.prototype;
-
 
     // 初始化
     proto.init = function() {
