@@ -6,16 +6,21 @@
  * @date    2009-01-26
  * @link    http://www.gracecode.com/
  * @version $Id$
- * @change
  *
- *  2009-02-01
+ * @change
+ *     [+]new feature  [*]improvement  [!]change  [x]bug fix
+ *
+ * [*] 2009-02-01
+ *      优化逻辑
+ *
+ * [!] 2009-02-01
  *      将 setTimeout 改成了 setInterval 方式，详情参见
  *         @see http://ejohn.org/blog/how-javascript-timers-work/
  *
- *  2009-01-27
+ * [*] 2009-01-27
  *      调整接口，优化代码
  *
- *  2009-01-26
+ * [+] 2009-01-26
  *      最初版，完成基本功能
  *      @ TODO 代码需要优化，重新考虑接口实现
  */
@@ -64,14 +69,14 @@
         },
 
         elasticIn: function (t, b, c, d, a, p) {
-            if (t == 0) { 
+            if (t === 0) { 
                 return b; 
             }
             if ( (t /= d) == 1 ) {
                 return b+c; 
             }
             if (!p) {
-                p=d*.3; 
+                p=d*0.3; 
             }
             if (!a || a < Math.abs(c)) {
                 a = c; 
@@ -83,14 +88,14 @@
         },
 
         elasticOut: function (t, b, c, d, a, p) {
-            if (t == 0) {
+            if (t === 0) {
                 return b;
             }
             if ( (t /= d) == 1 ) {
                 return b+c;
             }
             if (!p) {
-                p=d*.3;
+                p=d*0.3;
             }
             if (!a || a < Math.abs(c)) {
                 a = c;
@@ -102,14 +107,14 @@
         },
         
         elasticBoth: function (t, b, c, d, a, p) {
-            if (t == 0) {
+            if (t === 0) {
                 return b;
             }
             if ( (t /= d/2) == 2 ) {
                 return b+c;
             }
             if (!p) {
-                p = d*(.3*1.5);
+                p = d*(0.3*1.5);
             }
             if ( !a || a < Math.abs(c) ) {
                 a = c; 
@@ -119,11 +124,11 @@
                 var s = p/(2*Math.PI) * Math.asin (c/a);
             }
             if (t < 1) {
-                return -.5*(a*Math.pow(2,10*(t-=1)) * 
+                return - 0.5*(a*Math.pow(2,10*(t-=1)) * 
                         Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
             }
             return a*Math.pow(2,-10*(t-=1)) * 
-                    Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
+                    Math.sin( (t*d-s)*(2*Math.PI)/p )*0.5 + c + b;
         },
 
         backIn: function (t, b, c, d, s) {
@@ -158,33 +163,29 @@
             if ((t/=d) < (1/2.75)) {
                 return c*(7.5625*t*t) + b;
             } else if (t < (2/2.75)) {
-                return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
+                return c*(7.5625*(t-=(1.5/2.75))*t + 0.75) + b;
             } else if (t < (2.5/2.75)) {
-                return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
+                return c*(7.5625*(t-=(2.25/2.75))*t + 0.9375) + b;
             }
-            return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
+            return c*(7.5625*(t-=(2.625/2.75))*t + 0.984375) + b;
         },
         
         bounceBoth: function (t, b, c, d) {
             if (t < d/2) {
-                return Tween['bounceIn'](t*2, 0, c, d) * .5 + b;
+                return Tween['bounceIn'](t*2, 0, c, d) * 0.5 + b;
             }
-            return Tween['bounceOut'](t*2-d, 0, c, d) * .5 + c*.5 + b;
+            return Tween['bounceOut'](t*2-d, 0, c, d) * 0.5 + c*0.5 + b;
         }
     };
 
+    // 动画行进中
     var _Tweening = function() {
         // 动画进行时的回调
-        if ('function' == typeof this.onTweening) {
-            this.onTweening.call(this);
-        }
+        customEvent(this.onTweening, this);
 
         if (this.current >= this.frames) {
             this.stop();
-            // 动画完成后的回调
-            if ('function' == typeof this.onComplete) {
-                this.onComplete.call(this);
-            }
+            customEvent(this.onComplete, this);
             return;
         }
 
@@ -192,8 +193,24 @@
     };
 
     /**
-     * @param Int duration 过程动画时间
-     * @param String tween 动画类型
+     * 自定义事件
+     * 
+     * @params {Function} 事件回调
+     * @params {Object} 作用域
+     */
+    var customEvent = function(func, scope) {
+        var args = Array.prototype.slice.call(arguments);
+            args = args.slice(2);
+        if (typeof func == 'function') {
+            return func.apply(scope || this, args);
+        }
+    };
+
+    /**
+     * 动画组件
+     *
+     * @params {Number} 过程动画时间
+     * @params {String} 动画类型（方程式）
      */
     scope.Motion = function(duration, tween) {
         this.duration = duration || 1000;
@@ -204,19 +221,17 @@
 
     // 初始化
     proto.init = function() {
-        if ('function' == typeof this.onInit) {
-            this.onInit.call(this);
-        }
+        customEvent(this.onInit, this);
+
+        // 默认 35 FPS
         this.fps = this.fps || 35;
+
+        // 计算帧数
         this.frames = Math.ceil((this.duration/1000)*this.fps);
-        if (this.frames < 1) {
-            this.frames = 1
-        };
-        if ('function' != typeof Tween[this.tween]) {
-            this.tween = 'linear';
-        }
+        if (this.frames < 1) this.frames = 1;
+
         // 确定动画函数，便于计算当前位置
-        var f = Tween[this.tween];
+        var f = Tween[this.tween] || Tween['linear'];
         this.equation = function(from, to) {
             return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
         }
@@ -226,9 +241,7 @@
     //  开始动画
     proto.start = function() {
         this.init();
-        if ('function' == typeof this.onStart) {
-            this.onStart.call(this);
-        }
+        customEvent(this.onStart, this);
         var _self = this, d = this.duration / this.frames;
         this.timer = setInterval(function() {_Tweening.call(_self);}, d);
     };
