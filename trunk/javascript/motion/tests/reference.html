@@ -120,9 +120,9 @@
                 var motion = null, setPosition = function(el, position) {
                     el.style.left = position[0] + 'px';
                     el.style.top  = position[1] + 'px';
-                };
+                }
 
-                for(var i in Motion.getTween()) {
+                for(var i in Motion.getTweens()) {
                     var o = document.createElement("option");
                     o.text = o.value= i;
                     type.options.add(o);
