@@ -147,7 +147,7 @@
                     // 动画逻辑
                     var d = duration.options[duration.selectedIndex || 0].value;
                     var t = type.options[type.selectedIndex || 0].value;
-                    motion = new Motion(d, t);
+                    motion = new Motion(t, d);
 
                     // 初始化
                     motion.onInit = function() {

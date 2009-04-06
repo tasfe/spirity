@@ -11,6 +11,9 @@
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
  * [*] 2009-03-30
+ *      优化 customEvent；增强动画函数判断，使其支持自定义函数
+ *
+ * [*] 2009-03-30
  *      增加 customEvent 函数，优化逻辑
  *
  * [!] 2009-02-01
@@ -172,7 +175,7 @@
                 return Tween['bounceIn'](t*2, 0, c, d) * 0.5 + b;
             }
             return Tween['bounceOut'](t*2-d, 0, c, d) * 0.5 + c*0.5 + b;
-        } /* */ ,
+        } /* ,
 
         // extra, form http://hikejun.com/demo/yui-base/yui_2x_animation.html
         easeInQuad: function (t, b, c, d) {
@@ -328,7 +331,7 @@
             if (t < d/2) return Tween['easeInBounce']( t*2, 0, c, d) * 0.5 + b;
             return Tween['easeOutBounce']( t*2-d, 0, c, d) * 0.5 + c*0.5 + b;
         }
-        /* */
+        */
     };
 
     // 动画行进中
@@ -339,6 +342,7 @@
         if (this.current >= this.frames) {
             this.stop();
             customEvent(this.onComplete, this);
+            this.tweening = false;
             return;
         }
 
@@ -355,17 +359,22 @@
         var args = Array.prototype.slice.call(arguments);
             args = args.slice(2);
         if (typeof func == 'function') {
-            return func.apply(scope || this, args);
+            try {
+                return func.apply(scope || this, args);
+            } catch (e) {
+                scope.errors = scope.errors || [];
+                scope.errors.push(e);
+            }
         }
     };
 
     /**
      * 动画组件
      *
-     * @params {Number} 过程动画时间
      * @params {String} 动画类型（方程式）
+     * @params {Number} 过程动画时间
      */
-    scope.Motion = function(duration, tween) {
+    scope.Motion = function(tween, duration) {
         this.duration = duration || 1000;
         this.tween = tween || 'linear';
     };
@@ -388,11 +397,11 @@
         if (this.frames < 1) this.frames = 1;
 
         // 确定动画函数，便于计算当前位置
-        var f = Tween[this.tween] || Tween['linear'];
+        var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
         this.equation = function(from, to) {
             return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
-        }
-        this.current = 1;
+        };
+        this.current = this.tweening = 1;
     };
 
     //  开始动画
