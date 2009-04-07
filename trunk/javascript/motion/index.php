@@ -8,17 +8,17 @@
  * @link   http://www.gracecode.com/
  */
 
-$include_file = 'index.shtml';
+$include_file = 'index.xml';
 $request_base = '/motion/';
 $site_uri = 'http://127.0.0.1/motion/';
 
-$request_include_file = substr($_SERVER['REQUEST_URI'], strlen($request_base));
+$request_include_file = substr($_SERVER['REQUEST_URI'], strlen($request_base)).'.xml';
 
 if(file_exists('./'.$request_include_file) && is_file($request_include_file)) {
     $include_file = './'.$request_include_file;
 }
 
-if (!strstr($include_file, '.shtml')) {
+if (!strstr($include_file, '.xml')) {
     header('Location: '. $site_uri);
     exit;
 }

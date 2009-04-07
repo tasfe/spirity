@@ -200,12 +200,12 @@ Motion.getTweens();</pre>
         <dt><a href="#">运行轨迹</a></dt>
         <dd><p>根据动画参数，返回相应的动画轨迹以及状态。</p></dd>
 
-        <dt><a href="example/charts.shtml">柱状统计图</a></dt>
+        <dt><a href="example/charts" target="_blank">柱状统计图</a></dt>
         <dd>
         <p>根据上述的例子，发展而来的柱状统计图。</p>
         </dd>
 
-        <dt><a href="example/slider.shtml">卡盘</a></dt>
+        <dt><a href="example/slider">卡盘</a></dt>
         <dd>
         <p>常见的卡盘脚本，动画部分使用本组件。</p>
         </dd>
