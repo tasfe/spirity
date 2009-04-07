@@ -10,7 +10,10 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
- * [*] 2009-03-30
+ * [*] 2009-04-05
+ *      优化对象接口
+ *
+ * [*] 2009-04-05
  *      优化 customEvent；增强动画函数判断，使其支持自定义函数
  *
  * [*] 2009-03-30
@@ -383,40 +386,40 @@
     scope.Motion.getTweens = function(){return Tween};
 
     // 原型继承
-    var proto = scope.Motion.prototype;
+    scope.Motion.prototype = {
+        // 初始化
+        init: function() {
+            customEvent(this.onInit, this);
 
-    // 初始化
-    proto.init = function() {
-        customEvent(this.onInit, this);
+            // 默认 35 FPS
+            this.fps = this.fps || 35;
 
-        // 默认 35 FPS
-        this.fps = this.fps || 35;
+            // 计算帧数
+            this.frames = Math.ceil((this.duration/1000)*this.fps);
+            if (this.frames < 1) this.frames = 1;
 
-        // 计算帧数
-        this.frames = Math.ceil((this.duration/1000)*this.fps);
-        if (this.frames < 1) this.frames = 1;
+            // 确定动画函数，便于计算当前位置
+            var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
+            this.equation = function(from, to) {
+                return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
+            };
+            this.current = this.tweening = 1;
+        },
 
-        // 确定动画函数，便于计算当前位置
-        var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
-        this.equation = function(from, to) {
-            return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
-        };
-        this.current = this.tweening = 1;
-    };
+        //  开始动画
+        start: function() {
+            this.init();
+            customEvent(this.onStart, this);
+            var _self = this, d = this.duration / this.frames;
+            this.timer = setInterval(function() {_Tweening.call(_self);}, d);
+        },
 
-    //  开始动画
-    proto.start = function() {
-        this.init();
-        customEvent(this.onStart, this);
-        var _self = this, d = this.duration / this.frames;
-        this.timer = setInterval(function() {_Tweening.call(_self);}, d);
-    };
-
-    // 停止动画
-    proto.stop = function() {
-        if (this.timer) {
-            clearInterval(this.timer);
+        // 停止动画
+        stop: function() {
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+            this.tweening = false;
         }
-        this.tweening = false;
     };
 })(window);
