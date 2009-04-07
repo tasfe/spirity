@@ -10,6 +10,9 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [*] 2009-04-08
+ *      增加暂停、继续动画 @TODO 优化代码
+ *
  * [*] 2009-04-07
  *      优化代码组织，改回 setInterval 为 setTimeout，详见 http://lifesinger.org/blog/?p=1184
  *
@@ -396,7 +399,7 @@
             this.current++;
 
             var f = arguments.callee, _self = this;
-            setTimeout(function() {f.call(_self)}, this.duration/this.frames);
+            this.timer = setTimeout(function() {f.call(_self)}, this.duration/this.frames);
         };
 
         return {
@@ -417,14 +420,18 @@
                     return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
                 };
                 this.current = this.tweening = 1;
+                this.inited = true;
             },
 
             //  开始动画
-            start: function() {
-                this.init();
-                customEvent(this.onStart, this);
+            start: function(force) {
+                if (!this.inited || !this.pause) {
+                    this.init();
+                    customEvent(this.onStart, this);
+                }
                 var _self = this, d = this.duration / this.frames;
                 this.timer = setTimeout(function() {_Tweening.call(_self);}, d);
+                this.tweening = true;
             },
 
             // 停止动画
@@ -433,6 +440,20 @@
                     clearTimeout(this.timer);
                 }
                 this.tweening = false;
+            },
+
+            // 暂停动画
+            sleep: function() {
+                this.stop();
+                this.pause = true;
+                customEvent(this.onSleep, this);
+            },
+
+            // 继续动画
+            wakeup: function() {
+                if (this.inited && this.sleep) this.start();
+                this.pause = false;
+                customEvent(this.onWakeup, this);
             }
         };
     })();
