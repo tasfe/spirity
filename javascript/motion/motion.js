@@ -11,7 +11,10 @@
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
  * [+] 2009-04-08
- *      组织变量，增加暂停、继续动画
+ *      增加暂停、继续动画
+ *
+ * [*] 2009-04-07
+ *      组织变量，更名 customEvent 为 _callback
  *
  * [*] 2009-04-07
  *      优化代码组织，改回 setInterval 为 setTimeout，详见 http://lifesinger.org/blog/?p=1184
