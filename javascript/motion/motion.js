@@ -400,15 +400,15 @@
                 ++this.current;
 
                 // 继续运行下一帧动画
-                var f = arguments.callee, _self = this;
+                var f = arguments.callee;
                 this.timer = setTimeout(function() {f.call(_self)}, _interval);
             }
         };
 
         /**
-         * 运行间隔
+         * 运行间隔，回调作用域
          */
-        var _interval = 50;
+        var _interval = 50, _self = null;
         
         /**
          * 公共方法
@@ -438,24 +438,28 @@
 
                 // 初始化时的回调
                 _callback(this.onInit, this);
+
+                // 回调作用域
+                _self = this;
             },
 
             /**
              * 开始动画
              */
             start: function(force) {
+                // 如果不是在暂停状态，则执行初始化操作
                 if (!this.paused) {
                     // 默认初始化
                     this.init();
 
-                    // 计算运行帧数
+                    // 初始化运行帧数
                     this.current = 1;
 
                     // 动画开始时的回调
                     _callback(this.onStart, this);
                 }
 
-                var _self = this;
+                // 执行动画
                 this.timer = setTimeout(function() {_Tweening.call(_self);}, _interval);
             },
 
