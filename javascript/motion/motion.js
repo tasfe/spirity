@@ -10,8 +10,8 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
- * [*] 2009-04-08
- *      增加暂停、继续动画 @TODO 优化代码
+ * [+] 2009-04-08
+ *      组织变量，增加暂停、继续动画
  *
  * [*] 2009-04-07
  *      优化代码组织，改回 setInterval 为 setTimeout，详见 http://lifesinger.org/blog/?p=1184
@@ -362,14 +362,13 @@
     // 原型继承
     scope.Motion.prototype = (function() {
         /**
-         * 自定义事件
+         * 执行回调
          * 
          * @params {Function} 事件回调
          * @params {Object} 作用域
          */
-        var customEvent = function(func, scope) {
-            var args = Array.prototype.slice.call(arguments);
-                args = args.slice(2);
+        var _callback = function(func, scope) {
+            var args = Array.prototype.slice.call(arguments).slice(2);
             if (typeof func == 'function') {
                 try {
                     return func.apply(scope || this, args);
@@ -387,73 +386,106 @@
          */
         var _Tweening = function() {
             // 动画进行时的回调
-            customEvent(this.onTweening, this);
+            _callback(this.onTweening, this);
 
+            // 如果运行帧数大于实际计算帧数，说明动画运行完成
             if (this.current >= this.frames) {
+                // 停止动画
                 this.stop();
-                customEvent(this.onComplete, this);
-                this.tweening = false;
-                return;
+
+                // 动画结束时的回调
+                _callback(this.onComplete, this);
+            } else {
+                // 计算运行帧数
+                ++this.current;
+
+                // 继续运行下一帧动画
+                var f = arguments.callee, _self = this;
+                this.timer = setTimeout(function() {f.call(_self)}, _interval);
             }
-
-            this.current++;
-
-            var f = arguments.callee, _self = this;
-            this.timer = setTimeout(function() {f.call(_self)}, this.duration/this.frames);
         };
 
+        /**
+         * 运行间隔
+         */
+        var _interval = 50;
+        
+        /**
+         * 公共方法
+         */
         return {
-            // 初始化
+            /**
+             * 初始化
+             */
             init: function() {
-                customEvent(this.onInit, this);
-
                 // 默认 35 FPS
                 this.fps = this.fps || 35;
 
                 // 计算帧数
                 this.frames = Math.ceil((this.duration/1000)*this.fps);
+
+                // 保证最小帧数
                 if (this.frames < 1) this.frames = 1;
 
-                // 确定动画函数，便于计算当前位置
+                // 动画公式，调用方式 this.equation
                 var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
                 this.equation = function(from, to) {
                     return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
                 };
-                this.current = this.tweening = 1;
-                this.inited = true;
+
+                // 计算运行间隔
+                _interval = this.duration / this.frames;
+
+                // 初始化时的回调
+                _callback(this.onInit, this);
             },
 
-            //  开始动画
+            /**
+             * 开始动画
+             */
             start: function(force) {
-                if (!this.inited || !this.pause) {
+                if (!this.paused) {
+                    // 默认初始化
                     this.init();
-                    customEvent(this.onStart, this);
+
+                    // 计算运行帧数
+                    this.current = 1;
+
+                    // 动画开始时的回调
+                    _callback(this.onStart, this);
                 }
-                var _self = this, d = this.duration / this.frames;
-                this.timer = setTimeout(function() {_Tweening.call(_self);}, d);
-                this.tweening = true;
+
+                var _self = this;
+                this.timer = setTimeout(function() {_Tweening.call(_self);}, _interval);
             },
 
             // 停止动画
             stop: function() {
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                }
-                this.tweening = false;
+                clearTimeout(this.timer);
             },
 
             // 暂停动画
             sleep: function() {
+                // 停止动画
                 this.stop();
-                this.pause = true;
-                customEvent(this.onSleep, this);
+
+                // 暂停状态
+                this.paused = true;
+
+                // 暂停动画时的回调
+                _callback(this.onSleep, this);
             },
 
             // 继续动画
             wakeup: function() {
-                if (this.inited && this.sleep) this.start();
-                this.pause = false;
-                customEvent(this.onWakeup, this);
+                // 恢复动画
+                this.start();
+
+                // 暂停状态
+                this.paused = false;
+
+                // 继续动画时的回调
+                _callback(this.onWakeup, this);
             }
         };
     })();
