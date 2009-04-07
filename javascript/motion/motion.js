@@ -10,10 +10,13 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [*] 2009-04-07
+ *      优化代码组织，改回 setInterval 为 setTimeout，详见 http://lifesinger.org/blog/?p=1184
+ *
  * [*] 2009-04-05
  *      优化对象接口
  *
- * [*] 2009-04-05
+ * [*] 2009-04-03
  *      优化 customEvent；增强动画函数判断，使其支持自定义函数
  *
  * [*] 2009-03-30
@@ -337,40 +340,6 @@
         */
     };
 
-    // 动画行进中
-    var _Tweening = function() {
-        // 动画进行时的回调
-        customEvent(this.onTweening, this);
-
-        if (this.current >= this.frames) {
-            this.stop();
-            customEvent(this.onComplete, this);
-            this.tweening = false;
-            return;
-        }
-
-        this.current++;
-    };
-
-    /**
-     * 自定义事件
-     * 
-     * @params {Function} 事件回调
-     * @params {Object} 作用域
-     */
-    var customEvent = function(func, scope) {
-        var args = Array.prototype.slice.call(arguments);
-            args = args.slice(2);
-        if (typeof func == 'function') {
-            try {
-                return func.apply(scope || this, args);
-            } catch (e) {
-                scope.errors = scope.errors || [];
-                scope.errors.push(e);
-            }
-        }
-    };
-
     /**
      * 动画组件
      *
@@ -383,43 +352,88 @@
     };
 
     // 返回动画公式
-    scope.Motion.getTweens = function(){return Tween};
+    scope.Motion.getTweens = function(){
+        return Tween
+    };
 
     // 原型继承
-    scope.Motion.prototype = {
-        // 初始化
-        init: function() {
-            customEvent(this.onInit, this);
-
-            // 默认 35 FPS
-            this.fps = this.fps || 35;
-
-            // 计算帧数
-            this.frames = Math.ceil((this.duration/1000)*this.fps);
-            if (this.frames < 1) this.frames = 1;
-
-            // 确定动画函数，便于计算当前位置
-            var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
-            this.equation = function(from, to) {
-                return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
-            };
-            this.current = this.tweening = 1;
-        },
-
-        //  开始动画
-        start: function() {
-            this.init();
-            customEvent(this.onStart, this);
-            var _self = this, d = this.duration / this.frames;
-            this.timer = setInterval(function() {_Tweening.call(_self);}, d);
-        },
-
-        // 停止动画
-        stop: function() {
-            if (this.timer) {
-                clearInterval(this.timer);
+    scope.Motion.prototype = (function() {
+        /**
+         * 自定义事件
+         * 
+         * @params {Function} 事件回调
+         * @params {Object} 作用域
+         */
+        var customEvent = function(func, scope) {
+            var args = Array.prototype.slice.call(arguments);
+                args = args.slice(2);
+            if (typeof func == 'function') {
+                try {
+                    return func.apply(scope || this, args);
+                } catch (e) {
+                    scope.errors = scope.errors || [];
+                    scope.errors.push(e);
+                }
             }
-            this.tweening = false;
-        }
-    };
+        };
+
+        /**
+         * 动画行进中
+         *
+         * @return {void}
+         */
+        var _Tweening = function() {
+            // 动画进行时的回调
+            customEvent(this.onTweening, this);
+
+            if (this.current >= this.frames) {
+                this.stop();
+                customEvent(this.onComplete, this);
+                this.tweening = false;
+                return;
+            }
+
+            this.current++;
+
+            var f = arguments.callee, _self = this;
+            setTimeout(function() {f.call(_self)}, this.duration/this.frames);
+        };
+
+        return {
+            // 初始化
+            init: function() {
+                customEvent(this.onInit, this);
+
+                // 默认 35 FPS
+                this.fps = this.fps || 35;
+
+                // 计算帧数
+                this.frames = Math.ceil((this.duration/1000)*this.fps);
+                if (this.frames < 1) this.frames = 1;
+
+                // 确定动画函数，便于计算当前位置
+                var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
+                this.equation = function(from, to) {
+                    return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
+                };
+                this.current = this.tweening = 1;
+            },
+
+            //  开始动画
+            start: function() {
+                this.init();
+                customEvent(this.onStart, this);
+                var _self = this, d = this.duration / this.frames;
+                this.timer = setTimeout(function() {_Tweening.call(_self);}, d);
+            },
+
+            // 停止动画
+            stop: function() {
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+                this.tweening = false;
+            }
+        };
+    })();
 })(window);
