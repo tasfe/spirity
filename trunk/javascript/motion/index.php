@@ -31,9 +31,11 @@ if (!strstr($include_file, '.xml')) {
         <title>Motion - 小型高效的 Javascript 动画组件</title>
         <style type="text/css">@import url(<?php echo $site_uri ?>/css/motion.css); </style>
 <?php
-      //  <script type="text/javascript" src="<?php echo $site_uri ?>/motion.js"></script>
+/*
+      <script type="text/javascript" src="<?php echo $site_uri ?>/motion.js"></script>
+ */
 ?>
-      <script type="text/javascript" src="http://spirity.googlecode.com/files/motion-0.2-min.js"></script>
+      <script type="text/javascript" src="<?php echo $site_uri ?>/motion.js"></script>
     </head>
     <body>
         <div class="main-wrap">
