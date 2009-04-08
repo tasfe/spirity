@@ -362,9 +362,6 @@
         return Tween
     };
 
-    // 记录版本
-    scope.Motion.version = '$Id';
-
     // 原型继承
     scope.Motion.prototype = (function() {
         /**
