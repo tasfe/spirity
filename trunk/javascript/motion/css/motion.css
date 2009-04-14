@@ -85,6 +85,12 @@ a:hover {
     margin-top: 1.5em;
 }
 
+.main-wrap .content h4 {
+    text-indent: 2em;
+    margin-top: 1em;
+}
+
+
 .main-wrap .content em, .main-wrap .content strong {
     font-weight: bold;
 }
