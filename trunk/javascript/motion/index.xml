@@ -195,7 +195,7 @@ Motion.getTweens();</pre>
     如果您也有精彩的例子，欢迎您提交给我。</p>
 
     <dl>
-        <dt><a href="example/reference">运行轨迹</a></dt>
+        <dt><a href="example/reference" target="_blank">运行轨迹</a></dt>
         <dd><p>根据动画参数，返回相应的动画轨迹以及状态。</p></dd>
 
         <dt><a href="example/charts" target="_blank">柱状统计图</a></dt>
