@@ -10,6 +10,12 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [x] 2009-04-14
+ *      修复因原型继承造成多个实例动画混乱的问题
+ *
+ * [+] 2009-04-14
+ *      增加回调作用域，方便链式操作
+ *
  * [+] 2009-04-08
  *      增加暂停、继续动画
  *
@@ -362,6 +368,11 @@
         return Tween
     };
 
+    /**
+     * 运行间隔，回调作用域
+     */
+    var _interval = 50;
+
     // 原型继承
     scope.Motion.prototype = (function() {
         /**
@@ -397,22 +408,17 @@
                 this.stop();
 
                 // 动画结束时的回调
-                _callback(this.onComplete, this);
+                return _callback(this.onComplete, this) || this;
             } else {
                 // 计算运行帧数
                 ++this.current;
 
                 // 继续运行下一帧动画
-                var f = arguments.callee;
+                var f = arguments.callee, _self = this;
                 this.timer = setTimeout(function() {f.call(_self)}, _interval);
             }
         };
-
-        /**
-         * 运行间隔，回调作用域
-         */
-        var _interval = 50, _self = null;
-        
+      
         /**
          * 公共方法
          */
@@ -441,9 +447,6 @@
 
                 // 初始化时的回调
                 _callback(this.onInit, this);
-
-                // 回调作用域
-                _self = this;
             },
 
             /**
@@ -463,7 +466,11 @@
                 }
 
                 // 执行动画
+                var _self = this;
                 this.timer = setTimeout(function() {_Tweening.call(_self);}, _interval);
+
+                // 返回自身
+                return this;
             },
 
             // 停止动画
@@ -480,7 +487,7 @@
                 this.paused = true;
 
                 // 暂停动画时的回调
-                _callback(this.onSleep, this);
+                return _callback(this.onSleep, this) || this;
             },
 
             // 继续动画
@@ -492,7 +499,7 @@
                 this.paused = false;
 
                 // 继续动画时的回调
-                _callback(this.onWakeup, this);
+                return _callback(this.onWakeup, this) || this;
             }
         };
     })();
