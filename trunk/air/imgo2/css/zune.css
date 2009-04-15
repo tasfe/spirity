@@ -1,0 +1,103 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 nobomb: */
+/**
+ * Zune 皮肤
+ *
+ * @author mingcheng@taobao.com
+ * @date   2009-04-15
+ * @link   http://www.gracecode.com/
+ */
+
+.zune .foot,
+.zune .foot > div {
+    background: url(../images/zune_bottom.png) no-repeat scroll 1000px 1000px;
+}
+
+.zune .operate,
+.zune .operate ul,
+.zune .operate ul a {
+    background: url(../images/zune_head.png) no-repeat scroll 1000px 1000px;
+}
+
+.zune {
+    position: relative;
+    background-position: 0px 0px;
+    background: url(../images/zune_left.png) repeat-y scroll left 0px;
+}
+
+.zune > div {
+    margin-left: 4px;
+    background: #292929 url(../images/zune_right.png) repeat-y scroll right 0px;
+}
+
+.zune .operate {
+    height: 30px;
+    position: absolute;
+    top: -30px;
+    left: 0px;
+    width: 100%;
+    background-position: left 0px;
+}
+
+.zune .operate ul {
+    height: 30px;
+    overflow: hidden;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    list-style: none;
+    background-position: right -40px;
+    padding-right: 6px;
+}
+
+.zune .operate ul li {
+    float: left;
+    width: 21px;
+    height: 21px;
+    margin: 4px 0px 0px 2px;
+    overflow: hidden;
+}
+
+.zune .operate ul a {
+    display: block;
+    text-indent: -999em;
+    cursor: default;
+}
+
+.zune .operate ul .min a {
+    background-position: 0px -110px;
+}
+
+.zune .operate ul .max a {
+    background-position: 0px -141px;
+}
+
+.zune .operate ul .close a {
+    background-position: 0px -79px;
+}
+
+.zune .operate ul .min a:hover {
+    background-position: -31px -110px;
+}
+
+.zune .operate ul .max a:hover {
+    background-position: -31px -141px;
+}
+
+.zune .operate ul .close a:hover {
+    background-position: -31px -79px;
+}
+
+.zune .foot {
+    position: absolute;
+    bottom: -3px;
+    height: 8px;
+    left: 0px;
+    background-position: left -13px;
+    width: 100%;
+}
+
+.zune .foot > div {
+    height: 4px;
+    margin-left: 4px;
+    background-position: right 1px;
+}

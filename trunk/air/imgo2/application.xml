@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/1.5">
+	<id>timer</id>
+	<version>beta1.1</version>
+	<filename>Timer</filename>
+	<customUpdateUI>false</customUpdateUI>
+	<name></name>
+	<description>description</description>
+	<copyright></copyright>
+	<initialWindow>
+		<title>Simple local database example</title>
+		<content>index.html</content>
+		<systemChrome>none</systemChrome>
+		<transparent>true</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>true</maximizable>
+		<resizable>true</resizable>
+		<width>500</width>
+		<height>700</height>
+	</initialWindow>
+    <!--
+	<icon>
+		<image16x16>icons/timer16.png</image16x16>
+		<image32x32>icons/timer32.png</image32x32>
+		<image48x48>icons/timer48.png</image48x48>
+		<image128x128>icons/timer128.png</image128x128>
+	</icon>
+    -->
+</application>
