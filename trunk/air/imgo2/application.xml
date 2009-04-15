@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/1.5">
-	<id>timer</id>
-	<version>beta1.1</version>
-	<filename>Timer</filename>
-	<customUpdateUI>false</customUpdateUI>
-	<name></name>
-	<description>description</description>
-	<copyright></copyright>
+	<id>taobao.imgo2</id>
+	<version>0.1</version>
+	<filename>Imgo2</filename>
+    <customUpdateUI>http:// update /</customUpdateUI>
+	<name>看图购</name>
+	<description>看图购</description>
+	<copyright>Taobao.com</copyright>
 	<initialWindow>
-		<title>Simple local database example</title>
+		<title>看图购</title>
 		<content>index.html</content>
 		<systemChrome>none</systemChrome>
 		<transparent>true</transparent>
