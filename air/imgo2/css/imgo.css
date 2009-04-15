@@ -1,0 +1,277 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 nobomb: */
+/**
+ * 看图购桌面版
+ *
+ * @author mingcheng@taobao.com
+ * @date   2009-04-15
+ * @link   http://www.gracecode.com/
+ */
+body {
+    font-family:Tahoma,Helvetica,Arial,sans-serif;
+}
+
+#logo {
+    width: 150px;
+    height: 67px;
+    background: url(../images/logo.png);
+    text-indent: -9999em;
+    position: absolute;
+    top: -38px;
+    left: 5px;
+    z-index: 555;
+    cursor: default;
+}
+
+.search-form {
+    margin: 3px 0px 0px 0px;
+}
+
+.search-form input[type="text"] {
+    font-size: 14px;
+    padding: 2px 4px;
+    width: 300px;
+    overflow: hidden;
+    margin: 0px 2px auto 35px; 
+    border: 1px solid #858585;
+    height: 18px;
+    line-height: 16px;
+    vertical-align: top;
+    -webkit-border-radius: 3px;
+    background: #fff url(../images/input.png) no-repeat scroll 0px 0px;
+}
+
+.big-album li .info .buy a, .search-form button {
+    background: url(../images/button.png) no-repeat top left;
+    display: inline-block;
+    text-align: center;
+    width: 101px;
+    height: 24px;
+    border: 0px;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.warp {
+    width: 480px;
+    height: 565px;
+    margin: 10px 5px;
+    /**/
+    overflow: auto;
+    background: url(../images/warp_bg.jpg) no-repeat scroll 0px 0px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #858585;
+    position: relative;
+}
+
+.result {
+    text-align: center;
+    height: 20px;
+    position: absolute;
+    bottom: 2px;
+    width: 100%;
+    right: 10px;
+    font-size: 12px;
+    text-align: right;
+    color: #fff;
+}
+
+.result em {
+    color: #f60;
+    font-weight: bold;
+    margin: 0px 5px;
+}
+
+.warp #loading {
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    -webkit-border-radius: 5px;
+    background: #fff url(../images/loading.gif) no-repeat center;
+    opacity: .50;
+    visibility: hidden;
+}
+
+.small-album, .big-album {
+    white-space: nowrap;
+    list-style: none;
+    height: 565px;
+}
+
+.small-album ul, .big-album li {
+    display: inline;
+    position: relative;
+    text-align:left;
+    list-style: none;
+    text-indent: 0;
+}
+
+.big-album li .pic {
+    /* count */
+    margin: 5px 10px 5px 6px;
+    width: 465px;
+    height: 548px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: text-top;
+    -webkit-box-shadow: 2px 2px 4px #555;
+    border: 1px solid #fff;
+    -webkit-border-radius: 5px;
+    background: url(../images/photo.gif) repeat scroll 0px 0px;
+}
+
+.big-album li .pic a {
+    display:table-cell;
+    vertical-align:middle;
+    text-align: center;
+    text-decoration:none;
+    width: 465px;
+    height: 500px;
+    background: url(../images/loading.gif) no-repeat center;
+}
+
+.big-album li .pic img {
+    -webkit-border-radius: 5px;
+}
+
+.big-album li .info {
+    border-color: #fff;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    color: #999;
+    height: 50px;
+    margin:0 10px;
+    position:absolute;
+    z-index:2;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    top: 505px;
+    left: -4px;
+    width: 465px;
+    font-size: 12px;
+    background: #000;
+    opacity: .75;
+    overflow: hidden;
+}
+
+.big-album li .info .seller {
+    display: block;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 5px;
+    margin: 0px 5px;
+}
+
+.big-album li .info .seller a {
+    color: #999;
+    text-decoration: none;
+}
+
+.big-album li .info .seller strong {
+    color: #f60;
+    margin: 0px 5px;
+    font-weight: bold;
+}
+
+.big-album li .info .buy {
+    float:right;
+    height:22px;
+    width:101px;
+    margin: -15px 8px 0 0;
+    padding: 5px;
+    background: #000;
+}
+
+.big-album li .info .buy a {
+    color: #000;
+    text-decoration: none;
+}
+
+.big-album li .info .price {
+    float: left;
+    text-shadow: 1px 1px #333;
+    color: #fff;
+}
+
+.big-album li .info .price strong {
+    font-size: 14px;
+    color: #f60;
+    margin: 0px 5px;
+    font-weight: bold;
+}
+
+.arrow {
+    background: url(../images/arrow.png) no-repeat scroll 1000px 1000px;
+    width: 19px;
+    height: 33px;
+    text-indent: -999em;
+    position: absolute;
+    top: 45%;
+}
+
+.arrow-prev {
+    left: 5px;
+    background-position: -19px 0px;
+}
+
+.arrow-prev:hover {
+    background-position: -0px 0px;
+}
+
+.arrow-next {
+    right: 5px;
+    background-position: -57px 0px;
+}
+
+.arrow-next:hover {
+    background-position: -38px 0px;
+}
+
+.small-album {
+
+}
+
+.small-album ul {
+    display: inline-block;
+    width: 450px;
+    height: 540px;
+    overflow: hidden;
+    border: 1px solid #fff;
+    -webkit-border-radius: 5px;
+    background: url(../images/photo.gif) repeat scroll 0px 0px;
+    margin: 5px 10px 5px 6px;
+    padding: 8px 0px 0px 15px
+    /*
+    -webkit-box-shadow: 2px 2px 4px #555;
+    */
+}
+
+.small-album ul li {
+    float: left;
+    border: 2px solid #fff;
+    -webkit-border-radius: 5px;
+    background: url(../images/photo.gif) repeat scroll 0px 0px;
+    margin: 5px 10px 5px 0px;
+    width: 75px;
+    height: 75px;
+    opacity: .90;
+}
+
+.small-album ul li:hover {
+    border: 2px solid #f60;
+    opacity: 1;
+}
+
+.small-album ul a {
+    background: url(../images/loading.gif) no-repeat center;
+    width: 75px;
+    height: 75px;
+    display: block;
+}
+
+.small-album ul img {
+    width: 75px;
+    height: 75px;
+}
