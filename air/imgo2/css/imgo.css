@@ -251,7 +251,9 @@ body {
 .small-album ul li {
     float: left;
     border: 2px solid #fff;
+    /*
     -webkit-border-radius: 5px;
+    */
     background: url(../images/photo.gif) repeat scroll 0px 0px;
     margin: 5px 10px 5px 0px;
     width: 75px;
