@@ -7,6 +7,43 @@
         <link rel="stylesheet" type="text/css" href="css/reset-min.css" />
         <link rel="stylesheet" type="text/css" href="css/zune.css" />
         <link rel="stylesheet" type="text/css" href="css/imgo.css" />
+        <script type="text/javascript" src="javascript/dom-event-min.js"></script>
+        <script type="text/javascript" src="javascript/dragdrop-min.js"></script>
+		<script type="text/javascript" src="javascript/connection-min.js"></script>
+		<script type="text/javascript" src="javascript/animation-min.js"></script>
+        <script type="text/javascript" src="javascript/json-min.js"></script>
+        <script type="text/javascript">
+            var Util = YAHOO.util, Event = Util.Event, Dom = Util.Dom;
+        </script>
+        <script type="text/javascript">
+            // AIR 窗口控制
+            if (window.runtime) {
+                var console = {};
+                console.info = runtime.trace;
+                console.dir  = runtime.trace;
+
+                Event.onDOMReady(function() {
+                        Event.on('J_AIRMin', 'click', function(e) {
+                            window.nativeWindow.minimize();
+                            Event.stopEvent(e);
+                        });
+
+                        Event.on('J_AIRClose', 'click', function(e) {
+                            window.nativeWindow.close();
+                            Event.stopEvent(e);
+                        });
+
+                        Event.on(['logo', 'J_operate'], 'mousedown', function(e) {
+                            window.nativeWindow.startMove();
+                            Event.stopEvent(e);
+                        });
+
+                        Event.on(['logo', 'J_operate'], 'mouseup', function(e) {
+                            Event.stopEvent(e);
+                        });
+                });
+            };
+        </script>
         <style type="text/css">
             .container {
                 width: 500px;
@@ -26,18 +63,21 @@
             .zune .operate ul {
                 right: -5px;
             }
+
+            #J_bigAlbum {display: none;}
         </style>
     </head>
     <body>
-        <div class="container zune">
+        <div class="container zune" id="container">
             <div>
                 <h1 id="logo">看图购</h1>
-                <form action="" method="get" class="search-form">
+                <!-- http://go.taobao.com/picture/list_data.htm?type=product&k_title=xxx&ps_b=0&pe_e=27&var=Imgo2 -->
+                <form action="ajax.js?type=product&_input_charset=utf8&k_title=" method="get" class="search-form" id="J_searchForm">
                     <input accesskey="s" autocomplete="off" name="k_title" type="text" maxlength="60" id="k_title" />
                     <button type="submit">搜 索</button>
                 </form>
-                <div class="warp">
-                    <ul class="big-album">
+                <div class="warp" id="J_warp">
+                    <ul class="big-album" id="J_bigAlbum">
                         <li>
                         <span class="pic">
                             <a href="#"><img src="T1V5lgXeef4dK06J2x.jpxxg" /></a>
@@ -58,83 +98,7 @@
                         </li>
                     </ul>
 
-                    <div class="small-album">
-
-                    <ul>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpgxxx" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                    </ul>
-
-                    <ul>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                        <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
-                    </ul>
+                    <div class="small-album" id="J_smallAlbum">
                     <ul>
                         <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
                         <li><a href="#"><img src="T1xlRfXjp4WJKo.Bfu.jpg" /></a></li>
@@ -174,29 +138,26 @@
                     </ul>
 
                     </div>
-
                     <div id="loading"></div>
                 </div>
-                <!--
-                <div class="warp">
-                </div>
-                -->
-                <div class="operate">
+                <div class="operate" id="J_operate">
                     <ul>
-                        <li class="min"><a href="#" title="最小化">最小化</a></li>
+                        <li class="min" id="J_AIRMin"><a href="#" title="最小化">最小化</a></li>
                         <!--
                         <li class="max"><a href="#" title="最大化">最大化</a></li>
                         -->
-                        <li class="close"><a href="#" title="关闭">关闭</a></li>
+                        <li class="close" id="J_AIRClose"><a href="#" title="关闭">关闭</a></li>
                     </ul>
                 </div>
-                <div class="result">
+                <div class="result" id="J_result">
                     找到<em>249</em>个相关宝贝
                 </div>
                 <div class="foot"><div></div></div>
-                <a href="#" class="arrow arrow-prev">上一条</a>
-                <a href="#" class="arrow arrow-next">下一条</a>
+                <a href="#" class="arrow arrow-prev" id="J_prev">上一条</a>
+                <a href="#" class="arrow arrow-next" id="J_next">下一条</a>
             </div>
         </div>
+        <script type="text/javascript" src="javascript/imgo.js"></script>
+        <script type="text/javascript" src="javascript/flow.js"></script>
     </body>
 </html>
