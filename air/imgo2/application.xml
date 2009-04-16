@@ -2,10 +2,9 @@
 <application xmlns="http://ns.adobe.com/air/application/1.5">
 	<id>taobao.imgo2</id>
 	<version>0.1</version>
-	<filename>Imgo2</filename>
-    <customUpdateUI>http:// update /</customUpdateUI>
+	<filename>看图购</filename>
 	<name>看图购</name>
-	<description>看图购</description>
+	<description>淘宝看图购桌面端</description>
 	<copyright>Taobao.com</copyright>
 	<initialWindow>
 		<title>看图购</title>
@@ -15,16 +14,13 @@
 		<visible>true</visible>
 		<minimizable>true</minimizable>
 		<maximizable>true</maximizable>
-		<resizable>true</resizable>
+		<resizable>false</resizable>
 		<width>500</width>
 		<height>700</height>
 	</initialWindow>
-    <!--
-	<icon>
-		<image16x16>icons/timer16.png</image16x16>
-		<image32x32>icons/timer32.png</image32x32>
-		<image48x48>icons/timer48.png</image48x48>
-		<image128x128>icons/timer128.png</image128x128>
+    <icon>
+		<image16x16>images/icon/imgo16x16.png</image16x16>
+		<image32x32>images/icon/imgo32x32.png</image32x32>
+        <image48x48>images/icon/imgo48x48.png</image48x48>
 	</icon>
-    -->
 </application>
