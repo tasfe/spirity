@@ -6,11 +6,9 @@
  * @date   2009-04-16
  * @link   http://www.gracecode.com/
  */
-
 var small = new YAHOO.ImgoSmall('J_smallAlbum', {
     api: Dom.get('J_searchForm').action,
     onFlush: function() {
-        //console.info(this);
         Dom.setStyle('J_warp', 'overflow', 'hidden');
         Dom.setStyle(['loading', 'J_result', 'J_prev', 'J_next'], 'visibility', 'hidden');
     },
@@ -26,16 +24,24 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
     },
 
     onFirstPage: function() {
-        Dom.get('J_prev', 'visibility', 'hidden');
+        Dom.setStyle('J_prev', 'visibility', 'hidden');
+    },
+
+    onNotMatch: function() {
+        alert('抱歉，没有搜索结果 :-/');
+        Dom.get('k_title').value = '';
+        Dom.get('k_title').focus();
+        this.flush('', false);
     },
 
     onLastPage: function() {
-        Dom.get('J_next', 'visibility', 'hidden');
+        Dom.setStyle('J_next', 'visibility', 'hidden');
     },
 
     onGroupChange: function() {
         Dom.get('J_result').getElementsByTagName('em')[1].innerHTML = this.currentPage;
-        Dom.get(['J_prev', 'J_next'], 'visibility', 'visible');
+        Dom.setStyle(['J_prev', 'J_next'], 'visibility', 'visible');
+        Dom.get('k_title').blur();
     },
 
     onLoadComplete: function(data) {
@@ -44,7 +50,9 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
         for (var c, i = 0; i < this.config.perPage; i++) {
             if ('undefined' != typeof data.data[i]) {
                 var li = document.createElement('li'); c = data.data[i];
-                li.innerHTML = '<a title="' + c.title  + '" href="#"><img src="' + c.smallThumbnailsTfs + '" /></a>';
+                li.innerHTML = ['<a title="' + c.title  + '" href="',
+                'http://item.taobao.com/auction/item_detail-' + c.xid + '-'+ c.id + '.jhtml',
+                '"><img src="' + c.smallThumbnailsTfs + '" /></a>'].join('');
                 group.appendChild(li);
             }
         }
@@ -53,8 +61,15 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
     }
 });
 
-Event.on('J_next', 'click', function(e) { this.nextGroup(); Event.stopEvent(e); }, small, true);
-Event.on('J_prev', 'click', function(e) { this.prevGroup(); Event.stopEvent(e); }, small, true);
+Event.on('J_next', 'click', function(e) {
+    this.nextGroup();
+    Event.stopEvent(e);
+}, small, true);
+
+Event.on('J_prev', 'click', function(e) {
+    this.prevGroup();
+    Event.stopEvent(e);
+}, small, true);
 
 Event.on(document, 'DOMMouseScroll', function(e){
     if (this._scrolling) {
@@ -80,8 +95,40 @@ Event.on(document, 'DOMMouseScroll', function(e){
     }, direct, false);
 }, small, true);
 
+Event.on(document, 'keydown', function(e){
+     // http://www.quirksmode.org/js/keys.html
+     var charcode = Event.getCharCode(e);
+     var target = Event.getTarget(e);
+     var type = target.tagName.toLowerCase();
+     if (type == 'input' || type == 'textarea') {
+         return;
+     }
+     if (this._timer) {
+        this._timer.cancel();
+     }
+     this._timer = YAHOO.lang.later(100, this, function() {
+        switch(charcode) {
+            case 39: case 74: case 32:
+                this.nextGroup();
+                break;
+            case 37: case 75:
+                this.prevGroup();
+                break;
+            case 71: // g
+                Dom.get('k_title').value = '';
+                Dom.get('k_title').focus();
+                this.flush('', false);
+                break;
+        }
+     }, charcode, false);
+     if (charcode == 32) {
+        Event.stopEvent(e);
+     }
+}, small, true);
+
 Event.on('J_searchForm', 'submit', function(e) {
     Event.stopEvent(e);
+                    
     var title = Dom.get('k_title');
     if (title && !title.value.replace(/(^\s*)|(\s*$)/g, "").length) {
          title.value = '';
@@ -91,3 +138,23 @@ Event.on('J_searchForm', 'submit', function(e) {
 
     this.flush(title.value, true);
 }, small, true);
+
+(function() {
+    // 打开系统浏览器窗口
+    var openUriInSystemWebBrowser = function(url) {
+        var urlReq = new air.URLRequest(url); 
+        air.navigateToURL(urlReq);
+    }
+
+    Event.on('J_smallAlbum', 'click', function(e) {
+        Event.stopEvent(e);
+        var target = Event.getTarget(e);
+        if ('img' == target.nodeName.toLowerCase()) {
+            target = Dom.getAncestorByTagName(target, 'a');
+            if (window.runtime)
+                openUriInSystemWebBrowser(target.href);
+        }
+    }, small, true);
+
+    Dom.get('k_title').focus();
+})();

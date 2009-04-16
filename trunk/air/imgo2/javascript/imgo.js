@@ -35,8 +35,6 @@
         var end = parseInt((page-1) * this.config.perPage + this.config.perPage, 10);
 
         var reqUri = this.config.api + this.key + '&ps_b=' + begin + '&pe_e=' + end + '&var=Imgo2';
-
-        window.runtime ? runtime.trace(reqUri) : console.info(reqUri);
         _callback(this.config.onBeforeLoad, _self);
 
         YAHOO.util.Connect.asyncRequest('get', reqUri, {
@@ -48,6 +46,7 @@
                     this.totalItem = data.total;
 
                     if (this.totalItem <= 0) {
+                        this.loading = false;
                         _callback(this.config.onNotMatch, this);
                         return;
                     }
@@ -90,7 +89,6 @@
     };
 
     YAHOO.ImgoSmall.prototype = (function() {
-
         return {
             flush: function(key, start) {
                 _callback(this.config.onFlush, this);
