@@ -27,15 +27,30 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
         Dom.setStyle('J_prev', 'visibility', 'hidden');
     },
 
+    onLastPage: function() {
+        Dom.setStyle('J_next', 'visibility', 'hidden');
+    },
+
+    onFirstItem: function() {
+        Dom.setStyle('J_prev', 'visibility', 'hidden');
+    },
+
+    onLastItem: function() {
+        Dom.setStyle('J_next', 'visibility', 'hidden');
+    },
+
+    onItemChange: function(item) {
+        Dom.setStyle(['J_prev', 'J_next'], 'visibility', 'visible');
+        item = Dom.get(item);
+        var img = item.getElementsByTagName('img')[0];
+        if (!img.src) img.src = img.getAttribute('org');
+    },
+
     onNotMatch: function() {
         alert('抱歉，没有搜索结果 :-/');
         Dom.get('k_title').value = '';
         Dom.get('k_title').focus();
         this.flush('', false);
-    },
-
-    onLastPage: function() {
-        Dom.setStyle('J_next', 'visibility', 'hidden');
     },
 
     onGroupChange: function() {
@@ -44,16 +59,31 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
         Dom.get('k_title').blur();
     },
 
-    onLoadComplete: function(data) {
-        //console.dir(data);
+    onLoadComplete: function(data, page) {
         var group = document.createElement('ul');
         for (var c, i = 0; i < this.config.perPage; i++) {
             if ('undefined' != typeof data.data[i]) {
-                var li = document.createElement('li'); c = data.data[i];
+                c = data.data[i];
+                var li = document.createElement('li');
+                li.id = 'small:' + page + ':' + i;
                 li.innerHTML = ['<a title="' + c.title  + '" href="',
                 'http://item.taobao.com/auction/item_detail-' + c.xid + '-'+ c.id + '.jhtml',
                 '"><img src="' + c.smallThumbnailsTfs + '" /></a>'].join('');
                 group.appendChild(li);
+
+                var bigLi = document.createElement('li');
+                bigLi.id = 'big:' + page + ':' + i;
+                bigLi.innerHTML = [
+                    '<span class="pic">',
+                    '    <a href="http://item.taobao.com/auction/item_detail' + c.xid + '-' + c.id + '.jhtml">',
+                    '<img org="' + c.bigThumbnailTfs + '" /></a>',
+                    '</span>',
+                    '<span class="info">',
+                    '   <span class="seller"><a href="#">共<strong>' + c.similarNum + '</strong>位卖家</a></span>',
+                    '   <span class="price"><strong>' + c.reservePrice + '</strong>元</span>',
+                    '   <span class="buy"><a target="_blank" href="#">我要购买</a></span></span>'
+                ].join('');
+                this.bigItems.appendChild(bigLi);
             }
         }
         this.container.appendChild(group);
@@ -62,12 +92,12 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
 });
 
 Event.on('J_next', 'click', function(e) {
-    this.nextGroup();
+    this[this.mode == 'small' ? 'nextGroup' : 'nextItem']();
     Event.stopEvent(e);
 }, small, true);
 
 Event.on('J_prev', 'click', function(e) {
-    this.prevGroup();
+    this[this.mode == 'small' ? 'prevGroup' : 'prevItem']();
     Event.stopEvent(e);
 }, small, true);
 
@@ -91,7 +121,8 @@ Event.on(document, 'DOMMouseScroll', function(e){
     }
 
     this._timer = YAHOO.lang.later(50, this, function() {
-        direct == -1 ? this.nextGroup() : this.prevGroup();
+        direct == -1 ? this[this.mode == 'small' ? 'nextGroup' : 'nextItem']() : 
+            this[this.mode == 'small' ? 'prevGroup' : 'prevItem']();
     }, direct, false);
 }, small, true);
 
@@ -107,14 +138,15 @@ Event.on(document, 'keydown', function(e){
         this._timer.cancel();
      }
      this._timer = YAHOO.lang.later(100, this, function() {
+         console.info(charcode);
         switch(charcode) {
             case 39: case 74: case 32:
-                this.nextGroup();
+                this[this.mode == 'small' ? 'nextGroup' : 'nextItem']();
                 break;
             case 37: case 75:
-                this.prevGroup();
+                this[this.mode == 'small' ? 'prevGroup' : 'prevItem']();
                 break;
-            case 71: // g
+            case 71: case 117: // g
                 Dom.get('k_title').value = '';
                 Dom.get('k_title').focus();
                 this.flush('', false);
@@ -150,9 +182,8 @@ Event.on('J_searchForm', 'submit', function(e) {
         Event.stopEvent(e);
         var target = Event.getTarget(e);
         if ('img' == target.nodeName.toLowerCase()) {
-            target = Dom.getAncestorByTagName(target, 'a');
-            if (window.runtime)
-                openUriInSystemWebBrowser(target.href);
+            target = Dom.getAncestorByTagName(target, 'li');
+            this.switchItem(target.id.replace('small:', 'big:'));
         }
     }, small, true);
 
