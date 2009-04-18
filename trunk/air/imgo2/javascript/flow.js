@@ -10,6 +10,7 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
     api: Dom.get('J_searchForm').action,
     onFlush: function() {
         Dom.setStyle('J_warp', 'overflow', 'hidden');
+        Dom.setStyle('J_notMatch', 'visibility', 'hidden');
         Dom.setStyle(['loading', 'J_result', 'J_prev', 'J_next'], 'visibility', 'hidden');
     },
 
@@ -24,69 +25,85 @@ var small = new YAHOO.ImgoSmall('J_smallAlbum', {
     },
 
     onFirstPage: function() {
-        Dom.setStyle('J_prev', 'visibility', 'hidden');
+        Dom.addClass('J_prev', 'disabled');
     },
 
     onLastPage: function() {
-        Dom.setStyle('J_next', 'visibility', 'hidden');
+        Dom.addClass('J_next', 'disabled');
     },
 
     onFirstItem: function() {
-        Dom.setStyle('J_prev', 'visibility', 'hidden');
+        Dom.addClass('J_prev', 'disabled');
     },
 
     onLastItem: function() {
-        Dom.setStyle('J_next', 'visibility', 'hidden');
+        Dom.addClass('J_next', 'disabled');
     },
 
     onItemChange: function(item) {
         Dom.setStyle(['J_prev', 'J_next'], 'visibility', 'visible');
+        Dom.removeClass(['J_prev', 'J_next'], 'disabled');
         item = Dom.get(item);
         var img = item.getElementsByTagName('img')[0];
         if (!img.src) img.src = img.getAttribute('org');
+        this.currentPage = parseInt(this.currentItem.id.match(/big:(\d+):/)[1], 10);
+        Dom.get('J_result').getElementsByTagName('em')[1].innerHTML = this.currentPage;
+        Dom.removeClass('J_switchMode', 'mode-big');
     },
 
     onNotMatch: function() {
-        alert('抱歉，没有搜索结果 :-/');
         Dom.get('k_title').value = '';
         Dom.get('k_title').focus();
         this.flush('', false);
+        Dom.setStyle('J_notMatch', 'visibility', 'visible');
     },
 
     onGroupChange: function() {
         Dom.get('J_result').getElementsByTagName('em')[1].innerHTML = this.currentPage;
         Dom.setStyle(['J_prev', 'J_next'], 'visibility', 'visible');
+        Dom.removeClass(['J_prev', 'J_next'], 'disabled');
         Dom.get('k_title').blur();
+        Dom.addClass('J_switchMode', 'mode-big');
     },
 
     onLoadComplete: function(data, page) {
-        var group = document.createElement('ul');
-        for (var c, i = 0; i < this.config.perPage; i++) {
-            if ('undefined' != typeof data.data[i]) {
-                c = data.data[i];
-                var li = document.createElement('li');
-                li.id = 'small:' + page + ':' + i;
-                li.innerHTML = ['<a title="' + c.title  + '" href="',
-                'http://item.taobao.com/auction/item_detail-' + c.xid + '-'+ c.id + '.jhtml',
-                '"><img src="' + c.smallThumbnailsTfs + '" /></a>'].join('');
-                group.appendChild(li);
+        for(var k = 0; k < this.cache; k++) {
+            var page = page + k;
+            if (!Dom.get('page:' + page)) {
+                var group = document.createElement('ul');
+                group.id = 'page:' + page;
+                this.loaded[page] = true;
 
-                var bigLi = document.createElement('li');
-                bigLi.id = 'big:' + page + ':' + i;
-                bigLi.innerHTML = [
-                    '<span class="pic">',
-                    '    <a href="http://item.taobao.com/auction/item_detail' + c.xid + '-' + c.id + '.jhtml">',
-                    '<img org="' + c.bigThumbnailTfs + '" /></a>',
-                    '</span>',
-                    '<span class="info">',
-                    '   <span class="seller"><a href="#">共<strong>' + c.similarNum + '</strong>位卖家</a></span>',
-                    '   <span class="price"><strong>' + c.reservePrice + '</strong>元</span>',
-                    '   <span class="buy"><a target="_blank" href="#">我要购买</a></span></span>'
-                ].join('');
-                this.bigItems.appendChild(bigLi);
+                for (var c, j = 0, i = 0 + (k * this.config.perPage), len = this.config.perPage + (k * this.config.perPage); i < len; i++, j++) {
+                    if ('undefined' != typeof data.data[i]) {
+                        c = data.data[i];
+                        var li = document.createElement('li');
+                        li.id = 'small:' + page + ':' + j;
+                        li.innerHTML = ['<a title="' + c.title  + '" href="',
+                        'http://item.taobao.com/auction/item_detail-' + c.xid + '-'+ c.id + '.jhtml',
+                        '"><img src="' + c.smallThumbnailsTfs + '" /></a>'].join('');
+                        group.appendChild(li);
+
+                        var bigLi = document.createElement('li');
+                        bigLi.id = 'big:' + page + ':' + j;
+                        bigLi.innerHTML = [
+                            '<span class="pic">',
+                            '    <a href="http://item.taobao.com/auction/item_detail-' + c.xid + '-' + c.id + '.jhtml">',
+                            '<img org="' + c.bigThumbnailTfs + '" /></a>',
+                            '</span>',
+                            '<span class="info">',
+                            '   <span class="seller">共<strong>' + c.similarNum + '</strong>位卖家</span>',
+                            '   <span class="price"><strong>' + c.reservePrice + '</strong>元</span>',
+                            '   <span class="buy"><a target="_blank" href="http://item.taobao.com/auction/item_detail-' + 
+                                c.xid + '-' + c.id + '.jhtml">我要购买</a></span></span>'
+                        ].join('');
+                        this.bigItems.appendChild(bigLi);
+                    }
+                }
+                this.container.appendChild(group);
             }
         }
-        this.container.appendChild(group);
+
         Dom.setStyle('loading', 'visibility', 'hidden');
     }
 });
@@ -99,6 +116,21 @@ Event.on('J_next', 'click', function(e) {
 Event.on('J_prev', 'click', function(e) {
     this[this.mode == 'small' ? 'prevGroup' : 'prevItem']();
     Event.stopEvent(e);
+}, small, true);
+
+Event.on('J_switchMode', 'click', function(e) {
+    Event.stopEvent(e);
+    var target = Event.getTarget(e);
+    if ('small' == this.mode) {
+        var big = Dom.get('big:' + this.currentPage + ':0');
+        if (big) {
+            this.switchItem(big);
+        }
+    } else {
+        Dom.get('J_warp').scrollTop  = 0;
+        Dom.get('J_warp').scrollLeft = 483 * (this.currentPage - 1);
+        this.switchGroup(this.currentPage);
+    }
 }, small, true);
 
 Event.on(document, 'DOMMouseScroll', function(e){
@@ -138,7 +170,7 @@ Event.on(document, 'keydown', function(e){
         this._timer.cancel();
      }
      this._timer = YAHOO.lang.later(100, this, function() {
-         console.info(charcode);
+        //console.info(charcode);
         switch(charcode) {
             case 39: case 74: case 32:
                 this[this.mode == 'small' ? 'nextGroup' : 'nextItem']();
@@ -150,6 +182,27 @@ Event.on(document, 'keydown', function(e){
                 Dom.get('k_title').value = '';
                 Dom.get('k_title').focus();
                 this.flush('', false);
+                break;
+            case 81:
+                if (window.nativeWindow)
+                    window.nativeWindow.close();
+                break;
+
+            case 38: case 72:
+                if ('small' == this.mode) {
+                    var big = Dom.get('big:' + this.currentPage + ':0');
+                    if (big) {
+                        this.switchItem(big);
+                    }
+                }
+                break;
+
+            case 40: case 76:
+                if ('big' == this.mode) {
+                    Dom.get('J_warp').scrollTop  = 0;
+                    Dom.get('J_warp').scrollLeft = 483 * (this.currentPage - 1);
+                    this.switchGroup(this.currentPage);
+                }
                 break;
         }
      }, charcode, false);
@@ -171,6 +224,15 @@ Event.on('J_searchForm', 'submit', function(e) {
     this.flush(title.value, true);
 }, small, true);
 
+Event.on('J_smallAlbum', 'click', function(e) {
+    Event.stopEvent(e);
+    var target = Event.getTarget(e);
+    if ('img' == target.nodeName.toLowerCase()) {
+        target = Dom.getAncestorByTagName(target, 'li');
+        this.switchItem(target.id.replace('small:', 'big:'));
+    }
+}, small, true);
+
 (function() {
     // 打开系统浏览器窗口
     var openUriInSystemWebBrowser = function(url) {
@@ -178,12 +240,18 @@ Event.on('J_searchForm', 'submit', function(e) {
         air.navigateToURL(urlReq);
     }
 
-    Event.on('J_smallAlbum', 'click', function(e) {
+    Event.on('J_bigAlbum', 'click', function(e) {
         Event.stopEvent(e);
         var target = Event.getTarget(e);
-        if ('img' == target.nodeName.toLowerCase()) {
-            target = Dom.getAncestorByTagName(target, 'li');
-            this.switchItem(target.id.replace('small:', 'big:'));
+        var nodeName = target.nodeName.toLowerCase();
+        if (nodeName == 'a' || nodeName == 'img') {
+            if (nodeName == 'img') {
+                target = Dom.getAncestorByTagName(target, 'a');
+            }
+
+            if (air) {
+                openUriInSystemWebBrowser(target.href);
+            }
         }
     }, small, true);
 
