@@ -8,6 +8,9 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-04-17
+ *      完成大图逻辑 @TODO 优化代码，加入大小图切换、缓存机制
+ *
  * [+] 2009-04-16
  *      完成小图逻辑 @TODO 代码需要分离
  */
@@ -37,7 +40,7 @@
 
         // 分段获取逻辑
         var begin = parseInt((page-1) * this.config.perPage, 10);
-        var end = parseInt((page-1) * this.config.perPage + this.config.perPage, 10);
+        var end = parseInt((page-1) * this.config.perPage + this.cache * this.config.perPage, 10);
 
         var reqUri = this.config.api + this.key + '&ps_b=' + begin + '&pe_e=' + end + '&var=Imgo2';
         _callback(this.config.onBeforeLoad, _self);
@@ -90,6 +93,7 @@
         this.config = YAHOO.lang.merge(defConfig||{}, config);
         this.container = Dom.get(container);
         this.bigItems = Dom.get('J_bigAlbum');
+        this.cache = this.config.cache || 2;
         this.flush('', false); // 重新初始化
     };
 
@@ -131,7 +135,6 @@
             var offset = (this.container.getElementsByTagName('ul')[this.currentPage-1]).offsetLeft + 5;
             */
             var offset = 483 * (this.currentPage - 1);
-
             
             if (this.mode != 'small') {
                 Dom.get('J_warp').scrollTop = 560;
@@ -163,10 +166,11 @@
             if (!item) return;
             //var offset = 483 * (this.currentPage - 1);
             if (this.anim) this.anim.stop();
-            var offset = (this.currentItem || {}).offsetLeft || item.offsetLeft;
+            var offset =  item.offsetLeft || (this.currentItem || {}).offsetLeft
             if (this.mode != 'big') {
                 Dom.get('J_warp').scrollLeft = offset;
             }
+            this.currentItem = item;
             this.anim = new YAHOO.util.Scroll('J_warp', {
                 scroll: {
                     to: [offset, 0]
@@ -184,13 +188,11 @@
                 }
             }, this, true);
             this._scrolling = true;
-            this.currentItem = item;
             this.mode = 'big';
             this.anim.animate();
         },
 
         nextItem: function(item) {
-            console.info('nextItem');
             item = item || this.currentItem;
             if (!item) item = 'big:' + this.currentPage + ':0';
             var next = Dom.getNextSibling(item);
@@ -200,7 +202,6 @@
         },
 
         prevItem: function(item) {
-            console.info('prevItem');
             item = item || this.currentItem;
             if (!item) item = 'big:' + this.currentPage + ':0';
             var prev = Dom.getPreviousSibling(item);

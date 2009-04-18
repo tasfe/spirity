@@ -76,13 +76,35 @@ body {
     color: #fff;
 }
 
+.result .mode {
+    background: url(../images/mode.png) no-repeat scroll 0px 0px;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    display: block;
+    overflow: hidden;
+    top: 0px;
+    left: 20px;
+    text-indent: -999em;
+    font-size: 0px;
+    text-decoration: none;
+}
+
+.result .mode-big {
+    background-position: 0px -16px;
+}
+
+.result .mode-small {
+    background-position: 0px 0px;
+}
+
 .result em {
     color: #f60;
     font-weight: bold;
     margin: 0px 5px;
 }
 
-.warp #loading {
+.warp #loading, .warp #J_notMatch {
     width: 100%;
     height: 100%;
     z-index: 100;
@@ -93,6 +115,10 @@ body {
     background: #fff url(../images/loading.gif) no-repeat center;
     opacity: .50;
     visibility: hidden;
+}
+
+.warp #J_notMatch {
+    background-image: url(../images/not_match.png);
 }
 
 .small-album, .big-album {
@@ -220,13 +246,31 @@ body {
     background-position: -0px 0px;
 }
 
+.arrow-prev.disabled {
+    background-position: -95px 0px;
+    cursor: default;
+}
+
+.arrow-prev.disabled:hover {
+    background-position: -95px 0px;
+}
+
 .arrow-next {
     right: 5px;
     background-position: -57px 0px;
 }
 
+.arrow-next.disabled {
+    background-position: -133px 0px;
+    cursor: default;
+}
+
 .arrow-next:hover {
     background-position: -38px 0px;
+}
+
+.arrow-next.disabled:hover {
+    background-position: -133px 0px;
 }
 
 .small-album {

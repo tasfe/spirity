@@ -70,38 +70,28 @@
         <div class="container zune" id="container">
             <div>
                 <h1 id="logo">看图购</h1>
-                <form action="http://127.0.0.1/imgo2/ajax.js?type=product&_input_charset=utf8&k_title=" method="get" class="search-form" id="J_searchForm">
                 <!--
-                <form action="http://go.taobao.com/picture/list_data.htm?type=product&_input_charset=utf8&k_title=" method="get" class="search-form" id="J_searchForm">
+                <form action="http://127.0.0.1/imgo2/ajax.js?type=product&_input_charset=utf8&k_title=" method="get" class="search-form" id="J_searchForm">
                 -->
+                <form action="http://go.taobao.com/picture/list_data.htm?type=product&_input_charset=utf8&k_title=" method="get" class="search-form" id="J_searchForm">
                     <input accesskey="s" autocomplete="off" name="k_title" type="text" maxlength="60" id="k_title" />
                     <button type="submit">搜 索</button>
                 </form>
                 <div class="warp" id="J_warp">
-                    <ul class="big-album" id="J_bigAlbum">
-                        <li>
-                        <span class="pic">
-                            <a href="#"><img src="T1V5lgXeef4dK06J2x.jpxxg" /></a>
-                        </span>
-                        <span class="info">
-                            <span class="seller"><a href="#">共<strong>1</strong>位卖家</a></span>
-                            <span class="price"><strong>78.00</strong>元</span>
-                            <span class="buy"><a target="_blank" href="#">我要购买</a></span></span>
-                        </li>
-                    </ul>
+                    <ul class="big-album" id="J_bigAlbum"></ul>
                     <div class="small-album" id="J_smallAlbum"></div>
                     <div id="loading"></div>
+                    <div id="J_notMatch"></div>
                 </div>
                 <div class="operate" id="J_operate">
                     <ul>
                         <li class="min" id="J_AIRMin"><a href="#" title="最小化">最小化</a></li>
-                        <!--
-                        <li class="max"><a href="#" title="最大化">最大化</a></li>
-                        -->
+                        <!-- <li class="max"><a href="#" title="最大化">最大化</a></li> -->
                         <li class="close" id="J_AIRClose"><a href="#" title="关闭">关闭</a></li>
                     </ul>
                 </div>
                 <div class="result" id="J_result">
+                    <a href="#" class="mode" id="J_switchMode"></a>
                     找到<em></em>个相关宝贝，共 <em></em> / <em></em>页
                 </div>
                 <div class="foot"><div></div></div>
