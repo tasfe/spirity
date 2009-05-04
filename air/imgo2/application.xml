@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/1.5">
 	<id>taobao.imgo2</id>
-	<version>0.2</version>
+	<version>0.21</version>
 	<filename>看图购</filename>
 	<name>看图购</name>
 	<description>淘宝看图购桌面端</description>
