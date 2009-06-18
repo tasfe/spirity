@@ -1,3 +1,4 @@
+// vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 nobomb:
 /**
  * JavaScript printf/sprintf functions.
  *
@@ -45,12 +46,12 @@
  */
 
 window.sprintf = (function() {
-    function pad(str, len, chr, leftJustify) {
+    var pad = function(str, len, chr, leftJustify) {
         var padding = (str.length >= len) ? '' : Array(1 + len - str.length >>> 0).join(chr);
         return leftJustify ? str + padding : padding + str;
     }
 
-    function justify(value, prefix, leftJustify, minWidth, zeroPad) {
+    var justify = function(value, prefix, leftJustify, minWidth, zeroPad) {
         var diff = minWidth - value.length;
         if (diff > 0) {
             if (leftJustify || !zeroPad) {
@@ -62,7 +63,7 @@ window.sprintf = (function() {
         return value;
     }
 
-    function formatBaseX(value, base, prefix, leftJustify, minWidth, precision, zeroPad) {
+    var formatBaseX = function (value, base, prefix, leftJustify, minWidth, precision, zeroPad) {
         // Note: casts negative numbers to positive ones
         var number = value >>> 0;
         prefix = prefix && number && {'2': '0b', '8': '0', '16': '0x'}[base] || '';
@@ -70,7 +71,7 @@ window.sprintf = (function() {
         return justify(value, prefix, leftJustify, minWidth, zeroPad);
     }
 
-    function formatString(value, leftJustify, minWidth, precision, zeroPad) {
+    var formatString = function (value, leftJustify, minWidth, precision, zeroPad) {
         if (precision != null) {
             value = value.slice(0, precision);
         }
@@ -86,12 +87,14 @@ window.sprintf = (function() {
 
             // parse flags
             var leftJustify = false, positivePrefix = '', zeroPad = false, prefixBaseX = false;
-            for (var j = 0; flags && j < flags.length; j++) switch (flags.charAt(j)) {
-                case ' ': positivePrefix = ' '; break;
-                case '+': positivePrefix = '+'; break;
-                case '-': leftJustify = true; break;
-                case '0': zeroPad = true; break;
-                case '#': prefixBaseX = true; break;
+            for (var j = 0; flags && j < flags.length; j++) {
+                switch (flags.charAt(j)) {
+                    case ' ': positivePrefix = ' '; break;
+                    case '+': positivePrefix = '+'; break;
+                    case '-': leftJustify = true; break;
+                    case '0': zeroPad = true; break;
+                    case '#': prefixBaseX = true; break;
+                }
             }
 
             // parameters may be null, undefined, empty-string or real valued
@@ -170,6 +173,6 @@ window.sprintf = (function() {
  * Trival printf implementation, probably only useful during page-load.
  * Note: you may as well use "document.write(sprintf(....))" directly
  */
-function printf() {
-    document.write(sprintf.apply(this, Array.prototype.slice.call(arguments)));
+window.printf = function() {
+    document.write(sprintf.apply(arguments.callee, Array.prototype.slice.call(arguments)));
 }
