@@ -3,12 +3,14 @@
  * Motion - 动画组件
  *
  * @author  mingcheng<i.feelinglucky@gmail.com>
- * @since   2009-01-26
- * @link    http://www.gracecode.com/
+ * @link    http://lab.gracecode.com/motion/
  * @version $Id$
  *
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
+ *
+ * [*] 2009-06-21
+ *      改进 this.equation 使用 memoize 机制
  *
  * [x] 2009-04-14
  *      修复因原型继承造成多个实例动画混乱的问题
@@ -437,10 +439,15 @@
                 if (this.frames < 1) this.frames = 1;
 
                 // 动画公式，调用方式 this.equation
-                var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'];
-                this.equation = function(from, to) {
-                    return f((this.current/this.frames)*this.duration, from, to - from, this.duration);
-                };
+                this.equation = (function() {
+                    var f = ('function' == typeof this.tween) ? this.tween : Tween[this.tween] || Tween['linear'], cache = {};
+                    return function (from, to) {
+                        // http://unscriptable.com/index.php/2009/05/01/a-better-javascript-memoizer/
+                        var arg = [(this.current/this.frames)*this.duration, from, to - from, this.duration];
+                        var flag = 'flag_' + arg.join('_');
+                        return cache[flag] || (cache[flag] = f.apply(this, arg));
+                    };
+                }).call(this);
 
                 // 计算运行间隔
                 _interval = this.duration / this.frames;
