@@ -354,29 +354,30 @@
         */
     };
 
-    /**
-     * 动画组件
-     *
-     * @params {String} 动画类型（方程式）
-     * @params {Number} 过程动画时间
-     */
-    scope.Motion = function(tween, duration) {
-        this.duration = duration || 1000;
-        this.tween = tween || 'linear';
-    };
-
-    // 返回动画公式
-    scope.Motion.getTweens = function(){
-        return Tween
-    };
 
     /**
      * 运行间隔，回调作用域
      */
     var _interval = 50;
 
+    /**
+     * 动画组件
+     *
+     * @params {String} 动画类型（方程式）
+     * @params {Number} 过程动画时间
+     */
+    var Motion = function(tween, duration) {
+        this.duration = duration || 1000;
+        this.tween = tween || 'linear';
+    };
+
+    // 返回动画公式
+    Motion.getTweens = function(){
+        return Tween
+    };
+
     // 原型继承
-    scope.Motion.prototype = (function() {
+    Motion.prototype = (function() {
         /**
          * 执行回调
          * 
@@ -510,4 +511,7 @@
             }
         };
     })();
+
+    // 命名空间
+    scope.Motion = Motion;
 })(window);
