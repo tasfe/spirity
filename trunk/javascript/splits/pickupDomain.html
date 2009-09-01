@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+        <script>
+            var pickDocumentDomain = function() {
+                var hostname = arguments[1] || location.hostname.toString();
+                var hosts = hostname.split("."), len = hosts.length;
+                var deep = arguments[0] || 2, deep = deep > len ? len : deep;
+                for (var i = 0, result = [], tmp; i < deep; i++) {
+                    if ('undefined' != typeof hosts[len-i-1]) {
+                        result[deep-i-1] = hosts[len-i-1];
+                    }
+                }
+                return result.join('.');
+            }
+
+            alert(pickDocumentDomain(5, 'taobao.com'));
+            alert(pickDocumentDomain(2, 'jiwai.jianghu.daily.taobao.net'));
+            alert(pickDocumentDomain(3, 'jiwai.jianghu.daily.taobao.net'));
+            alert(pickDocumentDomain(4, 'jiwai.jianghu.daily.taobao.net'));
+        </script>
+    </body>
+</html>
