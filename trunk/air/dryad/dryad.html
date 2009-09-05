@@ -10,32 +10,38 @@
         <script type="text/javascript" src="js/mootools-1.2.3-core-nc.js"></script>
         <script type="text/javascript" src="js/oauth.js"></script>
         <script type="text/javascript" src="js/sha1.js"></script>
+        <script type="text/javascript" src="js/Jaiku.js"></script>
         <script type="text/javascript">
+            var openUrlWithSystemDefaultBrowser = function(url) {
+                air.navigateToURL(new air.URLRequest(url));
+            };
 
+            Jaiku.auth.getRequestToken({
+                onSuccess: function() {
+                    openUrlWithSystemDefaultBrowser(Jaiku.auth.getUserAuthorizationURL());
+                    prompt('', Jaiku.auth.getUserAuthorizationURL());
+//                    alert('wait.').delay(500);
+//                    alert('open!');
+                }
+            });
+        </script>
+        <script type="te//xt/javascript">
+
+        /*
         var REQUEST_TOKEN = "http://www.jaiku.com/api/request_token";
         var AUTHORIZE = "http://www.jaiku.com/api/authorize";
         var ACCESS_TOKEN = "http://www.jaiku.com/api/access_token";
 
-        /*
                     oauth_consumer_key: 'b6c167af47f84522bcaf3fcecab9b2f8',
                     oauth_consumer_secret: '7a0c45f31f59420599086f834d47dd97',
       */
-/*
- * Douban OAuth认证包括以下四步内容
- *
- * 1. 获取Request Token，该步骤使用API Key和API Key Secret签名
- * 2. 用户确认授权
- * 3. 换取Access Token，该步骤使用API Key、API Key Secret、Request Token和Request Token Secret签名
- * 4. 访问受限资源，该步骤使用API Key、API Key Secret、Access Token和Access Token Secret签名
- *
- */
+
 var api_key = "b6c167af47f84522bcaf3fcecab9b2f8";
 var api_key_secret = "7a0c45f31f59420599086f834d47dd97";
 var request_token = "";
 var request_token_secret = "";
-var access_token = "";
-var access_token_secret = "";
-
+var access_token = "f6d7189235cf40dd96b10fac084f434e";
+var access_token_secret = "50984572a99d4e84a732145a188449e4";
 var signature_method = "HMAC-SHA1";
 
 var request_token_uri = "http://www.jaiku.com/api/request_token";
@@ -46,7 +52,8 @@ var authorization_uri = "http://www.jaiku.com/api/authorize?oauth_token=";
 function getRequestToken(cb, fcb) {
     var message = {
         method: "GET",
-        action: request_token_uri,
+        action: 'http://127.0.0.1/post.php',
+        //action: request_token_uri,
         parameters: {
             oauth_consumer_key: api_key,
             oauth_signature_method: signature_method,
@@ -60,7 +67,7 @@ function getRequestToken(cb, fcb) {
     OAuth.setTimestampAndNonce(message);
     OAuth.SignatureMethod.sign(message, {
         consumerSecret: api_key_secret
-    })
+    });
 
     var req = new Request({
         //构造请求Request Token的url
@@ -68,22 +75,47 @@ function getRequestToken(cb, fcb) {
         method: message.method,
         onSuccess: (function(responseText) {
             //解析返回的Request Token和Request Token Secret
+            alert(responseText);
             var responseObj = OAuth.getParameterMap(OAuth.decodeForm(responseText));
             request_token = responseObj.oauth_token
             request_token_secret = responseObj.oauth_token_secret
-            if ($type(cb) == 'function') cb(request_token, request_token_secret);
+            if ($type(cb) == 'function')
+                cb(request_token, request_token_secret);
         }).bind(this),
         onFailure: (function(xhr){
-            if ($type(fcb) == 'function') fcb(xhr);
-        }).bind(this)
-        }).send();
+            if ($type(fcb) == 'function')
+                fcb(xhr);
+    }).bind(this)});
+
+    req.send();
 }
+
 
 // 2. 用户确认授权
 function getUserAuthorizationURL(){    
         //生成引导用户授权的url
     return authorization_uri + request_token;
 }
+
+getRequestToken(function(a, b) {
+    alert(a);
+    alert(b);
+    window.prompt('', getUserAuthorizationURL(a) + '&perms=delete');
+    alert('continue!');
+
+    /*
+    getAccessToken(function(a, b) {
+        window.prompt('access_token', a);
+        window.prompt('access_token_secret:', b);
+    });
+
+    sendMiniblog(function(a) {
+        alert(a);
+    });
+    */
+});
+
+
 
 // 3. 换取Access Token，该步骤使用API Key、API Key Secret、Request Token和Request Token Secret签名
 function getAccessToken(cb, fcb){
@@ -113,12 +145,14 @@ function getAccessToken(cb, fcb){
               method: message.method,
               onSuccess: (function(responseText){
                   //解析返回的Request Token和Request Token Secret
-                  runtime.trace(responseText);
-                  runtime.trace(message.action + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString());
+                  try {
                   var responseObj = OAuth.getParameterMap(OAuth.decodeForm(responseText));
                   access_token = responseObj.oauth_token
                   access_token_secret = responseObj.oauth_token_secret
                   if ($type(cb) == 'function') cb(access_token, access_token_secret);
+                  } catch (e) {
+                    if ($type(fcb) == 'function') fcb(xhr);
+                  }
               }).bind(this),
               onFailure: (function(xhr){
                   runtime.trace('ff');
@@ -130,18 +164,36 @@ function getAccessToken(cb, fcb){
 
 // 4. 访问受限资源，该步骤使用API Key、API Key Secret、Access Token和Access Token Secret签名
 function sendMiniblog(cb, fcb){
-                var message = {
-                    method: "POST",
-                    action: "http://mingcheng.jaiku.com/json",
-                    parameters: {
-                        oauth_consumer_key: api_key,
-                        oauth_token: access_token,
-                                                oauth_signature_method: signature_method,
-                        oauth_signature: "",
-                        oauth_timestamp: "",
-                        oauth_nonce: ""
-                          }
-          }
+          var message = {
+                method: "POST",
+                //action: "http://127.0.0.1/post.php",
+                //action: "http://api.jaiku.com/json",
+                action: "http://www.jaiku.com/user/mingcheng/json",
+                parameters: {
+                    oauth_consumer_key: api_key,
+                    oauth_token: access_token,
+                    oauth_signature_method: signature_method,
+                    oauth_signature: "",
+                    oauth_timestamp: "",
+                    oauth_nonce: "",
+                    /*
+                    method: "post",
+                    message: '你好，世界！',
+                    location: "Dryad",
+                    icon: "",
+                    nick: "mingcheng",
+                    uuid: +new Date(),
+                    */
+                    /*
+                    method: "entry_get_actor_overview",
+                    nick: 'mingcheng',
+                    limit: "",
+                    offset: "",
+                    */
+                    method: 'actor_get',
+                    nick: 'mingcheng@jaiku.com',
+               }
+           }
           // 签名
           OAuth.setTimestampAndNonce(message);
           OAuth.SignatureMethod.sign(message, {
@@ -149,50 +201,26 @@ function sendMiniblog(cb, fcb){
               tokenSecret: access_token_secret,
           });
 
-                //构造OAuth头部
-                var oauth_header = "OAuth realm=\"\", oauth_consumer_key=";
-                oauth_header += message.parameters.oauth_consumer_key + ', oauth_nonce=';
-                oauth_header += message.parameters.oauth_nonce + ', oauth_timestamp=';
-                oauth_header += message.parameters.oauth_timestamp + ', oauth_signature_method=HMAC-SHA1, oauth_signature=';
-                oauth_header += message.parameters.oauth_signature + ', oauth_token=';
-                oauth_header += message.parameters.oauth_token;
-       
-                //构造请求
-          var request_body = "<entry xmlns:ns0=\"http://www.w3.org/2005/Atom\" xmlns:db=\"http://www.douban.com/xmlns/\">";
-                request_body += "<content>Javascript OAuth认证成功</content>";
-                request_body += "</entry>";
-               
+          var action = message.action;// + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString();
           var req = new Request({
-              url: message.action + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString(),
+              url: action,
               method: message.method,
-              //设置Http Request Headers
-              headers: {'Authorization': oauth_header, 'content-type': 'application/atom+xml'},
-              data: request_body,
+              data: OAuth.getParameterMap(message.parameters),
               onSuccess: (function(responseText){
-                                                if ($type(cb) == 'function') cb(responseText);
+                   if ($type(cb) == 'function') cb(responseText);
               }).bind(this),
               onFailure: (function(xhr){
                         if ($type(fcb) == 'function') fcb(xhr);
               }).bind(this)
-          }).send()
+          }).send();
 }
 
 /*
-getRequestToken(function(a, b) {
-    window.prompt('', getUserAuthorizationURL(a) + '&perms=delete');
-
-    alert('continue!');
-
-    getAccessToken(function(a, b) {
-        window.prompt('access_token', a);
-        window.prompt('access_token_secret:', b);
-    });
-
-    sendMiniblog(function(a) {
-        alert(a);
-    });
+sendMiniblog(function(response) {
+    alert(response);
 });
 */
+
 
         </script>
     </body>
