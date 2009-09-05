@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/1.0">
+    <id>gracecode.mingcheng.AIRHelloWorld</id>
+	<name>AIR Hello World</name>
+    <filename>AIRHelloWorld</filename>
+	<description>description</description>
+    <version>1.0</version>
+    <initialWindow>
+        <content>index.html</content>
+        <title>AIR Hello World</title>
+        <!--
+        <resizeable>false</resizeable>
+        -->
+        <visible>true</visible>
+    </initialWindow>
+    <!--
+	<icon>
+		<image16x16>icons/ApolloApp_16.png</image16x16>
+		<image32x32>icons/ApolloApp_32.png</image32x32>
+		<image48x48>icons/ApolloApp_48.png</image48x48>
+		<image128x128>icons/ApolloApp_128.png</image128x128> 
+	</icon>
+    -->
+</application>
