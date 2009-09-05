@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/1.0">
-    <id>gracecode.mingcheng.AIRHelloWorld</id>
-	<name>AIR Hello World</name>
-    <filename>AIRHelloWorld</filename>
+    <id>gracecode.mingcheng.dryad</id>
+	<name>Dryad - Another Jaiku Client Tool</name>
+    <filename>Dryad</filename>
 	<description>description</description>
     <version>1.0</version>
     <initialWindow>
-        <content>index.html</content>
-        <title>AIR Hello World</title>
+        <content>dryad.html</content>
+        <title>Dryad - Another Jaiku Client Tool</title>
         <!--
         <resizeable>false</resizeable>
         -->
