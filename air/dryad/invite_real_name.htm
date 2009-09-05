@@ -1,0 +1,275 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>填写真实姓名</title>
+		<!-- CSS -->
+<link href="http://assets.jianghu.daily.taobao.net/app/sns/tbsp-sns-min.css" type="text/css" rel="stylesheet" />
+<!-- JavaScript -->
+<script type="text/javascript" src="http://assets.jianghu.daily.taobao.net/app/sns/tbra-sns-min.js"></script>
+<script type="text/javascript" src="http://assets.jianghu.daily.taobao.net/app/sns/jquery-1.3.2-min.js"></script>
+<script type="text/javascript" src="http://assets.taobaocdn.com/sys/header/header_v5.js"></script>
+
+
+
+		<link href="http://assets.jianghu.daily.taobao.net/app/sns/app/css/app-personal.css" type="text/css" rel="stylesheet" />
+		
+		
+
+	</head>
+	<script type="text/javascript">
+		var D = YAHOO.util.Dom,
+        E = YAHOO.util.Event;
+		function _load(close){
+			if(close=="true"){
+				//关闭当前页面
+				parent.UserCheck.hide();
+			} else {
+				//parent.UserCheck.showClose();
+				
+			 	try {
+					var YF = parent.YAHOO, YFD = YF.util.Dom, YFE = YF.util.Event, timer;
+					timer = YAHOO.lang.later(10, null, function() {
+    					// 获取 iframe 元素
+                        var popup = YFD.getElementsByClassName('sns-popup white', 'div');
+                        var iframe = popup[0].getElementsByTagName('iframe')[0];
+
+						if (parseInt(iframe.width, 10) < 750) {
+                            YFD.setStyle(popup, 'width', '750px');
+                            iframe.style.cssText = 'width:750px;height:550px;margin-left: -10px;';
+                            iframe.width  = '750';
+                            iframe.height = '550';
+                        } else {
+                            timer.cancel();
+                        }
+                    }, true);
+				} catch(e) {};
+			}
+		}
+		
+		
+		E.onDOMReady(function(){
+			_load('false');
+					});
+		
+		function subRealName() {
+			if(D.get("J_userName").value == "") {
+				D.get("sns-msg").innerHTML = '<p class="tips">你还没有填写真实姓名</p>';
+				//alert("请输入或者选择真实姓名");
+				return;
+			}  else {
+				var _sex = false;
+				var _d = document.getElementsByName("sex");
+				for(var i=0;i<_d.length;i++) {
+					if(_d[i].checked) {
+						_sex = true;
+						break;
+					}
+				}
+				if(!_sex) {
+					D.get("sns-msg").innerHTML = '<p class="tips">请选择性别</p>';
+					return;
+				} else if(!D.get("J_CheckBox").checked) {
+					D.get("sns-msg").innerHTML = '<p class="tips">请选择同意服务条款</p>';
+					return;
+				} else {
+					D.get("register-name").submit();
+				}
+			}			
+		}
+
+		document.domain = TB.bom.pickDocumentDomain(2);
+	</script>
+<body class="app-personal">
+	<div id="page">
+		<div id="content" class="layout w970 guid-750">
+			<div class="col-main step1">
+				<div class="main-wrap sns-nf">
+					<ul id="user-list">
+																														<li class="no1">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img08.taobaocdn.net/sns_logo/i8/T1fXXXXjdoXXb1upjX.jpg" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="benyin-hello">      benyin...  </div>
+                                        <div class="location" data-code=""></div>
+                                    </div>
+                                </li>
+																								<li class="no2 style2">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img08.taobaocdn.net/sns_logo/i8/T1fXXXXjdoXXb1upjX.jpg" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="niepeng">      niepeng  </div>
+                                        <div class="location" data-code=""></div>
+                                    </div>
+                                </li>
+																								<li class="no3">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img01.taobaocdn.net/sns_logo/i1/T1xVdXXgNsXXaH.X6X.JPEG" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="眼睛">      眼睛  </div>
+                                        <div class="location" data-code=""></div>
+                                    </div>
+                                </li>
+																								<li class="no4 style2">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img04.taobaocdn.net/sns_logo/i4/T1kXXXXoeTXXaH.X6X.JPEG" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="真的得">      真的得  </div>
+                                        <div class="location" data-code="110100"></div>
+                                    </div>
+                                </li>
+																								<li class="no5">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img07.taobaocdn.net/sns_logo/i7/T1ypdXXdRsXXaH.X6X.JPEG" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="你哥">      你哥  </div>
+                                        <div class="location" data-code="210400"></div>
+                                    </div>
+                                </li>
+																								<li class="no6">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img.taobaocdn.net/sns_logo/i2/T1DVXXXerDXXartXjX.gif" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="miadg">      miadg  </div>
+                                        <div class="location" data-code="632100"></div>
+                                    </div>
+                                </li>
+																								<li class="no7">
+								                                    <div class="avatar">
+																														                                        <img src="/default/avatar-60.png" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="真烦人">      真烦人  </div>
+                                        <div class="location" data-code=""></div>
+                                    </div>
+                                </li>
+																								<li class="no8">
+								                                    <div class="avatar">
+																																								                                        <img src="http://img03.taobaocdn.net/sns_logo/i3/T1AXXXXXfgXpaH.X6X.JPEG" width="64" height="64" />
+                                    </div>
+                                    <div class="bubble">
+                                        <div class="username" title="木元">      木元  </div>
+                                        <div class="location" data-code=""></div>
+                                    </div>
+                                </li>
+																		</ul>
+					
+					<form name="realNameAction" action="http://jianghu.daily.taobao.net/interact/invite_real_name.htm" method="post" id="register-name">
+                        <input name='_tb_token_' type='hidden' value='357635eb5a57d#14512244537615'>
+						<input type="hidden" name="url" value="http://jianghu.daily.taobao.net/u/MTc4Mzk5NjY4/inviter_front.htm?appkey=10011306">
+            			<input type="hidden" name="action" value="comment/InteractAction">
+            			<input type="hidden" name="event_submit_do_insert_real_name" value="true">
+            			<input type="hidden" name="friendId" value="0">
+						<input type="hidden" name="isHeadSet" value="false">
+						<div class="sns-msg" id="sns-msg">
+							                        </div>
+						<ul>
+                            <li><input type="text" class="f-txt" value="请输入您的姓名" name="realName" id="J_userName" maxlength="16"/></li>
+															<li class="f-search-m"><span class="s-group" id="J_selectName"></span></li>
+							                            <li>
+								<input type="radio" name="sex" value="0"/><label>男</label>
+								<input type="radio" name="sex" value="1" checked/><label>女</label>
+                            </li>
+                            <li><input type="checkbox" id="J_CheckBox" checked/> 我同意<a href="#">服务条款</a></li>
+                        </ul>
+
+					</form>
+					                    
+					<div class="guid-footer">
+                        <p class="progress">第一步.填写姓名
+							<span class="inline-progress"><span style="width: 50%">50%</span></span>
+                        </p>
+                        <p class="act skin-red"><span class="btn n-btn"><button type="button" onclick="subRealName();">下一步</button></span></p>
+         			</div>
+        		</div>
+			</div>
+        </div>
+	</div>
+
+	<ul id="name-list">
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+    </ul>
+	
+<script src="http://assets.jianghu.daily.taobao.net/app/sns/sys/js/sns-districtSelector.js"></script>
+<script type="text/javascript">
+    SNS({debug: false}).use(function(S) {
+        var Y = YAHOO.util, Dom = Y.Dom, Event = Y.Event, Lang = YAHOO.lang;
+        Event.onDOMReady(function() {
+            // 头像星星效果
+            var items = Dom.get('user-list').getElementsByTagName('li'), lastIdx = 0;
+            Lang.later(2500, null, function() {
+                var idx = Math.floor(Math.random() * items.length);
+                if (items[idx] && idx != lastIdx) {
+                    (new YAHOO.util.Anim(items[idx], {opacity: {from: 0, to: 1}}, 1.5, YAHOO.util.Easing.easeOut)).animate();
+                    lastIdx = idx;
+                }
+            }, null, true);
+
+			var handle = TB.widget.SimplePopup.decorate('J_selectName', 'name-list', {
+                position: 'bottom',
+                effect: 'fade',
+                offset: [-160, -5],
+                eventType: 'mouse',
+                disableClick: true
+            });
+            
+            Event.on('name-list', 'click', function(e) {
+                var target = Event.getTarget(e);
+                if (target.nodeName.toLowerCase() == 'li') {
+                Dom.get('J_userName').value = target.innerHTML;
+                handle.hide();
+                Dom.get('J_userName').focus();
+                }
+            });
+			
+			Event.on('J_userName', 'focus', function(e) {
+                var target = Event.getTarget(e);
+                if (target.value == '请输入您的真实姓名') {
+                    target.value = '';
+                }
+            });
+
+
+            Event.on('J_userName', 'blur', function(e) {
+                var target = Event.getTarget(e);
+                if (target.value == '') {
+                    target.value = '请输入您的真实姓名';
+                }
+            });
+            Dom.get('J_userName').value = '请输入您的真实姓名';
+			
+			// 城市名称
+           	var loc = Dom.getElementsByClassName('location', 'div', 'user-list');
+            Array.forEach(loc, function(i){
+            	var city = i.getAttribute('data-code');
+                if (city) {
+                    i.innerHTML = SNS.sys.getCityNameByCode(city, ',').split(',')[0];
+                } else {
+                    i.innerHTML = '';
+                }
+            });
+
+            if (6 === YAHOO.env.ua.ie) {
+                Event.on(Dom.get('name-list').getElementsByTagName('li'), 'mouseenter', function(e) {
+                    Dom.addClass(Event.getTarget(e), 'hover');
+                });
+
+                Event.on(Dom.get('name-list').getElementsByTagName('li'), 'mouseleave', function(e) {
+                    Dom.removeClass(Event.getTarget(e), 'hover');
+                });
+            }
+
+        });
+    });
+</script>
+</body>
+</html>
