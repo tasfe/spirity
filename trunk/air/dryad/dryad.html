@@ -6,6 +6,9 @@
     </head>
     <body>
         <button id="get">getAccessToken!</button>
+        <button id="post.post">Post Jaiku</button>
+        <button id="entry.get">Get Entry</button>
+        <button id="actor.getContacts">Get Contacts</button>
         <script type="text/javascript" src="js/AIRAliases.js"></script>
         <script type="text/javascript" src="js/AIRIntrospector.js"></script>
         <script type="text/javascript" src="js/mootools-1.2.3-core-nc.js"></script>
@@ -17,16 +20,25 @@
                 air.navigateToURL(new air.URLRequest(url));
             };
 
-                    $('get').addEvent('click', function(e) {
-                            /*
+                    $('post.post').addEvent('click', function(e) {
                             Jaiku.post.post({
                                 message: '你好，世界！ from Dryad',
                                 location: "Hangzhou, China",
                                 icon: "",
                                 nick: "mingcheng"
                             });
-                            */
                     });
+
+                    $('entry.get').addEvent('click', function(e) {
+                            Jaiku.entry.get(prompt('user name:', 'mingcheng'));
+                    });
+
+                    $('actor.getContacts').addEvent('click', function(e) {
+                            Jaiku.actor.getContacts(prompt('user name:', 'mingcheng'));
+                    });
+
+
+
 /*
             Jaiku.auth.getRequestToken({
                 onSuccess: function() {
