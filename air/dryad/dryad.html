@@ -5,8 +5,9 @@
         <title>Dryad - Jaiku Client Tool</title>
     </head>
     <body>
+        <button id="get">getAccessToken!</button>
         <script type="text/javascript" src="js/AIRAliases.js"></script>
-        <script type="te/xt/javascript" src="js/AIRIntrospector.js"></script>
+        <script type="text/javascript" src="js/AIRIntrospector.js"></script>
         <script type="text/javascript" src="js/mootools-1.2.3-core-nc.js"></script>
         <script type="text/javascript" src="js/oauth.js"></script>
         <script type="text/javascript" src="js/sha1.js"></script>
@@ -16,14 +17,27 @@
                 air.navigateToURL(new air.URLRequest(url));
             };
 
+                    $('get').addEvent('click', function(e) {
+                            /*
+                            Jaiku.post.post({
+                                message: '你好，世界！ from Dryad',
+                                location: "Hangzhou, China",
+                                icon: "",
+                                nick: "mingcheng"
+                            });
+                            */
+                    });
+/*
             Jaiku.auth.getRequestToken({
                 onSuccess: function() {
+                    $('get').addEvent('click', function(e) {
+                        Jaiku.auth.getAccessToken();
+                        jaiku.
+                    });
                     openUrlWithSystemDefaultBrowser(Jaiku.auth.getUserAuthorizationURL());
-                    prompt('', Jaiku.auth.getUserAuthorizationURL());
-//                    alert('wait.').delay(500);
-//                    alert('open!');
                 }
             });
+*/
         </script>
         <script type="te//xt/javascript">
 
@@ -140,7 +154,7 @@ function getAccessToken(cb, fcb){
     });
 
     var req = new Request({
-                        //构造请求Access Token的url
+              // 构造请求Access Token的url
               url: message.action + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString(),
               method: message.method,
               onSuccess: (function(responseText){
@@ -167,8 +181,8 @@ function sendMiniblog(cb, fcb){
           var message = {
                 method: "POST",
                 //action: "http://127.0.0.1/post.php",
-                //action: "http://api.jaiku.com/json",
-                action: "http://www.jaiku.com/user/mingcheng/json",
+                action: "http://api.jaiku.com/json",
+                //action: "http://www.jaiku.com/user/mingcheng/json",
                 parameters: {
                     oauth_consumer_key: api_key,
                     oauth_token: access_token,
@@ -201,7 +215,7 @@ function sendMiniblog(cb, fcb){
               tokenSecret: access_token_secret,
           });
 
-          var action = message.action;// + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString();
+          var action = message.action;
           var req = new Request({
               url: action,
               method: message.method,
