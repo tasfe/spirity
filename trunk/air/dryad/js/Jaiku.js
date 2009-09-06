@@ -8,6 +8,7 @@
  */
 
 ~function() {
+	var URI_API_REQUEST = "http://api.jaiku.com/json";
 	var URI_REQUEST_TOKEN = "http://www.jaiku.com/api/request_token";
 	var URI_AUTHORIZE = "http://www.jaiku.com/api/authorize";
 	var URI_ACCESS_TOKEN = "http://www.jaiku.com/api/access_token";
@@ -23,7 +24,7 @@
 
 	var SIGNATURE_METHOD = "HMAC-SHA1";
 
-	var xhr = new Request();
+    var USER_NAME = 'mingcheng';
 
 	var Jaiku = new Class({
 		initialize: function() {
@@ -31,6 +32,22 @@
 		},
 
 		auth: {
+            /**
+             * 获取本地已获取验证的 Token
+             */
+			getLocatinToken: function() {
+				return {
+					'request_token': REQUEST_TOKEN,
+					'request_token_secret': REQUEST_TOKEN_SECRET,
+					'access_token': ACCESS_TOKEN,
+					'access_token_secret': ACCESS_TOKEN_SECRET
+				};
+			},
+
+
+            /**
+             * 根据 API_KEY 获取 RequestToken
+             */
 			getRequestToken: function() {
 				var message = {
 					method: 'GET',
@@ -63,12 +80,15 @@
 						}
 					}).bind(this),
 					onFailure: function() {
-						alert('onFailure');
-					},
-                    noCache: true
+						alert('getRequestToken failed');
+					}
 				}).send();
 			},
 
+
+            /**
+             * 根据 getRequestToken 方法获取的 RequestToken 生成用户验证 URL
+             */
 			getUserAuthorizationURL: function(perms) {
 				if (!REQUEST_TOKEN || ! REQUEST_TOKEN_SECRET) {
 					return;
@@ -77,10 +97,14 @@
 				return URI_AUTHORIZE + '?oauth_token=' + REQUEST_TOKEN + '&perms=' + (perms || 'delete');
 			},
 
+
+            /**
+             * 当用户使用 getUserAuthorizationURL 访问验证完毕后，再获取 AccessToken
+             */
 			getAccessToken: function() {
 				if (!REQUEST_TOKEN || ! REQUEST_TOKEN_SECRET) {
-                    return;
-                }
+					return;
+				}
 
 				var message = {
 					method: "GET",
@@ -108,16 +132,17 @@
 						try {
 							var responseObj = OAuth.getParameterMap(OAuth.decodeForm(responseText));
 							ACCESS_TOKEN = responseObj.oauth_token;
-							ACCESS_TOKEN_SECRET = responseObj.oauth_token_secret
+							ACCESS_TOKEN_SECRET = responseObj.oauth_token_secret;
 
-                            alert(ACCESS_TOKEN);
-                            alert(ACCESS_TOKEN_SECRET);
+							alert(ACCESS_TOKEN);
+							alert(ACCESS_TOKEN_SECRET);
 						} catch(e) {
 
 						}
 					}).bind(this),
-                    onFailure: function() {},
-                    noCache: true
+					onFailure: function() {
+						alert('getAccessToken failed');
+					}
 				}).send();
 			}
 		},
@@ -133,25 +158,78 @@
 		presence: function() {},
 
 		post: {
-			post: function() {},
+            post: function(parameters) {
+                parameters = $merge({
+                    method: "post",
+                    location: "Dryad",
+                    nick: USER_NAME,
+                    uuid: +new Date()
+                }, parameters);
+
+                var message = {
+                    method: "POST",
+                    action: URI_API_REQUEST,
+                    parameters: {
+                        oauth_consumer_key: API_KEY,
+                        oauth_token: ACCESS_TOKEN,
+                        oauth_signature_method: SIGNATURE_METHOD,
+                        oauth_signature: "",
+                        oauth_timestamp: "",
+                        oauth_nonce: ""
+                   }
+                };
+                message.parameters = $merge(message.parameters, parameters);
+
+                // ...
+
+                OAuth.setTimestampAndNonce(message);
+                OAuth.SignatureMethod.sign(message, {
+                    consumerSecret: API_KEY_SECRET,
+                    tokenSecret: ACCESS_TOKEN_SECRET
+                });
+
+              return new Request({
+                  url: message.action,
+                  method: message.method,
+                  data: OAuth.getParameterMap(message.parameters),
+                  onSuccess: (function(responseText){
+                      alert(responseText);
+                  }),
+                  onFailure: function(){
+
+                  }
+              }).send();
+            
+            },
 
 			del: function() {}
 		},
 
 		entry: {
-			get: function() {},
+            get: function() {
+            
+            },
 			addComment: function() {},
 			getActorOverviewSince: function() {},
 			getActorOverview: function() {}
 		},
 
 		actor: {
-			get: function() {},
-			addContact: function() {},
-			addContactsAvatarsSince: function() {}
+			get: function(username) {
+
+			},
+
+            addContact: function() {
+            
+            },
+
+            addContactsAvatarsSince: function() {
+            
+            }
 		}
 	});
 
-	window.Jaiku = new Jaiku;
+    window.Jaiku = new Jaiku({
+    
+    });
 } ();
-
