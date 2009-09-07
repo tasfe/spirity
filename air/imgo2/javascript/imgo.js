@@ -42,7 +42,10 @@
         var begin = parseInt((page-1) * this.config.perPage, 10);
         var end = parseInt((page-1) * this.config.perPage + this.cache * this.config.perPage, 10);
 
-        var reqUri = this.config.api + this.key + '&ps_b=' + begin + '&pe_e=' + end + '&var=Imgo2';
+        var reqUri = this.config.api + this.key + '&s=' + begin + '&n=' + end + '&var=Imgo2';
+
+        runtime.trace(reqUri);
+
         _callback(this.config.onBeforeLoad, _self);
 
         YAHOO.util.Connect.asyncRequest('get', reqUri, {
