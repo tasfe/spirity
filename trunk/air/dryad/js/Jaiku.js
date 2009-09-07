@@ -26,41 +26,42 @@
 
 	var USER_NAME = 'mingcheng';
 
-    /**
+	/**
      * 根据参数发起请求
      */
-    var newRequest = function(config) {
-        var message = $merge ({
-            method: "POST",
-            parameters: {
-                oauth_consumer_key: API_KEY,
-                oauth_token: ACCESS_TOKEN,
-                oauth_signature_method: SIGNATURE_METHOD,
-                oauth_signature: "",
-                oauth_timestamp: "",
-                oauth_nonce: ""
-            }
-        }, config.message);
+	var newRequest = function(config) {
+		var message = $merge({
+			method: "POST",
+			parameters: {
+				oauth_consumer_key: API_KEY,
+				oauth_token: ACCESS_TOKEN,
+				oauth_signature_method: SIGNATURE_METHOD,
+				oauth_signature: "",
+				oauth_timestamp: "",
+				oauth_nonce: ""
+			}
+		},
+		config.message);
 
-        OAuth.setTimestampAndNonce(message);
-        OAuth.SignatureMethod.sign(message, $merge({
-            consumerSecret: API_KEY_SECRET,
-            tokenSecret: ACCESS_TOKEN_SECRET
-        }, config.sign || {}));
-    
-        return new Request({
-            url: message.action,
-            method: message.method,
-            data: OAuth.getParameterMap(message.parameters),
-            onSuccess: (function(responseText) {
-                alert(responseText);
-            }),
-            onFailure: function() {
-                alert('onFailure');
-            }
-        }).send();
-    };
+		OAuth.setTimestampAndNonce(message);
+		OAuth.SignatureMethod.sign(message, $merge({
+			consumerSecret: API_KEY_SECRET,
+			tokenSecret: ACCESS_TOKEN_SECRET
+		},
+		config.sign || {}));
 
+		return new Request({
+			url: message.action,
+			method: message.method,
+			data: OAuth.getParameterMap(message.parameters),
+			onSuccess: (function(responseText) {
+				alert(responseText);
+			}),
+			onFailure: function() {
+				alert('onFailure');
+			}
+		}).send();
+	};
 
 	var Jaiku = new Class({
 		initialize: function() {
@@ -181,7 +182,14 @@
 		},
 
 		explore: function() {
+			var message = {
+				method: "GET",
+				action: 'http://www.jaiku.com/explore/json'
+			};
 
+			return newRequest({
+				message: message
+			});
 		},
 
 		contacts: function() {
@@ -196,16 +204,18 @@
 					method: "POST",
 					action: URI_API_REQUEST
 				};
-                message.parameters = $merge(message.parameters, $merge({
+				message.parameters = $merge(message.parameters, $merge({
 					method: "post",
 					location: "Dryad",
 					nick: USER_NAME,
 					uuid: + new Date()
-				}, parameters));
+				},
+				parameters));
 
-                //...
-
-                return newRequest({message: message});
+				//...
+				return newRequest({
+					message: message
+				});
 			},
 
 			del: function() {} // ft, no API yet :^(
@@ -219,25 +229,105 @@
 					action: "http://" + username + ".jaiku.com/json"
 				};
 
-                // ...
-
-                return newRequest({message: message});
+				// ...
+				return newRequest({
+					message: message
+				});
 			},
 
-			addComment: function() {
+			// @TODO
+			addComment: function(parameters) {
+				var message = {
+					method: "POST",
+					action: URI_API_REQUEST
+				};
 
+               /*
+                * _task_ref - admin-only, task to resume
+                * content - the text content of the comment
+                * stream - the key to the stream in which the entry being commented on resides; example: stream/popular@example.com/presence
+                * entry - the key to the parent entry associated with this comment; example: stream/popular@example.com/presence/12347
+                * nick - the actor making the comment
+                * uuid - optional; a unique identifier for this comment; if absent, a new one will be generated
+                */
+				message.parameters = $merge(message.parameters, $merge({
+					method: "entry_add_comment",
+					nick: USER_NAME
+					/*
+                    limit: 30,
+                    since_time: '10/25/2008'
+                    */
+				},
+				parameters));
+
+				//...
+				return newRequest({
+					message: message
+				});
 			},
-			getActorOverviewSince: function() {
 
+			getActorOverviewSince: function(parameters) {
+				var message = {
+					method: "POST",
+					action: URI_API_REQUEST
+				};
+				message.parameters = $merge(message.parameters, $merge({
+					method: "entry_get_actor_overview_since",
+					nick: USER_NAME
+					/*
+                    limit: 30,
+                    since_time: '10/25/2008'
+                    */
+				},
+				parameters));
+
+				//...
+				return newRequest({
+					message: message
+				});
 			},
-			getActorOverview: function() {
 
+			/**
+             * // failed
+             */
+			getActorOverview: function(parameters) {
+				var message = {
+					method: "POST",
+					action: URI_API_REQUEST
+				};
+				message.parameters = $merge(message.parameters, $merge({
+					method: "entry_get_actor_overview",
+					nick: USER_NAME
+					/*
+                    limit: 30,
+                    offset: '10/25/2008'
+                    */
+				},
+				parameters));
+
+				//...
+				return newRequest({
+					message: message
+				});
 			}
 		},
 
 		actor: {
-			get: function(username) {
+			get: function(parameters) {
+				var message = {
+					method: "POST",
+					action: URI_API_REQUEST
+				};
+				message.parameters = $merge(message.parameters, $merge({
+					method: "actor_get",
+					nick: USER_NAME
+				},
+				parameters));
 
+				//...
+				return newRequest({
+					message: message
+				});
 			},
 
 			addContact: function() {
@@ -251,7 +341,9 @@
 					action: "http://" + username + ".jaiku.com/contacts/json"
 				};
 
-                return newRequest({message: message});
+				return newRequest({
+					message: message
+				});
 			},
 
 			addContactsAvatarsSince: function() {
@@ -264,4 +356,3 @@
 
 	});
 } ();
-

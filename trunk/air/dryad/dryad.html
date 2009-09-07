@@ -5,10 +5,28 @@
         <title>Dryad - Jaiku Client Tool</title>
     </head>
     <body>
-        <button id="get">getAccessToken!</button>
+        Auth:
+        <button id="auth.getRequestToken">1. getRequestToken!</button>
+        <button id="auth.getUserAuthorizationURL">2. getUserAuthorizationURL!</button>
+        <button id="auth.getAccessToken">3. getAccessToken!</button>
+
+        <br />Post:
         <button id="post.post">Post Jaiku</button>
+
+
+        <br /> Entry: 
         <button id="entry.get">Get Entry</button>
+        <button id="entry.getActorOverview">Get ActorOverview</button>
+        <button id="entry.getActorOverviewSince">Get ActorOverviewSince</button>
+
+        <br /> Actor:
+        <button id="actor.get">Get</button>
         <button id="actor.getContacts">Get Contacts</button>
+
+        <br /> Other:
+        <button id="explore">Get Explorer</button>
+
+
         <script type="text/javascript" src="js/AIRAliases.js"></script>
         <script type="text/javascript" src="js/AIRIntrospector.js"></script>
         <script type="text/javascript" src="js/mootools-1.2.3-core-nc.js"></script>
@@ -20,25 +38,41 @@
                 air.navigateToURL(new air.URLRequest(url));
             };
 
-                    $('post.post').addEvent('click', function(e) {
-                            Jaiku.post.post({
-                                message: '你好，世界！ from Dryad',
-                                location: "Hangzhou, China",
-                                icon: "",
-                                nick: "mingcheng"
-                            });
-                    });
+            $('post.post').addEvent('click', function(e) {
+                Jaiku.post.post({
+                    message: prompt('Enter u\'s message:', 'Hello, world! - from Dryad'),
+                    location: "Hangzhou, China",
+                    icon: "",
+                    nick: "mingcheng"
+                });
+            });
 
-                    $('entry.get').addEvent('click', function(e) {
-                            Jaiku.entry.get(prompt('user name:', 'mingcheng'));
-                    });
+            $('actor.getContacts').addEvent('click', function(e) {
+                    Jaiku.actor.getContacts(prompt('user name:', 'mingcheng'));
+            });
 
-                    $('actor.getContacts').addEvent('click', function(e) {
-                            Jaiku.actor.getContacts(prompt('user name:', 'mingcheng'));
-                    });
+            $('actor.get').addEvent('click', function(e) {
+                Jaiku.actor.get({nick: prompt('user name:', 'mingcheng')});
+            });
 
 
+            $('entry.get').addEvent('click', function(e) {
+                    Jaiku.entry.get(prompt('user name:', 'mingcheng'));
+            });
 
+
+            $('entry.getActorOverview').addEvent('click', function(e) {
+                    Jaiku.entry.getActorOverview({nick: prompt('user name:', 'mingcheng')});
+            });
+
+            $('entry.getActorOverviewSince').addEvent('click', function(e) {
+                    Jaiku.entry.getActorOverviewSince({nick: prompt('user name:', 'mingcheng')});
+            });
+
+
+            $('explore').addEvent('click', function(e) {
+                    Jaiku.explore();
+            });
 /*
             Jaiku.auth.getRequestToken({
                 onSuccess: function() {
@@ -50,204 +84,6 @@
                 }
             });
 */
-        </script>
-        <script type="te//xt/javascript">
-
-        /*
-        var REQUEST_TOKEN = "http://www.jaiku.com/api/request_token";
-        var AUTHORIZE = "http://www.jaiku.com/api/authorize";
-        var ACCESS_TOKEN = "http://www.jaiku.com/api/access_token";
-
-                    oauth_consumer_key: 'b6c167af47f84522bcaf3fcecab9b2f8',
-                    oauth_consumer_secret: '7a0c45f31f59420599086f834d47dd97',
-      */
-
-var api_key = "b6c167af47f84522bcaf3fcecab9b2f8";
-var api_key_secret = "7a0c45f31f59420599086f834d47dd97";
-var request_token = "";
-var request_token_secret = "";
-var access_token = "f6d7189235cf40dd96b10fac084f434e";
-var access_token_secret = "50984572a99d4e84a732145a188449e4";
-var signature_method = "HMAC-SHA1";
-
-var request_token_uri = "http://www.jaiku.com/api/request_token";
-var access_token_uri  = "http://www.jaiku.com/api/access_token";
-var authorization_uri = "http://www.jaiku.com/api/authorize?oauth_token=";
-
-//1. 获取Request Token，该步骤使用API Key和API Key Secret签名
-function getRequestToken(cb, fcb) {
-    var message = {
-        method: "GET",
-        action: 'http://127.0.0.1/post.php',
-        //action: request_token_uri,
-        parameters: {
-            oauth_consumer_key: api_key,
-            oauth_signature_method: signature_method,
-            oauth_signature: "",
-            oauth_timestamp: "",
-            oauth_nonce: ""
-        }
-    }
-
-    // 签名
-    OAuth.setTimestampAndNonce(message);
-    OAuth.SignatureMethod.sign(message, {
-        consumerSecret: api_key_secret
-    });
-
-    var req = new Request({
-        //构造请求Request Token的url
-        url: message.action + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString(),
-        method: message.method,
-        onSuccess: (function(responseText) {
-            //解析返回的Request Token和Request Token Secret
-            alert(responseText);
-            var responseObj = OAuth.getParameterMap(OAuth.decodeForm(responseText));
-            request_token = responseObj.oauth_token
-            request_token_secret = responseObj.oauth_token_secret
-            if ($type(cb) == 'function')
-                cb(request_token, request_token_secret);
-        }).bind(this),
-        onFailure: (function(xhr){
-            if ($type(fcb) == 'function')
-                fcb(xhr);
-    }).bind(this)});
-
-    req.send();
-}
-
-
-// 2. 用户确认授权
-function getUserAuthorizationURL(){    
-        //生成引导用户授权的url
-    return authorization_uri + request_token;
-}
-
-getRequestToken(function(a, b) {
-    alert(a);
-    alert(b);
-    window.prompt('', getUserAuthorizationURL(a) + '&perms=delete');
-    alert('continue!');
-
-    /*
-    getAccessToken(function(a, b) {
-        window.prompt('access_token', a);
-        window.prompt('access_token_secret:', b);
-    });
-
-    sendMiniblog(function(a) {
-        alert(a);
-    });
-    */
-});
-
-
-
-// 3. 换取Access Token，该步骤使用API Key、API Key Secret、Request Token和Request Token Secret签名
-function getAccessToken(cb, fcb){
-    var message = {
-        method: "GET",
-        action: access_token_uri,
-        parameters: {
-            oauth_consumer_key: api_key,
-            oauth_token: request_token,
-            oauth_signature_method: signature_method,
-            oauth_signature: "",
-            oauth_timestamp: "",
-            oauth_nonce: ""
-        }
-    }
-   
-    // 签名
-    OAuth.setTimestampAndNonce(message);
-    OAuth.SignatureMethod.sign(message, {
-        consumerSecret: api_key_secret,
-        tokenSecret: request_token_secret,
-    });
-
-    var req = new Request({
-              // 构造请求Access Token的url
-              url: message.action + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString(),
-              method: message.method,
-              onSuccess: (function(responseText){
-                  //解析返回的Request Token和Request Token Secret
-                  try {
-                  var responseObj = OAuth.getParameterMap(OAuth.decodeForm(responseText));
-                  access_token = responseObj.oauth_token
-                  access_token_secret = responseObj.oauth_token_secret
-                  if ($type(cb) == 'function') cb(access_token, access_token_secret);
-                  } catch (e) {
-                    if ($type(fcb) == 'function') fcb(xhr);
-                  }
-              }).bind(this),
-              onFailure: (function(xhr){
-                  runtime.trace('ff');
-                  runtime.trace(message.action + '?' + new Hash(OAuth.getParameterMap(message.parameters)).toQueryString());
-                  if ($type(fcb) == 'function') fcb(xhr);
-              }).bind(this)
-    }).send()
-}
-
-// 4. 访问受限资源，该步骤使用API Key、API Key Secret、Access Token和Access Token Secret签名
-function sendMiniblog(cb, fcb){
-          var message = {
-                method: "POST",
-                //action: "http://127.0.0.1/post.php",
-                action: "http://api.jaiku.com/json",
-                //action: "http://www.jaiku.com/user/mingcheng/json",
-                parameters: {
-                    oauth_consumer_key: api_key,
-                    oauth_token: access_token,
-                    oauth_signature_method: signature_method,
-                    oauth_signature: "",
-                    oauth_timestamp: "",
-                    oauth_nonce: "",
-                    /*
-                    method: "post",
-                    message: '你好，世界！',
-                    location: "Dryad",
-                    icon: "",
-                    nick: "mingcheng",
-                    uuid: +new Date(),
-                    */
-                    /*
-                    method: "entry_get_actor_overview",
-                    nick: 'mingcheng',
-                    limit: "",
-                    offset: "",
-                    */
-                    method: 'actor_get',
-                    nick: 'mingcheng@jaiku.com',
-               }
-           }
-          // 签名
-          OAuth.setTimestampAndNonce(message);
-          OAuth.SignatureMethod.sign(message, {
-              consumerSecret: api_key_secret,
-              tokenSecret: access_token_secret,
-          });
-
-          var action = message.action;
-          var req = new Request({
-              url: action,
-              method: message.method,
-              data: OAuth.getParameterMap(message.parameters),
-              onSuccess: (function(responseText){
-                   if ($type(cb) == 'function') cb(responseText);
-              }).bind(this),
-              onFailure: (function(xhr){
-                        if ($type(fcb) == 'function') fcb(xhr);
-              }).bind(this)
-          }).send();
-}
-
-/*
-sendMiniblog(function(response) {
-    alert(response);
-});
-*/
-
-
         </script>
     </body>
 </html>
