@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <link href="css/reset.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="js/mootools-1.2.3-core-nc.js"></script>
+        <style>
+            body {
+                font-size: 12px;
+            }
+
+            #tab {
+                margin: 50px auto;
+                border: 1px solid #ccc;
+                width: 350px;
+                height: 550px;
+                overflow: hidden;
+            }
+            #tab > ul {
+                position: absolute;
+                width: 50px;
+                list-style: none;
+                height: 550px;
+                border-right: 1px solid #ccc;
+            }
+
+            #tab > ul li {
+                width: 50px;
+                height: 50px;
+                border-bottom: 1px solid #ccc;
+                line-height: 50px;
+                text-align: center;
+                cursor: default;
+            }
+
+            #tab > ul li.selected {
+                background: #ccc;
+            }
+
+            #tab > div {
+                width: 300px;
+                height: 550px;
+                margin: 0px 0px 0px 50px;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="tab">
+            <ul>
+                <li class="selected">新鲜事</li>
+                <li>与我有关</li>
+            </ul>
+            <div>新鲜事</div>
+            <div>与我有关<div></div></div>
+        </div>
+        <script type="text/javascript">
+
+            var defaultConfig = {
+                effect: 'none',
+                eventType: 'click',
+                stopEvent: true,
+                currentClass:'selected'
+            };
+
+            var SimpleTab = new Class({
+                initialize: function(container, config) {
+                    container = $(container);
+                    var children = container.getChildren();
+                    var trigger = children[0].getElementsByTagName('li');
+                    var panel = children.slice(1);
+
+                    console.info(container);
+                    console.info(trigger);
+                    console.info(panel);
+                },
+
+                switchTo: function (idx) {
+                
+                }
+            });
+
+
+            window.addEvent('domready', function() {
+                    var handle = new SimpleTab('tab', {
+                        effect: 'opacity',
+                        eventType: 'click',
+                        stopEvent: true,
+                        currentClass:'selected',
+                        onSwitch: function(idx) {
+                            alert(idx);
+                        }
+                    });
+
+                    handle.switchTo(1);
+            });
+        </script>
+    </body>
+</html>
