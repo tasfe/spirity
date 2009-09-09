@@ -61,57 +61,19 @@
             <div>新鲜事</div>
             <div>与我有关<div></div></div>
         </div>
+        <script type="text/javascript" src="js/SimpleTab.js"></script>
         <script type="text/javascript">
-
-            var defaultConfig = {
-                effect: 'none',
-                eventType: 'click',
-                stopEvent: true,
-                currentClass:'selected'
-            };
-
-            var SimpleTab = new Class({
-                initialize: function(container, config) {
-                    container = $(container);
-                    var children = container.getChildren();
-                    var trigger = $$(children[0].getElementsByTagName('li'));
-                    var panel = $$(children.slice(1));
-
-                    /*
-                    console.info(container);
-                    console.info(trigger);
-                    */
-
-                    trigger.addEvent('click', function(e) {
-                        var index = trigger.indexOf(this);
-                        trigger.removeClass('selected');
-                        panel.setStyle('display', 'none');
-                        this.addClass('selected');
-                        panel[index].setStyle('display', '');
-                    });
-
-                    this.trigger = trigger;
-                    this.panel = panel;
-                },
-
-                switchTo: function (index) {
-                    this.trigger[index].fireEvent('click');
-                }
-            });
-
-
             window.addEvent('domready', function() {
-                    var handle = new SimpleTab('tab', {
-                        effect: 'opacity',
-                        eventType: 'click',
-                        stopEvent: true,
-                        currentClass:'selected',
-                        onSwitch: function(idx) {
-                            alert(idx);
-                        }
-                    });
-
-                    handle.switchTo(1);
+                var handle = new SimpleTab('tab', {
+                    effect: 'opacity',
+                    eventType: 'click',
+                    stopEvent: true,
+                    currentClass:'selected',
+                    duration: 500,
+                    onSwitch: function(idx) {
+                        //alert(idx);
+                    }
+                });
             });
         </script>
     </body>
