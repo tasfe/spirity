@@ -16,13 +16,19 @@
                 width: 350px;
                 height: 550px;
                 overflow: hidden;
+                position: relative;
             }
+
             #tab > ul {
                 position: absolute;
                 width: 50px;
                 list-style: none;
                 height: 550px;
                 border-right: 1px solid #ccc;
+                top: 0px;
+                left: 0px;
+                margin: 0px;
+                padding: 0px;
             }
 
             #tab > ul li {
@@ -49,8 +55,8 @@
     <body>
         <div id="tab">
             <ul>
-                <li class="selected">新鲜事</li>
-                <li>与我有关</li>
+                <li class="selected"><span>新鲜事</span></li>
+                <li><span>与我有关</span></li>
             </ul>
             <div>新鲜事</div>
             <div>与我有关<div></div></div>
@@ -68,16 +74,28 @@
                 initialize: function(container, config) {
                     container = $(container);
                     var children = container.getChildren();
-                    var trigger = children[0].getElementsByTagName('li');
-                    var panel = children.slice(1);
+                    var trigger = $$(children[0].getElementsByTagName('li'));
+                    var panel = $$(children.slice(1));
 
+                    /*
                     console.info(container);
                     console.info(trigger);
-                    console.info(panel);
+                    */
+
+                    trigger.addEvent('click', function(e) {
+                        var index = trigger.indexOf(this);
+                        trigger.removeClass('selected');
+                        panel.setStyle('display', 'none');
+                        this.addClass('selected');
+                        panel[index].setStyle('display', '');
+                    });
+
+                    this.trigger = trigger;
+                    this.panel = panel;
                 },
 
-                switchTo: function (idx) {
-                
+                switchTo: function (index) {
+                    this.trigger[index].fireEvent('click');
                 }
             });
 
