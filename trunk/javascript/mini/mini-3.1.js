@@ -10,7 +10,6 @@
  */
 
 var mini = (function(){
-    
     var snack = /(?:[\w\-\\.#]+)+(?:\[\w+?=([\'"])?(?:\\\1|.)+?\1\])?|\*|>/ig,
         exprClassName = /^(?:[\w\-_]+)?\.([\w\-_]+)/, // 样式选择符 .className
         exprId = /^(?:[\w\-_]+)?#([\w\-_]+)/, // ID 选择符 .nodeId
@@ -131,14 +130,16 @@ var mini = (function(){
             
             parent = node.parentNode;
             
+            // 往上递归获取父节点
             do {
                 
                 matches = !nodeName || nodeName === '*' || nodeName === parent.nodeName.toLowerCase();
                 matches = matches && (!id || parent.id === id);
                 matches = matches && (!className || RegExp('(^|\\s)' + className + '(\\s|$)').test(parent.className));
                 
-                if (direct || matches) { break; }
-                
+                if (direct || matches) {
+                    break;
+                }
             } while ( (parent = parent.parentNode) );
             
             if (matches) {
@@ -147,7 +148,6 @@ var mini = (function(){
         }
         
         return selectorParts[0] && ret[0] ? filterParents(selectorParts, ret) : ret;
-        
     }
     
     
