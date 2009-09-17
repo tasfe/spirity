@@ -580,7 +580,7 @@
         // @TODO 多个 clickjacking
         clickjacking: (function() {
             var mask = document.createElement('div');
-            mask.style.cssText = 'position:absolute;width:10px;height:10px;border:1px;';
+            mask.style.cssText = 'position:absolute;width:10px;height:10px;border:1px;background:red;';
             return function(el, func, stop, scope) {
                 el = dom.get(el);
                 event.bind(el, 'click', function(e) {
@@ -641,6 +641,6 @@
     scope[namespace] = {
         lang: lang, bom: bom, dom: dom, event: event,
         sniffer: sniffer, logger: logger, injector: injector, hook: hook,
-        version: '@since $Id$'
+        version: '$Id$'
     };
 })(window, 'ergate');
