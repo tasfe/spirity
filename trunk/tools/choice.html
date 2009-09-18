@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <style>
+            #choice {
+                width: 500px;
+                height: 500px;
+                line-height: 500px;
+                margin: 50px auto;
+                text-align: center;
+                font-size: 8em;
+                font-family: "Microsoft YaHei", SimHei;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="choice">开始</div>
+        <script>
+            ~function() {
+                var choice = ['桐庐', '千岛湖'];
+                var container = document.getElementById('choice'), timer;
+
+                document.onkeydown = function() {
+                    if (timer) {
+                        clearTimeout(timer);
+                        timer = null;
+                    } else {
+                        timer = setInterval(function() {
+                            var n = 0, m = choice.length;
+                            container.innerHTML = choice[Math.floor(Math.random()*(n-m)+m)];
+                        }, 50);
+                    }
+                };
+            }();
+        </script>
+    </body>
+</html>
