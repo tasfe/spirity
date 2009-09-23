@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--[if !IE]>
+            <me//ta http-equiv="X-UA-Compatible" content="chr//ome=1">
+            <me//ta http-equiv="X-UA-Compatible" content="IE=Emu//lateIE7" />
+        <![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Chrome Frame 测试页</title>
+    </head>
+    <body>
+        <iframe width="750" height="500" src="http://acid3.acidtests.org/"></iframe>
+        <script>
+            // 判断是否已安装 Chrome Frame
+            var hasChromeFrame = (function() {
+                var ua = navigator.userAgent.toLowerCase();
+                return function() {
+                    if (ua.indexOf("chromeframe") >= 0 || ua.indexOf("x-clock") >= 0) {
+                        return true;
+                    }
+
+                    if (typeof window['ActiveXObject'] != 'undefined') {
+                        try {
+                            if (new ActiveXObject('ChromeTab.ChromeFrame')) return true;
+                        } catch(e) {
+                            // squelch
+                        }
+                    }
+
+                    return false;
+                }
+            })();
+
+            if (hasChromeFrame()) {
+                if (confirm('Chrome Frame has installed, use it?')) {
+                    location.replace('cf:'+ location.href);
+                }
+            }
+        </script>
+    </body>
+</html>
