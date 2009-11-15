@@ -4,19 +4,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>
     <body>
+        <script type="text/javascript" src="assets/func.js"></script>
         <script type="text/javascript" src="assets/twitter.js"></script>
         <script type="text/javascript">
             (function() {
-                chrome.browserAction.setBadgeText({text:"!"});
-
                 Twitter.setConfig({
                     //api: 'http://twitter.com',
                     api: 'http://lab.gracecode.com/twip-nobody-knows',
+                    //username: 'tbtest62',
                     username: 'chrome_metrist',
-                    password: 'hello123'
+                    password: 'hello123',
+                    count: 10
                 });
 
-                /*
                 Twitter.login({
                     onSuccess: function(o) {
                         console.info(o.responseText);
@@ -25,10 +25,11 @@
                         console.info(o);
                     }
                 });
-                */
 
+                /*
                 Twitter.getReplies({
                     onSuccess: function(o) {
+                        console.info('getReplies: ' + o.responseText);
                         localStorage["replies"] = o.responseText;
                     }, 
                     onError: function() {
@@ -38,8 +39,8 @@
 
                 Twitter.getFriendsTimeline({
                     onSuccess: function(o) {
-                        console.info(o.responseText);
-                        localStorage["friends_timeline"] = o.responseText;
+                        console.info('getFriendsTimeline: ' + o.responseText);
+                        localStorage["friends"] = o.responseText;
                     }, 
                     onError: function() {
                         console.info('error');
@@ -48,13 +49,14 @@
 
                 Twitter.getDirectMessages({
                     onSuccess: function(o) {
-                        console.info(o.responseText);
+                        console.info('getDirectMessages: ' + o.responseText);
                         localStorage["direct"] = o.responseText;
                     }, 
                     onError: function() {
                         console.info('error');
                     }
                 });
+                */
                 
                 /*
                 Twitter.sendDirectMessage('feelinglucky', 'hello, world! 你好，世界！', {
@@ -77,7 +79,6 @@
                     }
                 });
                 */
-
                 //window.open('popup.html');
              })();
         </script>

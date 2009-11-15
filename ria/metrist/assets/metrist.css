@@ -28,14 +28,28 @@ textarea, button {
 }
 
 #page #content {
-
-}
-
-#page #content .tweets {
     height: 400px;
     overflow: auto;
     border: 1px solid #ccc;
     -webkit-border-radius: 3px;
+    overflow: hidden;
+}
+
+#page #content > div {
+    width: 2000px;
+    overflow: hidden;
+}
+
+#page #content .console,
+#page #content .tweets {
+    height: 400px;
+    width: 348px;
+    overflow: auto;
+    float: left;
+}
+
+#page #content li {
+    word-break: break-all;
 }
 
 #page #content .tweets li {
@@ -45,18 +59,25 @@ textarea, button {
     border-bottom: 1px solid #eaeaea;
 }
 
+#page #content .tweets li.reply {
+    background: #b4fea7;
+}
+
+#page #content .tweets li.direct {
+    background: #ffd88d;
+}
+
 #page #content .tweets li a:visited,
 #page #content .tweets li a:link {
     text-decoration: none;
 }
-
 
 #page #content .tweets li .nick {
     font-size: 12px;
     font-weight: bold;
 }
 
-#page #content .tweets li .nick a{
+#page #content .tweets li .nick a {
     color: #000;
 }
 
@@ -94,6 +115,7 @@ textarea, button {
 #channel {
     overflow: hidden;
     margin: -3px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     list-style: none;
 }
 
@@ -121,6 +143,7 @@ textarea, button {
 }
 
 #form #tweet {
+
 }
 
 #form #tweet textarea {
@@ -128,6 +151,10 @@ textarea, button {
     width: 320px;
     resize: none;
     border-color: #000;
+}
+
+#form #tweet textarea.full {
+    border-color: red;
 }
 
 #form button[type="submit"]{
@@ -152,4 +179,31 @@ textarea, button {
     opacity: .85;
     width: 100%;
     height: 100%;
+}
+
+.console {
+    font-size: 9px;
+}
+
+.console li {
+    border: 1px solid #000;
+    background: #ccc;
+    margin: 0 0 1px 0;
+    white-space: pre;
+}
+
+.console li.log {
+
+}
+
+.console li.warn {
+    border: 1px solid #f60;
+    color: #fff;
+    background: #f90;
+}
+
+.console li.error {
+    border: 1px solid red;
+    background: yellow;
+    color: red;
 }
