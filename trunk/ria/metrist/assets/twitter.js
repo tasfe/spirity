@@ -19,19 +19,22 @@ Twitter = (function() {
     var sendRequest = function (request, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(o) {
-            if (xhr.readyState == 4 && (typeof callback.onSuccess == 'function')) {
-                callback.onSuccess(xhr);
-            } else {
-                if (typeof callback.onError == 'function') {
-                    callback.onError(xhr);
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    if (typeof callback.onSuccess == 'function') {
+                        callback.onSuccess(xhr);
+                    }
+                } else {
+                    if (typeof callback.onError == 'function') {
+                        callback.onError(xhr);
+                    }
                 }
-            }
+            } 
         };
         xhr.open(request.type || "GET",
             request.url, true, config.username, config.password);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        console.info(request.url);
+        //console.info(request.url);
 
         request.params = request.params || {};
         var params = [];
@@ -52,7 +55,7 @@ Twitter = (function() {
             type: "POST", url: config.api + '/direct_messages/new.json',
             params: {
                 'user': user,
-                'text': tweets,
+                'text': tweets
             }
         }, callback);
     };
@@ -86,7 +89,7 @@ Twitter = (function() {
         sendRequest({
             type: "POST", url: config.api + '/statuses/update.json',
             params: {
-                'status': tweets,
+                'status': tweets
             }
         }, callback);
     };
