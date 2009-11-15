@@ -1,0 +1,25 @@
+{
+    "name": "Metrist - Another Twitter Client",
+    "version": "0.1",
+    "description": "Another Twiter client based on Google Chrome.",
+    "background_page": "background.html",
+    "browser_action": {
+        "default_icon": "assets/icon.png",
+        "popup": "popup.html"
+    },
+    /*
+    "content_scripts": [
+      {
+        "matches": ["http://*.taobao.com/*"],
+        //"css": ["mystyles.css"],
+        "js": ["assets/twitter.js"]
+      }
+    ],
+    */
+    "permissions": [
+        "tabs",
+        "bookmarks",
+        "http://*/*"
+    ],
+    "options_page": "options.html"
+}

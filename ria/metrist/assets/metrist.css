@@ -1,0 +1,155 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 nobomb: */
+/**
+ * Metrist Style
+ *
+ * @author mingcheng<i.feelinglucky#gmail.com>
+ * @date   2009-11-14
+ * @link   http://www.gracecode.com/
+ */
+
+body {
+    font-size: 12px;
+    font-color: #333;
+}
+
+textarea, button {
+    border: 1px solid #ccc;
+    margin: 0;
+    -webkit-border-radius: 3px;
+}
+
+.hidden {
+    display: none;
+}
+
+#page {
+    position: relative;
+    width: 350px;
+}
+
+#page #content {
+
+}
+
+#page #content .tweets {
+    height: 400px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+}
+
+#page #content .tweets li {
+    position: relative;
+    min-height: 30px;
+    padding: 2px 2px 2px 60px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+#page #content .tweets li a:visited,
+#page #content .tweets li a:link {
+    text-decoration: none;
+}
+
+
+#page #content .tweets li .nick {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#page #content .tweets li .nick a{
+    color: #000;
+}
+
+#page #content .tweets li .avatar {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+#page #content .tweets li .time {
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+#page #content .tweets li .act {
+    text-align: right;
+    padding: 0 5px;
+    visibility: hidden;
+}
+
+#page #content .tweets li:hover {
+    background: #eaeaea;
+}
+
+#page #content .tweets li:hover .act {
+    visibility: visible;
+}
+
+#page #content .tweets li .act a {
+    margin-left: 5px;
+    color: #000;
+}
+
+#channel {
+    overflow: hidden;
+    margin: -3px 0px 0px 0px;
+    list-style: none;
+}
+
+#channel li {
+    float: left;
+    background: #eaeaea;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin: 0 5px 0 0;
+    padding: 2px 5px;
+    cursor: default;
+    -webkit-border-radius: 3px;
+}
+
+
+#channel li.selected {
+    background: #ccc;
+    border: 1px solid #000;
+    color: #000;
+}
+
+#form {
+    position: relative;
+    margin: 2px 0 0 0;
+}
+
+#form #tweet {
+}
+
+#form #tweet textarea {
+    height: 3em;
+    width: 320px;
+    resize: none;
+    border-color: #000;
+}
+
+#form button[type="submit"]{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 0px;
+}
+
+#refresh {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+#loading {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 99;
+    background: #fff url(loading.gif) no-repeat center center;
+    opacity: .85;
+    width: 100%;
+    height: 100%;
+}

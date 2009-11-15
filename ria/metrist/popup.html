@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="assets/reset-min.css" rel="stylesheet" type="text/css" /> 
+        <link href="assets/metrist.css" rel="stylesheet" type="text/css" /> 
+    </head>
+    <body>
+        <div id="page">
+            <div id="content">
+                <ul class="tweets">
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+
+                    <li>
+                        <h4 class="nick"><a href="#">明城</a></h4>
+                        <p class="time">12h</p>
+                        <p class="avatar"><img src="assets/avatar.png" /></p>
+                        <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                    </li>
+                </ul>
+            </div>
+            <div id="form">
+                <form action="#" method="post">
+                    <div id="tweet">
+                        <textarea></textarea>
+                        <span>140</span>
+                    </div>
+                    <button type="submit">&#187;</button>
+                </form>
+            </div>
+            <ul id="channel">
+                <li class="selected">Friends</li>
+                <li>Replies</li>
+                <li>Directs</li>
+            </ul>
+            <button id="refresh">Refresh</button>
+        </div>
+        <div id="loading hidden"></div>
+        <script type="text/javascript" src="assets/tbra-aio.js"></script>
+        <script type="text/javascript" src="assets/twitter.js"></script>
+        <script type="text/javascript">
+            (function() {
+             function relative_time(time_value) {
+	  var values = time_value.split(" ");
+	  time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
+	  var parsed_date = Date.parse(time_value);
+	  var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
+	  var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
+	  delta = delta + (relative_to.getTimezoneOffset() * 60);
+	  
+	  var r = '';
+	  if (delta < 60) {
+	    r = 'a minute ago';
+	  } else if(delta < 120) {
+	    r = 'couple of minutes ago';
+	  } else if(delta < (45*60)) {
+	    r = (parseInt(delta / 60)).toString() + ' minutes ago';
+	  } else if(delta < (90*60)) {
+	    r = 'an hour ago';
+	  } else if(delta < (24*60*60)) {
+	    r = '' + (parseInt(delta / 3600)).toString() + ' hours ago';
+	  } else if(delta < (48*60*60)) {
+	    r = '1 day ago';
+	  } else {
+	    r = (parseInt(delta / 86400)).toString() + ' days ago';
+	  }
+	  
+	  return r;
+             }
+
+                var Dom = YAHOO.util.Dom;
+                var tweets = Dom.getElementsByClassName('tweets', 'ul', 'content')[0];
+                tweets.innerHTML = '';
+                var friends_timeline = eval('(' + localStorage["friends_timeline"] + ')');
+                for(var i = 0, len = friends_timeline.length; i < len; i++) {
+                    var item = friends_timeline[i];
+                    console.info(item);
+                    var li = document.createElement('li');
+                    var html = [
+                        '<h4 class="nick"><a href="http://twitter.com/'+
+                            item.user.screen_name +'">'+ item.user.name +'</a></h4>',
+                        '<p class="time">'+ relative_time(item.created_at) +'</p>',
+                        '<p class="avatar">' + 
+                            '<img width="48" height="48" src="'+ 
+                            item.user.profile_image_url +'" alt="'+ item.user.screen_name+'"/></p>',
+                        '<p class="message">'+ item.text +'</p>',
+                        '<p class="act" param:id="'+ item.id +'"><a href="#">Retweet</a><a href="#">Reply</a></p>'
+                    ];
+                    li.innerHTML = html.join('');
+                    tweets.appendChild(li);
+                }
+
+
+                /*
+                        <h4 class="nick"><a href=""></a></h4>
+                        <p class="time"></p>
+                        <p class="avatar"><img src="" /></p>
+                        <p class="message"></p>
+                        <p class="act"><a href="#">Retweet</a><a href="#">Reply</a></p>
+                        */
+
+                //Dom.setStyle('page', 'background', 'red');
+                /*
+                var request = YAHOO.util.Connect.asyncRequest('GET',
+                    'http://www.google.com/', {
+                        success: function(o) {
+                            //console.info(o);
+                        }, 
+                        failure: function() {
+
+                        }
+                    }); 
+                    */
+             })();
+        </script>
+    </body>
+</html>
