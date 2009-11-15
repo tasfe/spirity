@@ -20,6 +20,10 @@ Twitter = (function() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(o) {
             if (xhr.readyState == 4) {
+                    if (typeof callback.onSuccess == 'function') {
+                        callback.onSuccess(xhr);
+                    }
+                    /*
                 if (xhr.status == 200) {
                     if (typeof callback.onSuccess == 'function') {
                         callback.onSuccess(xhr);
@@ -29,15 +33,15 @@ Twitter = (function() {
                         callback.onError(xhr);
                     }
                 }
+                */
             } 
         };
         xhr.open(request.type || "GET",
             request.url, true, config.username, config.password);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //console.info(request.url);
+        console.info(request.url);
 
-        request.params = request.params || {};
-        var params = [];
+        var params = []; request.params = request.params || {};
         for(name in request.params) {
             params.push(name + '=' + encodeURIComponent(request.params[name]));
         }
@@ -81,7 +85,7 @@ Twitter = (function() {
 
     var login = function (callback) {
         sendRequest({
-            url: config.api + '/account/verify_credentials.json'
+            url: config.api + '/account/verify_credentials.json?t=' + (+new Date())
         }, callback);
     };
 

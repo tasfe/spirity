@@ -5,42 +5,53 @@
     </head>
     <body>
         <script type="text/javascript" src="assets/func.js"></script>
+        <script type="text/javascript" src="assets/tbra-aio.js"></script>
         <script type="text/javascript" src="assets/twitter.js"></script>
         <script type="text/javascript">
             (function() {
+                // window.console = logger;
+
+                console.info('Background is running');
+
                 Twitter.setConfig({
                     //api: 'http://twitter.com',
                     api: 'http://lab.gracecode.com/twip-nobody-knows',
                     //username: 'tbtest62',
-                    username: 'chrome_metrist',
+                    username: 'tbtest62',
                     password: 'hello123',
-                    count: 10
+                    count: 5
                 });
 
                 Twitter.login({
                     onSuccess: function(o) {
-                        console.info(o.responseText);
+//                        console.info("login successful");
+                        console.info(JSON.parse(o.responseText));
+
+                        localStorage['status_logined'] = 'yes';
+                        localStorage['status_last_login'] = 'chrome_metrist';
                     }, 
                     onError: function(o) {
-                        console.info(o);
+                        //console.info(o.responseText);
                     }
                 });
 
                 /*
-                Twitter.getReplies({
+                Twitter.getFriendsTimeline({
                     onSuccess: function(o) {
-                        console.info('getReplies: ' + o.responseText);
-                        localStorage["replies"] = o.responseText;
+                        console.info('getFriendsTimeline: ' + o.responseText);
+                        localStorage["friends"] = o.responseText;
+                        console.info('getFriendsTimeline Successful');
                     }, 
                     onError: function() {
                         console.info('error');
                     }
                 });
 
-                Twitter.getFriendsTimeline({
+                Twitter.getReplies({
                     onSuccess: function(o) {
-                        console.info('getFriendsTimeline: ' + o.responseText);
-                        localStorage["friends"] = o.responseText;
+                        console.info('getReplies: ' + o.responseText);
+                        localStorage["replies"] = o.responseText;
+                        logger.info('getReplies Successful');
                     }, 
                     onError: function() {
                         console.info('error');
@@ -51,6 +62,7 @@
                     onSuccess: function(o) {
                         console.info('getDirectMessages: ' + o.responseText);
                         localStorage["direct"] = o.responseText;
+                        logger.info('getDirectMessages Successful');
                     }, 
                     onError: function() {
                         console.info('error');
@@ -58,7 +70,6 @@
                 });
                 */
                 
-                /*
                 Twitter.sendDirectMessage('feelinglucky', 'hello, world! 你好，世界！', {
                     onSuccess: function(o) {
                         console.info(o.responseText);
@@ -67,10 +78,8 @@
                         console.info('error');
                     }
                 });
-                */
 
-                /*
-                Twitter.update('hello, world! 你好，世界！', {
+                Twitter.update('@chrome_metrist hello, world! 你好，世界！', {
                     onSuccess: function(o) {
                         console.info(o.responseText);
                     }, 
@@ -78,7 +87,7 @@
                         console.info('error');
                     }
                 });
-                */
+
                 //window.open('popup.html');
              })();
         </script>
