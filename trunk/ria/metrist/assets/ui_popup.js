@@ -27,19 +27,22 @@
     // 频道列表事件
     var Channel = (function() {
         var timer, anim;
-        var switchTo = function(idx) {
+        var switchTo = function(idx, useAnim) {
             if (!containers[idx] || !triggers[idx]) {
                 return;
             }
+            localStorage['conf_channel_last_idx'] = idx;
+
             Dom.removeClass(triggers, 'selected');
             Dom.addClass(triggers[idx], 'selected');
 
             var offset = 348 * idx;
-            var attributes = { 
+            if (typeof useAnim == 'undefined') useAnim = true;
+            var attributes = {
                scroll: {to: [offset] }
             }; 
             if (anim) { anim.stop(); }
-            anim = new YAHOO.util.Scroll(content, attributes, .3, YAHOO.util.Easing.easeOutStrong); 
+            anim = new YAHOO.util.Scroll(content, attributes, useAnim ? .3 : 0, YAHOO.util.Easing.easeOutStrong); 
             anim.animate();
         };
 
@@ -61,11 +64,11 @@
             switchTo: switchTo
         };
     })();
-    Channel.switchTo(0); // 默认跳转到第一页
+    Channel.switchTo(parseInt(localStorage['conf_channel_last_idx'], 10) || 0, false);
 
     // 重置控制台
     ///*
-    var logger = (function () {
+    var HTMLLogger = (function () {
         var consoleContainer = Dom.get('metrist:console');
 
         // @TODO
@@ -203,7 +206,7 @@
 
     // 暴露到全局的接口
     window.Channel = Channel;
-    window.console = logger;
+    window.console = HTMLLogger;
     window.ReBuildUI = ReBuildUI;
 
     setTimeout(function() {formTextarea.focus();}, 50);

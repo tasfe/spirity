@@ -18,6 +18,10 @@ textarea, button {
     -webkit-border-radius: 3px;
 }
 
+button {
+    -webkit-user-select: none;
+}
+
 .hidden {
     display: none;
 }
@@ -128,6 +132,7 @@ textarea, button {
     padding: 2px 5px;
     cursor: default;
     -webkit-border-radius: 3px;
+    -webkit-user-select: none;
 }
 
 

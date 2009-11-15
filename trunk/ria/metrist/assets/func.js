@@ -7,6 +7,30 @@
  * @link   http://www.gracecode.com/
  */
 
+/**
+ * 使用内置存储作为记录器
+ */
+// /*
+var logger = (function () {
+    var consoleData = JSON.parse(localStorage['console_data'] || '[]');
+    var insert = function (message, type) {
+        consoleData.push({
+            message: message, type: type
+        });
+        localStorage['console_data'] = JSON.stringify(consoleData);
+    }
+
+    return {
+        log: function(message) {insert(message, 'log');},
+        warn: function(message) {insert(message, 'warn');},
+        info: function(message) {insert(message, 'info');},
+        error: function(message) {insert(message, 'error');}
+    };
+})();
+
+/**
+ * 返回相对时间
+ */
 function relative_time(time_value) {
     var values = time_value.split(" ");
     time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
