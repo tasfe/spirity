@@ -4,7 +4,7 @@
     "description": "Another Twiter client based on Google Chrome.",
     "background_page": "background.html",
     "browser_action": {
-        "default_icon": "assets/icon.png",
+        "default_icon": "assets/images/icon.png",
         "popup": "popup.html"
     },
     /*

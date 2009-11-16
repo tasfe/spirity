@@ -180,7 +180,7 @@ button {
     top: 0px;
     left: 0px;
     z-index: 99;
-    background: #fff url(loading.gif) no-repeat center center;
+    background: #fff url(../images/loading.gif) no-repeat center center;
     opacity: .85;
     width: 100%;
     height: 100%;
