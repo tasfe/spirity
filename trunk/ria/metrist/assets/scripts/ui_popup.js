@@ -132,7 +132,8 @@
         }
 
         var e = Event.getEvent(e);
-        if (/* e.ctrlKey && */ e.keyCode == 13 && Lang.trim(formTextarea.value).length) {
+        if (e.ctrlKey && e.keyCode == 13 && Lang.trim(formTextarea.value).length) {
+            Event.stopEvent(e);
             updateTweet(formTextarea.value);
         }
     });
