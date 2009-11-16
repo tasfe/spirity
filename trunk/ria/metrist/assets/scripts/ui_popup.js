@@ -245,8 +245,15 @@
 
     // 暴露到全局的接口
     window.Channel = Channel;
-    //window.console = HTMLLogger;
+    window.console = HTMLLogger;
     window.ReBuildUI = ReBuildUI;
 
-    setTimeout(function() {formTextarea.focus();}, 50);
+    Lang.later(100, null, function() {
+        formTextarea.focus();
+    });
+
+    Lang.later(2000, null, function() {
+        chrome.browserAction.setBadgeText({text: ''});
+        bgPage.Tweets.clearDiffNumber();
+    });
 }();

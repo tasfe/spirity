@@ -22,6 +22,7 @@
                 */
                 //var twitter_username = 'feelinglucky', twitter_password = '1235813';
                 var twitter_username = 'chrome_metrist', twitter_password = 'hello123';
+                //var twitter_username = 'tbtest62', twitter_password = 'hello123';
 
                 Twitter.setConfig({
                     //api: 'http://twitter.com',
@@ -38,12 +39,17 @@
                  */
                 var requestTweets = function () {
                     localStorage['status_last_request_tweets'] = new Date;
+                    if (Tweets.getDiffNumber()) {
+                        chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
+                    }
 
                     // 获取用户本身数据，并添加到“好友”列表
                     Twitter.getUserTimeline(twitter_username, {
                         onSuccess: function(o) {
-                            console.info(JSON.parse(o.responseText));
+                            //console.info('getUserTimeline:');
+                            //console.info(JSON.parse(o.responseText));
                             Tweets.addToList('friends', JSON.parse(o.responseText));
+                            console.log('getUserTimeline successful');
                         },
                         onError: function() {
                             console.error('getFriendsTimeline error!');
@@ -53,7 +59,8 @@
                     // 获取好友数据
                     Twitter.getFriendsTimeline({
                         onSuccess: function(o) {
-                            //console.info('getFriendsTimeline: ' + o.responseText);
+                            //console.info('getFriendsTimeline:');
+                            //console.info(JSON.parse(o.responseText));
                             Tweets.addToList('friends', JSON.parse(o.responseText));
                             console.log('getFriendsTimeline successful');
                         }, 
@@ -65,7 +72,6 @@
                     // 获取回复数据
                     Twitter.getReplies({
                         onSuccess: function(o) {
-                            //console.info('getReplies: ' + o.responseText);
                             Tweets.addToList('replies', JSON.parse(o.responseText));
                             console.log('getReplies successful');
                         }, 
@@ -77,7 +83,6 @@
                     // 获取私信数据
                     Twitter.getDirectMessages({
                         onSuccess: function(o) {
-                            //console.info('getDirectMessages: ' + o.responseText);
                             Tweets.addToList('direct', JSON.parse(o.responseText));
                             console.log('getDirectMessages successful');
                         }, 
@@ -86,15 +91,11 @@
                         }
                     });
 
-                    if (Tweets.getDiffNumber()) {
-                        chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
-                    }
 
                     if (timer) {
                         timer.cancel();
                     }
                     timer = Lang.later(60 * 1000, Twitter, requestTweets);
-
                 }
 
                 // Already Login
@@ -102,12 +103,12 @@
                     // do Request
                     requestTweets();
                 } else {
-                    // 如果更改了 Twitter 用户名
-                    // 则清空先前的列表
+                    // 如果更改了 Twitter 用户名，则清空先前的列表
                     if (localStorage['status_last_login_username'] != twitter_username) {
                         ['friends', 'replies', 'direct'].forEach(function(c){
                             Tweets.clearList(c);
                         });
+                        Tweets.clearDiffNumber();
                     }
 
                     // 登录失败的回调
@@ -146,6 +147,7 @@
                         }
                     });
                 }
+
                 //chrome.tabs.create({url: 'popup.html'});
                 window.requestTweets = requestTweets;
              }();

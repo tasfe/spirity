@@ -111,39 +111,41 @@ Twitter = (function() {
  */
 Tweets = (function() {
     var $merge = function(target, source) {
-        var result = [], data = YAHOO.lang.merge(target, source);
-        var match = [];
-        for (items in data) {
-            var i = data[items], id = i.id;
-            // unique
-            if (match.indexOf(id) == -1) {
-                result.push(data[items]); match.push(id);
+        var result = [], matches = [];
+        for (items in source) { matches.push(items['id']); }
+
+        // unique insert
+        for (var i = 0, len = target.length; i < len; i++) {
+            if (matches.indexOf(target[i]['id']) == -1) {
+                result.push(target[i]); matches.push(target[i]['id']);
             }
-            // sort
         }
-        return result;
+
+        // sort by id
+        return result.sort(function(a, b) {
+            return (a['id'] > b['id']) ? -1 : 1;
+        });
     };
 
-    var diffResult = 0, $diff = function(target, source) {
-        var match = [];
-        for (items in source) {
-            var i = source[items], id = i.id; match.push(id);
-        }
+    var diffResult = [], $diff = function(target, source) {
+        var matches = [];
+        for (items in source) { matches.push(items['id']); }
 
-        for (items in target) {
-            var i = target[items], id = i.id;
-            // unique
-            if (match.indexOf(id) == -1) {
-                diffResult++;
+        for (var i = 0, len = target.length; i < len; i++) {
+            if (matches.indexOf(target[i]['id']) == -1) {
+                diffResult.push(target[i]['id']);
             }
         }
+
+        var count = diffResult.unique().length;
+        localStorage['status_unread_count'] = count;
+        return count;
     };
 
     return {
         addToList: function(listName, data) {
             try {
                 var source = JSON.parse(localStorage[listName]);
-                console.info('source: ' + source);
             } catch (e) {
                 console.error('parse localStorage data error');
                 this.clearList(listName);
@@ -153,11 +155,13 @@ Tweets = (function() {
         },
 
         getDiffNumber: function() {
-            return diffResult;
+            var count = parseInt(localStorage['status_unread_count'], 10)
+            return count ? count : '';
         },
 
         clearDiffNumber: function() {
-            diffResult = 0;
+            diffResult = [];
+            localStorage['status_unread_count'] = 0;
         },
 
         getList: function(listName) {
