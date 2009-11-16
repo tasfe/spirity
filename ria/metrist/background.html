@@ -14,14 +14,15 @@
         <script type="text/javascript">
             ~function() {
                 var Y = YAHOO, Lang = Y.lang, timer;
-                // window.console = logger;
+
+                window.console = logger;
 
                 /*
                 localStorage['conf_twitter_username'];
                 localStorage['conf_twitter_password'];
                 */
-                //var twitter_username = 'feelinglucky', twitter_password = '1235813';
-                var twitter_username = 'chrome_metrist', twitter_password = 'hello123';
+                var twitter_username = 'feelinglucky', twitter_password = '1235813';
+                //var twitter_username = 'chrome_metrist', twitter_password = 'hello123';
                 //var twitter_username = 'tbtest62', twitter_password = 'hello123';
 
                 Twitter.setConfig({
@@ -33,69 +34,80 @@
                     timeout: 5000
                 });
 
+                    var requestDataAndShow = function() {
+                        // 获取用户本身数据，并添加到“好友”列表
+                        Twitter.getUserTimeline(twitter_username, {
+                            onSuccess: function(o) {
+                                //console.info('getUserTimeline:');
+                                //console.info(JSON.parse(o.responseText));
+                                Tweets.addToList('friends', JSON.parse(o.responseText));
+                                console.log('getUserTimeline successful');
+                                getFriendsTimeline();
+                            },
+                            onError: function() {
+                                console.error('getFriendsTimeline error!');
+                            }
+                        });
+                    }
+
+                    // 获取好友数据
+                    var getFriendsTimeline = function() {
+                        Twitter.getFriendsTimeline({
+                            onSuccess: function(o) {
+                                //console.info('getFriendsTimeline:');
+                                //console.info(JSON.parse(o.responseText));
+                                Tweets.addToList('friends', JSON.parse(o.responseText));
+                                console.log('getFriendsTimeline successful');
+                                getReplies();
+                            }, 
+                            onError: function() {
+                                console.error('getFriendsTimeline faild');
+                            }
+                        });
+                    }
+
+                    // 获取回复数据
+                    var getReplies = function () {
+                        Twitter.getReplies({
+                            onSuccess: function(o) {
+                                //Tweets.addToList('friends', JSON.parse(o.responseText));
+                                Tweets.addToList('replies', JSON.parse(o.responseText));
+                                console.log('getReplies successful');
+                                getDirectMessages();
+                            }, 
+                            onError: function() {
+                                console.error('getReplies faild');
+                            }
+                        });
+                    }
+
+                    // 获取私信数据
+                    var getDirectMessages = function() {
+                        Twitter.getDirectMessages({
+                            onSuccess: function(o) {
+                                Tweets.addToList('direct', JSON.parse(o.responseText));
+                                console.log('getDirectMessages successful');
+                                if (Tweets.getDiffNumber()) {
+                                    chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
+                                }
+                            }, 
+                            onError: function() {
+                                console.error('getDirectMessages faild');
+                            }
+                        });
+                    }
+
 
                 /**
                  * 向服务器请求 Tweets 信息
                  */
                 var requestTweets = function () {
                     localStorage['status_last_request_tweets'] = new Date;
-                    if (Tweets.getDiffNumber()) {
-                        chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
-                    }
-
-                    // 获取用户本身数据，并添加到“好友”列表
-                    Twitter.getUserTimeline(twitter_username, {
-                        onSuccess: function(o) {
-                            //console.info('getUserTimeline:');
-                            //console.info(JSON.parse(o.responseText));
-                            Tweets.addToList('friends', JSON.parse(o.responseText));
-                            console.log('getUserTimeline successful');
-                        },
-                        onError: function() {
-                            console.error('getFriendsTimeline error!');
-                        }
-                    });
-
-                    // 获取好友数据
-                    Twitter.getFriendsTimeline({
-                        onSuccess: function(o) {
-                            //console.info('getFriendsTimeline:');
-                            //console.info(JSON.parse(o.responseText));
-                            Tweets.addToList('friends', JSON.parse(o.responseText));
-                            console.log('getFriendsTimeline successful');
-                        }, 
-                        onError: function() {
-                            console.error('getFriendsTimeline faild');
-                        }
-                    });
-
-                    // 获取回复数据
-                    Twitter.getReplies({
-                        onSuccess: function(o) {
-                            Tweets.addToList('replies', JSON.parse(o.responseText));
-                            console.log('getReplies successful');
-                        }, 
-                        onError: function() {
-                            console.error('getReplies faild');
-                        }
-                    });
-
-                    // 获取私信数据
-                    Twitter.getDirectMessages({
-                        onSuccess: function(o) {
-                            Tweets.addToList('direct', JSON.parse(o.responseText));
-                            console.log('getDirectMessages successful');
-                        }, 
-                        onError: function() {
-                            console.error('getDirectMessages faild');
-                        }
-                    });
-
-
                     if (timer) {
                         timer.cancel();
                     }
-                    timer = Lang.later(60 * 1000, Twitter, requestTweets);
+                    requestDataAndShow();
+                    timer = Lang.later(5 * 60 * 1000, Twitter, requestTweets);
                 }
 
                 // Already Login

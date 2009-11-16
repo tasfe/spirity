@@ -110,6 +110,15 @@ Twitter = (function() {
  *      Gears doesn't work in chrome addons, sigh~
  */
 Tweets = (function() {
+    var $split = function(str, length) {
+        var len = str.length, loop = Math.ceil(len / length), result = [], i = 0;
+        do {
+            result.push(str.substr(i*length, length));
+            i++;
+        } while(i < loop);
+        return result;
+    }
+
     var $merge = function(target, source) {
         var result = [], matches = [];
         for (items in source) { matches.push(items['id']); }
@@ -122,9 +131,16 @@ Tweets = (function() {
         }
 
         // sort by id
-        return result.sort(function(a, b) {
+        var result = result.sort(function(a, b) {
             return (a['id'] > b['id']) ? -1 : 1;
         });
+
+        var max_tweets_number = parseInt(localStorage['conf_max_tweets_number'], 10) || 100;
+        if (result.length > max_tweets_number) {
+            result.length = max_tweets_number;
+        }
+
+        return result;
     };
 
     var diffResult = [], $diff = function(target, source) {
@@ -144,14 +160,28 @@ Tweets = (function() {
 
     return {
         addToList: function(listName, data) {
+            /*
+            var length = parseInt(localStorage[listName + '_length'], 10); 
+            for (var i = 0, result = ''; i < length; i++) {
+                result += localStorage[listName + '_' + i];
+            }
+
             try {
-                var source = JSON.parse(localStorage[listName]);
+                var source = JSON.parse(result);
             } catch (e) {
                 console.error('parse localStorage data error');
                 this.clearList(listName);
             }
+            */
+
+            var source = this.getList(listName);
             $diff(data, source); // diff new message
-            localStorage[listName] = JSON.stringify($merge(data, source));
+            
+            var storeArray = $split(JSON.stringify($merge(data, source)), 2000);
+            localStorage[listName + '_length'] = storeArray.length;
+            for (var i = 0, length = storeArray.length; i < length; i++) {
+                localStorage[listName + '_' + i] = storeArray[i];
+            }
         },
 
         getDiffNumber: function() {
@@ -161,16 +191,29 @@ Tweets = (function() {
 
         clearDiffNumber: function() {
             diffResult = [];
-            localStorage['status_unread_count'] = 0;
+            localStorage['status_unread_count'] = null;
         },
 
         getList: function(listName) {
-            var data = JSON.parse(localStorage[listName]);
-            return data;
+            var length = parseInt(localStorage[listName + '_length'], 10); 
+            for (var i = 0, result = ''; i < length; i++) {
+                result += localStorage[listName + '_' + i];
+            }
+
+            try {
+                return JSON.parse(result);
+            } catch (e) {
+                console.error('parse localStorage data error');
+                this.clearList(listName);
+            }
         },
 
         clearList: function(listName) {
-            localStorage[listName] = JSON.stringify([]);
+            var length = parseInt(localStorage[listName + '_length'], 10); 
+            for (var i = 0, result; i < length; i++) {
+                localStorage[listName + '_' + i] = null;
+            }
+            localStorage[listName + '_length'] = null;
         }
     };
 })();
