@@ -186,7 +186,7 @@
      *
      * 重新渲染界面
      */
-    var ReBuildUI = function() {
+    var timer, ReBuildUI = function() {
         var storageFlag = ['friends', 'replies', 'direct'];
         var planes = [friendsContainer, repliesContainer, directsContainer];
 
@@ -225,6 +225,10 @@
             // */
         }
         console.info('ReBuildUI finished.');
+        if (timer) {
+            timer.cancel();
+        }
+        timer = Lang.later(30 * 1000, null, ReBuildUI);
     };
 
     // 暴露到全局的接口

@@ -452,6 +452,8 @@ YAHOO.util.Connect =
 				this.initHeader('Content-Type', this._default_post_header);
 			}
 
+            console.error(postData || '');
+
 			if(o.xdr){
 				this.xdr(o, method, uri, callback, postData);
 				return o;

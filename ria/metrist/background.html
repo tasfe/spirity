@@ -17,7 +17,7 @@
                 // window.console = logger;
                 console.info('Background is running');
 
-                var twitter_username = 'tbtest62', twitter_password = 'hello123';
+                var twitter_username = 'chrome_metrist', twitter_password = 'hello123';
 
                 Twitter.setConfig({
                     //api: 'http://twitter.com',
@@ -25,7 +25,7 @@
                     //username: 'tbtest62',
                     username: twitter_username,
                     password: twitter_password,
-                    count: 5,
+                    count: 20,
                     timeout: 5000
                 });
 
@@ -78,13 +78,23 @@
                     if (timer) {
                         timer.cancel();
                     }
-                    timer = Lang.later(30 * 1000, Twitter, requestTweets);
+                    timer = Lang.later(60 * 1000, Twitter, requestTweets);
                 }
                 window.requestTweets = requestTweets;
 
                 // Already Login
                 if (localStorage['status_last_login_username'] == twitter_username && localStorage['status_is_logined'] == 'yes') {
                     // do Request
+
+                    Twitter.update('@chrome_metrist hello, world! 你好，世界！', {
+                        onSuccess: function(o) {
+                            console.info(o.responseText);
+                        }, 
+                        onError: function() {
+                            console.error('error');
+                        }
+                    });
+
                     requestTweets();
                 } else {
                     ['friends', 'replies', 'direct'].forEach(function(c){
@@ -183,18 +193,10 @@
                         console.info('error');
                     }
                 });
-
-                Twitter.update('@chrome_metrist hello, world! 你好，世界！', {
-                    onSuccess: function(o) {
-                        console.info(o.responseText);
-                    }, 
-                    onError: function() {
-                        console.info('error');
-                    }
-                });
                 */
 
-                chrome.tabs.create({url: 'popup.html'});
+
+// chrome.tabs.create({url: 'popup.html'});
                 //window.open('popup.html');
              })();
         </script>

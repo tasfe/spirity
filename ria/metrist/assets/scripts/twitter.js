@@ -23,13 +23,16 @@ Twitter = (function() {
             params.push(name + '=' + encodeURIComponent(request.params[name]));
         }
 
-        console.info('params: ' + params);
+        console.warn('params: ' + params.join('&'));
+        console.warn(request.url);
+        console.warn(request.type || "GET");
 
         //
         var request = YAHOO.util.Connect.asyncRequest(request.type || "GET", request.url, {
             success: callback.onSuccess || function () {},
             failure: callback.onError || function() {},
-            timeout: config.timeout
+            timeout: config.timeout,
+            cache: false
         }, params.join('&'), config.username, config.password);
     };
 
@@ -78,7 +81,8 @@ Twitter = (function() {
         sendRequest({
             type: "POST", url: config.api + '/statuses/update.json',
             params: {
-                'status': tweets
+                'status': tweets,
+                't': +new Date
             }
         }, callback);
     };
