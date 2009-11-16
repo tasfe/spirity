@@ -13,39 +13,24 @@ Twitter = (function() {
         api: "http://twitter.com",
         username: "",
         password: "",
-        count: 5
+        count: 5,
+        timeout: 5000
     };
 
     var sendRequest = function (request, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(o) {
-            if (xhr.readyState == 4) {
-                    if (typeof callback.onSuccess == 'function') {
-                        callback.onSuccess(xhr);
-                    }
-                    /*
-                if (xhr.status == 200) {
-                    if (typeof callback.onSuccess == 'function') {
-                        callback.onSuccess(xhr);
-                    }
-                } else {
-                    if (typeof callback.onError == 'function') {
-                        callback.onError(xhr);
-                    }
-                }
-                */
-            } 
-        };
-        xhr.open(request.type || "GET",
-            request.url, true, config.username, config.password);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        console.info(request.url);
-
         var params = []; request.params = request.params || {};
         for(name in request.params) {
             params.push(name + '=' + encodeURIComponent(request.params[name]));
         }
-        xhr.send(params.join('&'));
+
+        console.info('params: ' + params);
+
+        //
+        var request = YAHOO.util.Connect.asyncRequest(request.type || "GET", request.url, {
+            success: callback.onSuccess || function () {},
+            failure: callback.onError || function() {},
+            timeout: config.timeout
+        }, params.join('&'), config.username, config.password);
     };
 
     var getFriendsTimeline = function(callback) {
@@ -107,9 +92,7 @@ Twitter = (function() {
         getUserTimeline: getUserTimeline,
         sendDirectMessage: sendDirectMessage,
         setConfig: function(user_config) {
-            for(item in user_config) {
-                config[item] = user_config[item];
-            }
+            YAHOO.lang.augmentObject(config, user_config, true);
         }
     };
 })();

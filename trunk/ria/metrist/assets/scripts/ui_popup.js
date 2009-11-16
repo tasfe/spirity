@@ -8,6 +8,7 @@
  */
 ~function() {
     var Util = YAHOO.util, Dom = Util.Dom, Event = Util.Event, Lang = YAHOO.lang;
+    var bgPage = chrome.extension.getBackgroundPage();
 
     // 节点列表
     var content = Dom.get('content');
@@ -55,10 +56,6 @@
             }(i);
         };
 
-        // 清除节点内所有内容
-        Array.forEach(containers, function(c){
-            c.innerHTML = '';
-        });
 
         return {
             switchTo: switchTo
@@ -131,10 +128,9 @@
             Dom.addClass(formTextarea, 'full');
             return false;
         } else {
-            console.info(formTextarea.value);
+            updateTweet(formTextarea.value);
         }
     });
-
 
     Event.on(formTextarea, 'keyup', function(e) {
         if (localStorage) {
@@ -150,7 +146,7 @@
 
         var e = Event.getEvent(e);
         if (e.ctrlKey && e.keyCode == 13 && formTextarea.value.length) {
-            console.info(formTextarea.value);
+            updateTweet(formTextarea.value);
         }
     });
     if (localStorage && typeof localStorage['tmp_keydown'] != 'undefined') { 
@@ -159,17 +155,44 @@
 
     Event.on(formRefresh, 'click', function(e) {
         Event.stopEvent(e);
-        console.warn('Refresh!');
+        bgPage.requestTweets();
     });
 
+    /**
+     * 发送条 Twitter
+     *
+     */
+    var updateTweet = function(tweets) {
+        if (localStorage['status_is_logined'] == 'yes') {
+            bgPage.Twitter.update(tweets, {
+                onSuccess: function(o) {
+                    console.log(o.responseText);
+                    console.log('update tweets successful');
+                    localStorage['tmp_keydown'] = '';
+                    formTextarea.value = '';
+                    backgroundPage.requestTweets();
+                }, 
+                onError: function() {
+                    console.error('update tweets error');
+                }
+            });
+        } else {
+            console.error('update tweets faild, not login');
+        }
+    };
 
     /**
      * ReBuildUI
      *
+     * 重新渲染界面
      */
     var ReBuildUI = function() {
         var storageFlag = ['friends', 'replies', 'direct'];
         var planes = [friendsContainer, repliesContainer, directsContainer];
+
+        // 清除节点所有内容
+        planes.forEach(function(c){ c.innerHTML = ''; });
+
         for (var i = 0, len = storageFlag.length; i < len; i++) {
             var data = JSON.parse(localStorage[storageFlag[i]]), plane = planes[i];
 
