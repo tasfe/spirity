@@ -12,6 +12,9 @@ Metrist 基于 Google Chrome 浏览器的 Twitter 客户端
 更改历史
 
 
+2009-11-16
+
+完成基本发送 Twitter 、配置、本地存储等逻辑
 
 2009-11-15
 
