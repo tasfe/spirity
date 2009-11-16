@@ -91,7 +91,7 @@
             for(var i = 0, len = consoleData.length; i < len; i++) {
                 var data = consoleData[i];
                 var li = document.createElement('li');
-                li.innerHTML = (new Date().toString()) + ":\n  " + data.message + '';
+                li.innerHTML = data.message;
                 Dom.addClass(li, data.type);
                 if (consoleContainer.firstChild) {
                     Dom.insertBefore(li, consoleContainer.firstChild);
@@ -100,24 +100,9 @@
                 }
             }
         }
-
-        var insert = function (message, type) {
-            consoleData.push({
-                message: message, type: type
-            });
-            refresh();
-            if (localStorage) {
-                localStorage['console_data'] = JSON.stringify(consoleData);
-            }
-        }
         refresh();
 
-        return {
-            log: function(message) {insert(message, 'log');},
-            warn: function(message) {insert(message, 'warn');},
-            info: function(message) {insert(message, 'info');},
-            error: function(message) {insert(message, 'error');}
-        };
+        return logger;
     })();
     // */
 
@@ -162,7 +147,6 @@
 
     /**
      * 发送 Twitter
-     *
      */
     var updateTweet = function(tweets) {
         if (localStorage['status_is_logined'] == 'yes') {
@@ -171,7 +155,6 @@
             bgPage.Twitter.update(tweets, {
                 onSuccess: function(o) {
                     Dom.addClass(mask, 'hidden');
-                    console.log(o.responseText);
                     console.log('update tweets successful');
                     localStorage['tmp_keydown'] = '';
                     formTextarea.value = '';
@@ -206,6 +189,7 @@
             if (plane && Lang.isArray(data) && data.length) {
                 var confMaxRecord = localStorage['conf_maxrecord'] || 50;
                 var maxRecord = data.length > confMaxRecord ? confMaxRecord : data.length;
+                plane.innerHTML = '';
                 for(var k = 0; k < maxRecord; k++) {
                     var item = data[k], li = document.createElement('li');
                     var sender = item.user || item.sender;
@@ -218,10 +202,15 @@
                         '<p class="time">'+ relative_time(item.created_at) +'</p>',
                         '<p class="avatar">' + 
                             '<img width="48" height="48" src="'+ 
-                            sender.profile_image_url +'" alt="'+ sender.screen_name+'"/></p>',
+                            sender.profile_image_url +'" alt="'+ sender.screen_name +'"/></p>',
                         '<p class="message">'+ item.text +'</p>',
-                        '<p class="act" param:id="'+ item.id +'"><a href="#">Retweet</a><a href="#">Reply</a></p>'
+                        '<p class="act" param:id="'+ item.id +'">',
+                        item.sender ? '' : '<a href="#" act="Retweet">Retweet</a>',
+                        '<a href="#" act="Reply">Reply</a></p>'
                     ];
+
+                    Dom.setAttribute(li, 'screen_name', sender.screen_name);
+                    Dom.setAttribute(li, 'tweets_text', item.text);
 
                     if (item.in_reply_to_screen_name == localStorage['status_last_login_username']) {
                         Dom.addClass(li, 'reply');
@@ -243,10 +232,48 @@
         timer = Lang.later(30 * 1000, null, ReBuildUI);
     };
 
+    // 界面点击事件
+    Event.on([friendsContainer, repliesContainer, directsContainer], 'click', function(e) {
+        var target = Event.getTarget(e);
+        if (target.nodeName.toLowerCase() == 'a') {
+            Event.stopEvent(e);
+            var act = (Dom.getAttribute(target, 'act') || '').toLowerCase();
+            if (act) {
+                switch (act) {
+                    case 'reply': 
+                        var ancestor = Dom.getAncestorByTagName(target, 'li');
+                        if (ancestor) {
+                            var prefix = Dom.hasClass(ancestor, 'direct') ? 'd ' : '@';
+                            formTextarea.value = prefix + Dom.getAttribute(ancestor, 'screen_name') + ' ';
+                            Lang.later(100, null, function() {
+                                formTextarea.focus();
+                            });
+                        }
+                    break;
+
+                    case 'retweet':
+                        var ancestor = Dom.getAncestorByTagName(target, 'li');
+                        if (ancestor) {
+                            formTextarea.value = 'RT @' + Dom.getAttribute(ancestor, 'screen_name') + ': '  + Dom.getAttribute(ancestor, 'tweets_text');
+                            Lang.later(100, null, function() {
+                                formTextarea.focus();
+                            });
+                        }
+                    break;
+
+                    default: return;
+                }
+             } else {
+                
+             }
+        }
+    });
+    
+
     // 暴露到全局的接口
     window.Channel = Channel;
-    window.console = HTMLLogger;
     window.ReBuildUI = ReBuildUI;
+    window.console = logger;
 
     Lang.later(100, null, function() {
         formTextarea.focus();
