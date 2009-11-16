@@ -7,27 +7,28 @@
  * @link   http://www.gracecode.com/
  */
 
-
+/**
+ * Twitter Request API
+ */
 Twitter = (function() {
+    // default configure
     var config = {
         api: "http://twitter.com",
         username: "",
         password: "",
-        count: 5,
+        count: 20,
         timeout: 5000
     };
 
+    /**
+     * sendRequest with YUI Connect Module
+     */
     var sendRequest = function (request, callback) {
         var params = []; request.params = request.params || {};
         for(name in request.params) {
             params.push(name + '=' + encodeURIComponent(request.params[name]));
         }
 
-        console.warn('params: ' + params.join('&'));
-        console.warn(request.url);
-        console.warn(request.type || "GET");
-
-        //
         var request = YAHOO.util.Connect.asyncRequest(request.type || "GET", request.url, {
             success: callback.onSuccess || function () {},
             failure: callback.onError || function() {},
@@ -35,6 +36,8 @@ Twitter = (function() {
             cache: false
         }, params.join('&'), config.username, config.password);
     };
+
+    // Twitter request methods
 
     var getFriendsTimeline = function(callback) {
         sendRequest({
@@ -59,9 +62,8 @@ Twitter = (function() {
     };
 
     var getUserTimeline = function(user, callback) {
-        user = user || '';
         sendRequest({
-            url: config.api + '/statuses/user_timeline' + (user ? '' : ('/' + user)) + '.json?count=' + config.count
+            url: config.api + '/statuses/user_timeline' + (user ? '/' + user : '') + '.json?count=' + config.count
         }, callback);
     };
 
@@ -81,12 +83,12 @@ Twitter = (function() {
         sendRequest({
             type: "POST", url: config.api + '/statuses/update.json',
             params: {
-                'status': tweets,
-                't': +new Date
+                'status': tweets
             }
         }, callback);
     };
 
+    // public method
     return {
         login: login,
         update: update,
@@ -97,6 +99,74 @@ Twitter = (function() {
         sendDirectMessage: sendDirectMessage,
         setConfig: function(user_config) {
             YAHOO.lang.augmentObject(config, user_config, true);
+        }
+    };
+})();
+
+
+
+/**
+ * Tweets Save Handle for Chrome
+ *      Gears doesn't work in chrome addons, sigh~
+ */
+Tweets = (function() {
+    var $merge = function(target, source) {
+        var result = [], data = YAHOO.lang.merge(target, source);
+        var match = [];
+        for (items in data) {
+            var i = data[items], id = i.id;
+            // unique
+            if (match.indexOf(id) == -1) {
+                result.push(data[items]); match.push(id);
+            }
+            // sort
+        }
+        return result;
+    };
+
+    var diffResult = 0, $diff = function(target, source) {
+        var match = [];
+        for (items in source) {
+            var i = source[items], id = i.id; match.push(id);
+        }
+
+        for (items in target) {
+            var i = target[items], id = i.id;
+            // unique
+            if (match.indexOf(id) == -1) {
+                diffResult++;
+            }
+        }
+    };
+
+    return {
+        addToList: function(listName, data) {
+            try {
+                var source = JSON.parse(localStorage[listName]);
+                console.info('source: ' + source);
+            } catch (e) {
+                console.error('parse localStorage data error');
+                this.clearList(listName);
+            }
+            $diff(data, source); // diff new message
+            localStorage[listName] = JSON.stringify($merge(data, source));
+        },
+
+        getDiffNumber: function() {
+            return diffResult;
+        },
+
+        clearDiffNumber: function() {
+            diffResult = 0;
+        },
+
+        getList: function(listName) {
+            var data = JSON.parse(localStorage[listName]);
+            return data;
+        },
+
+        clearList: function(listName) {
+            localStorage[listName] = JSON.stringify([]);
         }
     };
 })();

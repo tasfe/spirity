@@ -59,9 +59,9 @@
                 <li>Directs</li>
                 <li>Console</li>
             </ul>
-            <button id="refresh">Refresh</button>
+            <a id="refresh" title="Refresh"><img src="assets/images/reload.png" width="22" height="22" /></a>
+            <div id="loading" class="hidden"></div>
         </div>
-        <div id="loading hidden"></div>
         <script type="text/javascript" src="assets/yui-special/yahoo.js"></script>
         <script type="text/javascript" src="assets/yui-special/dom.js"></script>
         <script type="text/javascript" src="assets/yui-special/event.js"></script>
@@ -73,7 +73,6 @@
             (function() {
                 // 初始化界面
                 ReBuildUI();
-
 
                 //var backgroundPage = chrome.extension.getBackgroundPage();
                 //console.info(backgroundPage.Twitter.update);
