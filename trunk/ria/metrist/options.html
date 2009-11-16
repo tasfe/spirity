@@ -2,10 +2,150 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title></title>
+        <link href="assets/css/reset-min.css" rel="stylesheet" type="text/css" /> 
+        <link href="assets/css/options.css" rel="stylesheet" type="text/css" /> 
     </head>
     <body>
-        <h1>Options</h1>
-        <input type="text" />
+        <div id="page">
+            <div id="header">
+                <h1>Metrist Options</h1>
+            </div>
+            <div id="content">
+                <form action="#" method="post" id="formMain">
+                    <h3>帐户配置</h3>
+                    <ul>
+                        <li><label>用户名：</label>
+                        <input type="text" value=""
+                            id="conf_twitter_username" />
+                            <p>您用作登录 Twitter 的用户名</p>
+                        </li>
+                        <li><label>密　码：</label>
+                            <input type="password" value=""
+                            id="conf_twitter_password" />
+                            <p>您用作登录 Twitter 的用密码</p>
+                        </li>
+                    </ul>
+
+                    <h3>网络</h3>
+                    <ul>
+                        <li><label>数　据：</label>
+                        每 <select id="conf_per_request_time">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select> 分钟向 Twitter 请求次数据
+                            <p>Twtter 每分钟有 140 次 API 请求限制，请酌情根据自己的情况
+                            设置</p>
+                        </li>
+                        <li><label>超　时：</label>
+                            <input type="text" value="5000"
+                                id="conf_request_timeout" />
+                            <p>请根据您的网络情况调整，通常 5000（毫秒）是个好选择</p>
+                        </li>
+                    </ul>
+
+                    <h3>高级配置</h3>
+                    <ul>
+                        <li><label>接　口：</label>
+                            <input type="text" value="http://twitter.com"
+                                id="conf_twitter_request_api" />
+                            <p>默认使用官方提供的 “http://twitter.com”<br />
+                            熟练使用 Twitter 的您，相信您总有办法搞到可以<strong>正常使用</strong>的接口 :^)</p>
+                        </li>
+                    </ul>
+
+                    <h3>开发</h3>
+                    <ul>
+                        <li><label>控制台：</label>
+                            <input type="checkbox" id="conf_use_console"
+                            checked="checked" /> 显示控制台
+                            <p>显示控制台，用于开发调试</p>
+                        </li>
+                    </ul>
+
+                    <!--
+                    <h3>其他</h3>
+                    <ul>
+                        <li><button type="button">访问 Metrist 主页</button></li>
+                    </ul>
+                    -->
+
+                    <div class="submit">
+                        <button type="submit">确　定</button>
+                    </div>
+                </form>
+            </div>
+            <div id="footer">
+                $Id$
+            </div>
+            <script type="text/javascript" src="assets/yui-special/yahoo.js"></script>
+            <script type="text/javascript" src="assets/yui-special/dom.js"></script>
+            <script type="text/javascript" src="assets/yui-special/event.js"></script>
+            <script type="text/javascript" src="assets/yui-special/animation.js"></script>
+            <script type="text/javascript">
+                ~function() {
+                    var Y = YAHOO, Lang = Y.lang, Util = Y.util, Dom = Util.Dom, Event = Util.Event;
+
+                    var defaultFields = {
+                        'conf_twitter_username': '',
+                        'conf_twitter_password': '',
+                        'conf_per_request_time': 10,
+                        'conf_twitter_request_api': 'http://twitter.com',
+                        'conf_use_console' : 'no',
+                        'conf_request_timeout' : '5000'
+                    };
+
+                    for(items in defaultFields) {
+                        var input = Dom.get(items);
+                        if (input) {
+                            switch(input.nodeName.toLowerCase()) {
+                                case 'input':
+                                    if (/text|password/.test(input.type)) {
+                                        input.value = localStorage[items] || defaultFields[items];
+                                    } else if (input.type == 'checkbox')  {
+                                        input.checked = (localStorage[items] || defaultFields[items]) == 'yes' ? true : false;
+                                    }
+                                    break;
+                                case 'select':
+                                    for(i in input.options) {
+                                        var value = localStorage[items] || defaultFields[items];
+                                        if (input.options[i].value == value) {
+                                            input.options[i].selected = 'selected';
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    input.value = localStorage[items] || defaultFields[items];
+                                    break;
+                            }
+                        }
+                    };
+
+                    Event.on('formMain', 'submit', function(e) {
+                        Event.stopEvent(e);
+                        for(items in defaultFields) {
+                            var input = Dom.get(items);
+                            if (input) {
+                                switch(input.nodeName.toLowerCase()) {
+                                    case 'input':
+                                        if (/text|password/.test(input.type)) {
+                                            localStorage[items]  = input.value;
+                                        } else if (input.type == 'checkbox')  {
+                                            localStorage[items] = input.checked ? 'yes' : 'no';
+                                        }
+                                        break;
+                                    case 'select': default:
+                                        localStorage[items] = input.value;
+                                        break;
+                                }
+                            }
+                        };
+                        window.close();
+                    });
+                }();
+            </script>
+        </div>
     </body>
 </html>

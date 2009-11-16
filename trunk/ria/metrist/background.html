@@ -15,86 +15,83 @@
             ~function() {
                 var Y = YAHOO, Lang = Y.lang, timer;
 
-                window.console = logger;
+                if (localStorage['conf_use_console'] == 'yes') {
+                    window.console = logger;
+                }
 
-                /*
-                localStorage['conf_twitter_username'];
-                localStorage['conf_twitter_password'];
-                */
-                var twitter_username = 'chrome_metrist', twitter_password = 'hello123';
-                //var twitter_username = 'tbtest62', twitter_password = 'hello123';
+                var twitter_username = localStorage['conf_twitter_username'],
+                    twitter_password = localStorage['conf_twitter_password'];
+                if (!twitter_username || !twitter_password) {
+                    chrome.tabs.create({url: 'options.html'});
+                    return;
+                }
 
+                //'http://lab.gracecode.com/twip-nobody-knows',
                 Twitter.setConfig({
-                    //api: 'http://twitter.com',
-                    api: 'http://lab.gracecode.com/twip-nobody-knows',
-                    //username: 'tbtest62',
+                    api: localStorage['conf_twitter_request_api'] || 'http://twitter.com',
                     username: twitter_username,
                     password: twitter_password,
-                    timeout: 5000
+                    timeout: parseInt(localStorage['conf_request_timeout'], 10) || 5000
+                    count: parseInt(localStorage['conf_request_count'], 10) || 10,
                 });
 
-                    var requestDataAndShow = function() {
-                        // 获取用户本身数据，并添加到“好友”列表
-                        Twitter.getUserTimeline(twitter_username, {
-                            onSuccess: function(o) {
-                                //console.info('getUserTimeline:');
-                                //console.info(JSON.parse(o.responseText));
-                                Tweets.addToList('friends', JSON.parse(o.responseText));
-                                console.log('getUserTimeline successful');
-                                getFriendsTimeline();
-                            },
-                            onError: function() {
-                                console.error('getFriendsTimeline error!');
-                            }
-                        });
-                    }
+                var requestDataAndShow = function() {
+                    // 获取用户本身数据，并添加到“好友”列表
+                    Twitter.getUserTimeline(twitter_username, {
+                        onSuccess: function(o) {
+                            Tweets.addToList('friends', JSON.parse(o.responseText));
+                            console.log('getUserTimeline successful');
+                            getFriendsTimeline();
+                        },
+                        onError: function() {
+                            console.error('getFriendsTimeline error!');
+                        }
+                    });
+                }
 
-                    // 获取好友数据
-                    var getFriendsTimeline = function() {
-                        Twitter.getFriendsTimeline({
-                            onSuccess: function(o) {
-                                //console.info('getFriendsTimeline:');
-                                //console.info(JSON.parse(o.responseText));
-                                Tweets.addToList('friends', JSON.parse(o.responseText));
-                                console.log('getFriendsTimeline successful');
-                                getReplies();
-                            }, 
-                            onError: function() {
-                                console.error('getFriendsTimeline faild');
-                            }
-                        });
-                    }
+                // 获取好友数据
+                var getFriendsTimeline = function() {
+                    Twitter.getFriendsTimeline({
+                        onSuccess: function(o) {
+                            Tweets.addToList('friends', JSON.parse(o.responseText));
+                            console.log('getFriendsTimeline successful');
+                            getReplies();
+                        }, 
+                        onError: function() {
+                            console.error('getFriendsTimeline faild');
+                        }
+                    });
+                }
 
-                    // 获取回复数据
-                    var getReplies = function () {
-                        Twitter.getReplies({
-                            onSuccess: function(o) {
-                                //Tweets.addToList('friends', JSON.parse(o.responseText));
-                                Tweets.addToList('replies', JSON.parse(o.responseText));
-                                console.log('getReplies successful');
-                                getDirectMessages();
-                            }, 
-                            onError: function() {
-                                console.error('getReplies faild');
-                            }
-                        });
-                    }
+                // 获取回复数据
+                var getReplies = function () {
+                    Twitter.getReplies({
+                        onSuccess: function(o) {
+                            Tweets.addToList('replies', JSON.parse(o.responseText));
+                            console.log('getReplies successful');
+                            getDirectMessages();
+                        }, 
+                        onError: function() {
+                            console.error('getReplies faild');
+                        }
+                    });
+                }
 
-                    // 获取私信数据
-                    var getDirectMessages = function() {
-                        Twitter.getDirectMessages({
-                            onSuccess: function(o) {
-                                Tweets.addToList('direct', JSON.parse(o.responseText));
-                                console.log('getDirectMessages successful');
-                                if (Tweets.getDiffNumber()) {
-                                    chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
-                                }
-                            }, 
-                            onError: function() {
-                                console.error('getDirectMessages faild');
+                // 获取私信数据
+                var getDirectMessages = function() {
+                    Twitter.getDirectMessages({
+                        onSuccess: function(o) {
+                            Tweets.addToList('direct', JSON.parse(o.responseText));
+                            console.log('getDirectMessages successful');
+                            if (Tweets.getDiffNumber()) {
+                                chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
                             }
-                        });
-                    }
+                        }, 
+                        onError: function() {
+                            console.error('getDirectMessages faild');
+                        }
+                    });
+                }
 
 
                 /**
@@ -106,7 +103,9 @@
                         timer.cancel();
                     }
                     requestDataAndShow();
-                    timer = Lang.later(5 * 60 * 1000, Twitter, requestTweets);
+
+                    var minutes = parseInt(localStorage['conf_per_request_time'], 10) || 10;
+                    timer = Lang.later(minutes * 60 * 1000, Twitter, requestTweets);
                 }
 
                 // Already Login
@@ -128,6 +127,7 @@
                         localStorage['status_is_logined'] = 'no';
                         localStorage['status_last_login_username'] = '';
                         localStorage['status_last_login_time'] = '';
+                        chrome.tabs.create({url: 'options.html'});
                     };
 
                     // 登录成功的回调

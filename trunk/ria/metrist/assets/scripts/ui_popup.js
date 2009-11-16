@@ -115,7 +115,7 @@
             Dom.addClass(formTextarea, 'full');
             return false;
         } else {
-            updateTweet(Lang.trim(formTextarea.value));
+            updateTweet(formTextarea.value);
         }
     });
 
@@ -132,7 +132,7 @@
         }
 
         var e = Event.getEvent(e);
-        if (e.ctrlKey && e.keyCode == 13 && formTextarea.value.length) {
+        if (/* e.ctrlKey && */ e.keyCode == 13 && Lang.trim(formTextarea.value).length) {
             updateTweet(formTextarea.value);
         }
     });
@@ -152,7 +152,7 @@
         if (localStorage['status_is_logined'] == 'yes') {
             var mask = loadingMask;
             Dom.removeClass(mask, 'hidden');
-            bgPage.Twitter.update(tweets, {
+            bgPage.Twitter.update(Lang.trim(tweets), {
                 onSuccess: function(o) {
                     Dom.addClass(mask, 'hidden');
                     console.log('update tweets successful');
@@ -273,7 +273,11 @@
     // 暴露到全局的接口
     window.Channel = Channel;
     window.ReBuildUI = ReBuildUI;
-    window.console = logger;
+    if (localStorage['conf_use_console'] == 'yes') {
+        window.console = logger;
+    } else {
+        Dom.setStyle('channelConsole', 'display', 'none');
+    }
 
     Lang.later(100, null, function() {
         formTextarea.focus();
