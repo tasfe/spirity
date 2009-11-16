@@ -83,9 +83,11 @@
                         onSuccess: function(o) {
                             Tweets.addToList('direct', JSON.parse(o.responseText));
                             console.log('getDirectMessages successful');
+                            /*
                             if (Tweets.getDiffNumber()) {
                                 chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
                             }
+                            */
                         }, 
                         onError: function() {
                             console.error('getDirectMessages faild');
