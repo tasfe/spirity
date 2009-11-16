@@ -1,0 +1,98 @@
+/* vim: set et sw=4 ts=4 sts=4 fdm=marker ff=unix fenc=utf8 nobomb: */
+/**
+ * Options Page UI
+ *
+ * @author mingcheng<i.feelinglucky#gmail.com>
+ * @date   2009-11-16
+ * @link   http://www.gracecode.com/
+ */
+
+body {
+    font-size: 12px;
+    font-color: #333;
+    font-family:Helvetica,Arial,sans-serif;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+#page {
+    width: 750px;
+    margin: 50px auto;
+}
+
+#page #header {
+
+}
+
+#page #header h1 {
+    font-size: 20px;
+    margin: .5em 0;
+}
+
+#page #content {
+
+}
+
+#page #content h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 1.2em 0 .5em 0;
+    background: #e5ecf9;
+    border-top: 1px solid #3366cc;
+    padding: 2px 1em;
+}
+
+#page #content ul {
+
+}
+
+#page #content li {
+    margin: 0 0 .5em 0;
+    padding: 0 0 0 150px;
+    position: relative;
+}
+
+#page #content li label {
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    width: 140px;
+    padding: 0 5px;
+    text-align: right;
+}
+
+#page #content li p {
+    color: #999;
+}
+
+#page #content li input[type=password],
+#page #content li input[type=text]{
+    width: 250px;
+    padding: 1px 2px;
+}
+
+#page #content .submit {
+    text-align: center;
+}
+
+#page #footer {
+    text-align: right;
+    color: #999;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
