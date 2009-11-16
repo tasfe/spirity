@@ -10,6 +10,7 @@
 body {
     font-size: 12px;
     font-color: #333;
+    font-family:Helvetica,Arial,sans-serif;
 }
 
 textarea, button {
@@ -173,17 +174,22 @@ button {
     position: absolute;
     bottom: 0px;
     right: 0px;
+    cursor: defualt;
+    width: 22px;
+    height: 22px;
+    overflow: hidden;
+    display: inline-block;
 }
 
 #loading {
-    position: fixed;
-    top: 0px;
+    position: absolute;
+    bottom: 0px;
     left: 0px;
     z-index: 99;
     background: #fff url(../images/loading.gif) no-repeat center center;
     opacity: .85;
     width: 100%;
-    height: 100%;
+    height: 80px;
 }
 
 .console {

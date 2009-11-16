@@ -448,20 +448,16 @@ YAHOO.util.Connect =
 
 			//If the transaction method is POST and the POST header value is set to true
 			//or a custom value, initalize the Content-Type header to this value.
-			if((method.toUpperCase() === 'POST' && this._use_default_post_header) && this._isFormSubmit === false){
+			if(method.toUpperCase() === 'POST' && this._use_default_post_header){
 				this.initHeader('Content-Type', this._default_post_header);
 			}
-
-            console.error(postData || '');
 
 			if(o.xdr){
 				this.xdr(o, method, uri, callback, postData);
 				return o;
 			}
 
-            user = user || "";
-            password = password || "";
-			o.conn.open(method, uri, true, user, password);
+			o.conn.open(method, uri, true, user || '', password || '');
 			//Initialize all default and custom HTTP headers,
 			if(this._has_default_headers || this._has_http_headers){
 				this.setHeader(o);

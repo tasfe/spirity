@@ -12,11 +12,15 @@
         <script type="text/javascript" src="assets/scripts/common.js"></script>
         <script type="text/javascript" src="assets/scripts/twitter.js"></script>
         <script type="text/javascript">
-            (function() {
-                var Y = YAHOO, Lang = Y.lang;
+            ~function() {
+                var Y = YAHOO, Lang = Y.lang, timer;
                 // window.console = logger;
-                console.info('Background is running');
 
+                /*
+                localStorage['conf_twitter_username'];
+                localStorage['conf_twitter_password'];
+                */
+                //var twitter_username = 'feelinglucky', twitter_password = '1235813';
                 var twitter_username = 'chrome_metrist', twitter_password = 'hello123';
 
                 Twitter.setConfig({
@@ -25,27 +29,32 @@
                     //username: 'tbtest62',
                     username: twitter_username,
                     password: twitter_password,
-                    count: 20,
                     timeout: 5000
                 });
 
-                /*
-                console.info(localStorage['status_is_logined']);
-                console.info(localStorage['status_last_login_username']);
-                console.info(localStorage['status_last_login_time']);
-                console.info(localStorage['status_last_request_tweets']);
-                */
 
-                var timer;
+                /**
+                 * 向服务器请求 Tweets 信息
+                 */
                 var requestTweets = function () {
-                    console.log('Request tweets beginning.');
                     localStorage['status_last_request_tweets'] = new Date;
 
+                    // 获取用户本身数据，并添加到“好友”列表
+                    Twitter.getUserTimeline(twitter_username, {
+                        onSuccess: function(o) {
+                            console.info(JSON.parse(o.responseText));
+                            Tweets.addToList('friends', JSON.parse(o.responseText));
+                        },
+                        onError: function() {
+                            console.error('getFriendsTimeline error!');
+                        }
+                    });
+
+                    // 获取好友数据
                     Twitter.getFriendsTimeline({
                         onSuccess: function(o) {
                             //console.info('getFriendsTimeline: ' + o.responseText);
-                            localStorage["friends"] = o.responseText;
-                            //YAHOO.lang.augmentObject(config, user_config, true);
+                            Tweets.addToList('friends', JSON.parse(o.responseText));
                             console.log('getFriendsTimeline successful');
                         }, 
                         onError: function() {
@@ -53,10 +62,11 @@
                         }
                     });
 
+                    // 获取回复数据
                     Twitter.getReplies({
                         onSuccess: function(o) {
                             //console.info('getReplies: ' + o.responseText);
-                            localStorage["replies"] = o.responseText;
+                            Tweets.addToList('replies', JSON.parse(o.responseText));
                             console.log('getReplies successful');
                         }, 
                         onError: function() {
@@ -64,10 +74,11 @@
                         }
                     });
 
+                    // 获取私信数据
                     Twitter.getDirectMessages({
                         onSuccess: function(o) {
                             //console.info('getDirectMessages: ' + o.responseText);
-                            localStorage["direct"] = o.responseText;
+                            Tweets.addToList('direct', JSON.parse(o.responseText));
                             console.log('getDirectMessages successful');
                         }, 
                         onError: function() {
@@ -75,32 +86,31 @@
                         }
                     });
 
+                    if (Tweets.getDiffNumber()) {
+                        chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
+                    }
+
                     if (timer) {
                         timer.cancel();
                     }
                     timer = Lang.later(60 * 1000, Twitter, requestTweets);
+
                 }
-                window.requestTweets = requestTweets;
 
                 // Already Login
                 if (localStorage['status_last_login_username'] == twitter_username && localStorage['status_is_logined'] == 'yes') {
                     // do Request
-
-                    Twitter.update('@chrome_metrist hello, world! 你好，世界！', {
-                        onSuccess: function(o) {
-                            console.info(o.responseText);
-                        }, 
-                        onError: function() {
-                            console.error('error');
-                        }
-                    });
-
                     requestTweets();
                 } else {
-                    ['friends', 'replies', 'direct'].forEach(function(c){
-                        localStorage[c] = '';
-                    });
+                    // 如果更改了 Twitter 用户名
+                    // 则清空先前的列表
+                    if (localStorage['status_last_login_username'] != twitter_username) {
+                        ['friends', 'replies', 'direct'].forEach(function(c){
+                            Tweets.clearList(c);
+                        });
+                    }
 
+                    // 登录失败的回调
                     var loginFaild = function() {
                         console.error("user "+ twitter_username +" login faild");
                         localStorage['status_is_logined'] = 'no';
@@ -108,6 +118,7 @@
                         localStorage['status_last_login_time'] = '';
                     };
 
+                    // 登录成功的回调
                     var loginSuccess = function() {
                         console.log("user "+ twitter_username +" login successful");
                         localStorage['status_is_logined'] = 'yes';
@@ -118,10 +129,12 @@
                         requestTweets();
                     };
 
+                    // 执行登录操作
                     Twitter.login({
                         onSuccess: function(o) {
                             var result = JSON.parse(o.responseText);
                             if (Lang.isUndefined(result.error)) {
+                                localStorage['status_twitter_info'] = JSON.stringify(result);
                                 loginSuccess();
                             } else {
                                 loginFaild();
@@ -133,72 +146,9 @@
                         }
                     });
                 }
-
-                /*
-                var request = YAHOO.util.Connect.asyncRequest('GET',
-                    'http://lab.gracecode.com/twip-nobody-knows/account/verify_credentials.json',
-                    {
-                        success: function(o) {
-                            console.info('success');
-                            console.info(o.responseText);
-                            console.info('status: ' + o.status);
-
-                            // {"request":"/account/verify_credentials.json","error":"Could not authenticate you."}
-                        },
-                        failure: function(o) {
-                            console.info('error');
-                            console.info(o);
-                        },
-                        timeout: 5000
-                    }, '', 'tbtest62', 'hello13');
-
-                console.info(request);
-                */
-
-                /*
-
-
-                */
-
-                /*
-                Twitter.getReplies({
-                    onSuccess: function(o) {
-                        console.info('getReplies: ' + o.responseText);
-                        localStorage["replies"] = o.responseText;
-                        logger.info('getReplies Successful');
-                    }, 
-                    onError: function() {
-                        console.info('error');
-                    }
-                });
-
-                Twitter.getDirectMessages({
-                    onSuccess: function(o) {
-                        console.info('getDirectMessages: ' + o.responseText);
-                        localStorage["direct"] = o.responseText;
-                        logger.info('getDirectMessages Successful');
-                    }, 
-                    onError: function() {
-                        console.info('error');
-                    }
-                });
-                */
-                
-                /*
-                Twitter.sendDirectMessage('feelinglucky', 'hello, world! 你好，世界！', {
-                    onSuccess: function(o) {
-                        console.info(o.responseText);
-                    }, 
-                    onError: function() {
-                        console.info('error');
-                    }
-                });
-                */
-
-
-// chrome.tabs.create({url: 'popup.html'});
-                //window.open('popup.html');
-             })();
+                //chrome.tabs.create({url: 'popup.html'});
+                window.requestTweets = requestTweets;
+             }();
         </script>
     </body>
 </html>

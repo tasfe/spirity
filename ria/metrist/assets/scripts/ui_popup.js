@@ -25,6 +25,8 @@
     var formStatus = formElement.getElementsByTagName('span')[0];
     var formRefresh = Dom.get('refresh');
 
+    var loadingMask = Dom.get('loading');
+
     // 频道列表事件
     var Channel = (function() {
         var timer, anim;
@@ -123,12 +125,12 @@
     var formElement = Dom.get('metrist:form');
     Event.on(formElement, 'submit', function(e) {
         Event.stopEvent(e);
-        if (formTextarea.value > 140) {
+        if (Lang.trim(formTextarea.value).length > 140) {
             formTextarea.focus();
             Dom.addClass(formTextarea, 'full');
             return false;
         } else {
-            updateTweet(formTextarea.value);
+            updateTweet(Lang.trim(formTextarea.value));
         }
     });
 
@@ -136,7 +138,7 @@
         if (localStorage) {
             localStorage['tmp_keydown'] = formTextarea.value;
         }
-        var left = 140 - formTextarea.value.length;
+        var left = 140 - Lang.trim(formTextarea.value).length;
         formStatus.innerHTML = left;
         if (left < 0) {
             Dom.addClass(formTextarea, 'full');
@@ -159,13 +161,16 @@
     });
 
     /**
-     * 发送条 Twitter
+     * 发送 Twitter
      *
      */
     var updateTweet = function(tweets) {
         if (localStorage['status_is_logined'] == 'yes') {
+            var mask = loadingMask;
+            Dom.removeClass(mask, 'hidden');
             bgPage.Twitter.update(tweets, {
                 onSuccess: function(o) {
+                    Dom.addClass(mask, 'hidden');
                     console.log(o.responseText);
                     console.log('update tweets successful');
                     localStorage['tmp_keydown'] = '';
@@ -173,6 +178,7 @@
                     backgroundPage.requestTweets();
                 }, 
                 onError: function() {
+                    Dom.addClass(mask, 'hidden');
                     console.error('update tweets error');
                 }
             });
@@ -194,7 +200,7 @@
         planes.forEach(function(c){ c.innerHTML = ''; });
 
         for (var i = 0, len = storageFlag.length; i < len; i++) {
-            var data = JSON.parse(localStorage[storageFlag[i]]), plane = planes[i];
+            var data = bgPage.Tweets.getList(storageFlag[i]), plane = planes[i];
 
             ///*
             if (plane && Lang.isArray(data) && data.length) {
@@ -205,6 +211,7 @@
                     var sender = item.user || item.sender;
                     // process
                     
+                    Dom.setAttribute(li, 'id', item.id);
                     var html = [
                         '<h4 class="nick"><a href="http://twitter.com/'+
                             sender.screen_name +'">'+ sender.name +'</a></h4>',
@@ -215,12 +222,17 @@
                         '<p class="message">'+ item.text +'</p>',
                         '<p class="act" param:id="'+ item.id +'"><a href="#">Retweet</a><a href="#">Reply</a></p>'
                     ];
+
+                    if (item.in_reply_to_screen_name == localStorage['status_last_login_username']) {
+                        Dom.addClass(li, 'reply');
+                    }
+
                     if (item.sender) {
                         Dom.addClass(li, 'direct');
                     }
                     li.innerHTML = html.join('');
+                    plane.appendChild(li);
                 }
-                plane.appendChild(li);
             }
             // */
         }
@@ -233,7 +245,7 @@
 
     // 暴露到全局的接口
     window.Channel = Channel;
-    window.console = HTMLLogger;
+    //window.console = HTMLLogger;
     window.ReBuildUI = ReBuildUI;
 
     setTimeout(function() {formTextarea.focus();}, 50);
