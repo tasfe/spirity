@@ -228,13 +228,18 @@ button {
 
 #loading {
     position: absolute;
-    top: 0px;
     left: 0px;
     z-index: 99;
     background: #fff url(../images/loading.gif) no-repeat center center;
     opacity: .85;
     width: 100%;
     height: 100%;
+    top: 0px;
+}
+
+#loading.loading-mini {
+    top: 405px;
+    height: 103px;
 }
 
 .console {

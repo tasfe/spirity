@@ -128,44 +128,65 @@
         var anim;
         Dom.addClass(loadingEl, 'hidden');
 
-        return {
-            show: function(onShow) {
-                Dom.removeClass(loadingEl, 'hidden');
-                if (Lang.isFunction(onShow)) {
-                    var onShowEvent = new Util.CustomEvent("onShow", this);
-                    onShowEvent.subscribe(onShow, this);
-                    onShowEvent.fire();
-                }
-            },
+        var $show = function(onShow) {
+            Dom.removeClass(loadingEl, 'hidden');
+            if (Lang.isFunction(onShow)) {
+                var onShowEvent = new Util.CustomEvent("onShow", this);
+                onShowEvent.subscribe(onShow, this);
+                onShowEvent.fire();
+            }
+        };
 
-            hide: function(onHide, useAnim) {
-                var _self = this, attributes = {
-                    opacity: {to: 0}
-                };
 
-                var onHideEvent = new Util.CustomEvent("onHide", _self);
-                if (Lang.isFunction(onHide)) {
-                    onHideEvent.subscribe(onHide, _self);
-                }
+        var $hide = function(onHide, useAnim) {
+            var _self = this, attributes = {
+                opacity: {to: 0}
+            };
 
-                if (Lang.isUndefined(useAnim)) {
-                    useAnim = true;
-                }
+            var onHideEvent = new Util.CustomEvent("onHide", _self);
+            if (Lang.isFunction(onHide)) {
+                onHideEvent.subscribe(onHide, _self);
+            }
 
-                if (useAnim) {
-                    if (anim) { anim.stop(); }
-                    anim = new Util.Anim(loadingEl, attributes, .5); 
-                    anim.onComplete.subscribe(function() {
-                        Dom.setStyle(loadingEl, 'opacity', '1');
-                        Dom.addClass(loadingEl, 'hidden');
-                        onHideEvent.fire();
-                    });
-                    anim.animate();
-                } else {
+            if (Lang.isUndefined(useAnim)) {
+                useAnim = true;
+            }
+
+            if (useAnim) {
+                if (anim) { anim.stop(); }
+                anim = new Util.Anim(loadingEl, attributes, .5); 
+                anim.onComplete.subscribe(function() {
                     Dom.setStyle(loadingEl, 'opacity', '1');
                     Dom.addClass(loadingEl, 'hidden');
                     onHideEvent.fire();
-                }
+                });
+                anim.animate();
+            } else {
+                Dom.setStyle(loadingEl, 'opacity', '1');
+                Dom.addClass(loadingEl, 'hidden');
+                onHideEvent.fire();
+            }
+        };
+
+        return {
+            showMini: function(onShow) {
+                Dom.addClass(loadingEl, 'loading-mini');
+                $show(onShow);
+            },
+
+            hideMini: function(onHide, useAnim) {
+                Dom.addClass(loadingEl, 'loading-mini');
+                $hide(onHide, useAnim);
+            },
+
+            show: function(onShow) {
+                Dom.removeClass(loadingEl, 'loading-min');
+                $show(onShow);
+            },
+
+            hide: function(onHide, useAnim) {
+                Dom.removeClass(loadingEl, 'loading-min');
+                $hide(onHide, useAnim);
             }
         }
     })(Dom.get('loading'));
