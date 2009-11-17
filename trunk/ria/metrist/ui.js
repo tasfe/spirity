@@ -338,6 +338,9 @@
                 textarea.value = Lang.trim(value);
                 //...
             },
+            focus: function() {
+            
+            },
             check: $check
         };
     })(Dom.get('form:input'), Dom.get('form:status'));

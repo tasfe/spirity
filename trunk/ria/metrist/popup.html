@@ -191,6 +191,47 @@
                         }
                     }, null, true);
                 });
+
+                // 界面点击事件
+                Event.on('content', 'click', function(e) {
+                    var target = Event.getTarget(e);
+                    if (target.nodeName.toLowerCase() == 'a') {
+                        Event.stopEvent(e);
+                        var act = (Dom.getAttribute(target, 'act') || '').toLowerCase();
+                        if (act) {
+                            switch (act) {
+                                case 'reply': 
+                                    var ancestor = Dom.getAncestorByTagName(target, 'li');
+                                    if (ancestor) {
+                                        var prefix = Dom.hasClass(ancestor, 'direct') ? 'd ' : '@';
+                                        UI.InputArea.setValue(prefix + Dom.getAttribute(ancestor, 'screen_name') + ' ', true);
+                                        UI.InputArea.check();
+                                        UI.InputArea.focus();
+                                    }
+                                break;
+
+                                case 'retweet':
+                                    var ancestor = Dom.getAncestorByTagName(target, 'li');
+                                    if (ancestor) {
+                                        var value = 'RT @' + 
+                                            Dom.getAttribute(ancestor, 'screen_name') + ': '
+                                                + Dom.getAttribute(ancestor, 'tweets_text');
+                                        UI.InputArea.setValue(value, true);
+                                        UI.InputArea.check();
+                                        UI.InputArea.focus();
+                                    }
+                                break;
+
+                                default: return;
+                            }
+                         } else {
+                            var href = Dom.getAttribute(target, 'href') || '';
+                            if (/^(http|https):\/\//.test(href)) {
+                                chrome.tabs.create({url: href});
+                            }
+                         }
+                    }
+                });
              })();
         </script>
     </body>
