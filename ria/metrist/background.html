@@ -149,7 +149,7 @@
                             // unread number
                             var unreadNumber = parseInt(Tweets.getUnreadNum(), 10);
                             setBadgeText(unreadNumber ? unreadNumber : '');
-                            Tweets.clearUnreadNum();
+                            //Tweets.clearUnreadNum();
                         }, 
                         onError: function() {
                             console.error('getDirectMessages: getDirectMessages faild');
@@ -219,7 +219,7 @@
                 window.Server = Server;
                 Server.start(); //Hallelujah!!!
 
-//              chrome.tabs.create({url: 'popup.html'});
+               chrome.tabs.create({url: 'popup.html'});
              }();
         </script>
     </body>

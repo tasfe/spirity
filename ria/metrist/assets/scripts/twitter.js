@@ -203,6 +203,7 @@ Tweets = (function() {
             } catch (e) {
                 console.error('parse localStorage data error');
                 this.clearList(listName);
+                return [];
             }
         },
 

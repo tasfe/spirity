@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html>
-    <script type="text/javascript">
-        var backgroundPage = chrome.extension.getBackgroundPage();
-        if (backgroundPage.requesting) {
-            window.close();
-        }
-    </script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="assets/css/reset-min.css" rel="stylesheet" type="text/css" /> 
@@ -13,10 +7,9 @@
     </head>
     <body>
         <div id="page">
-            <div id="content">
+            <div id="content" style="visibility:hidden;">
                 <div>
-
-                    <ul class="tweets" id="metrist:friends">
+                    <ul class="tweets" id="metrist:friends" ref="friends">
                         <li id="234" screen_name="feelinglucky" tweets_text="item.text">
                             <h4 class="nick"><a href="#">明城</a></h4>
                             <p class="time">12h</p>
@@ -24,8 +17,29 @@
                             <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
                             <p class="act"><a href="#" act="Retweet">Retweet</a><a href="#" act="Reply">Reply</a></p>
                         </li>
+                        <li class="reply">
+                            <h4 class="nick"><a href="#">明城</a></h4>
+                            <p class="time">12h</p>
+                            <p class="avatar"><img src="assets/images/avatar.png" /></p>
+                            <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                            <p class="act"><a href="#" act="Retweet">Retweet</a><a href="#" act="Reply">Reply</a></p>
+                        </li>
+                        <li class="direct">
+                            <h4 class="nick"><a href="#">明城</a></h4>
+                            <p class="time">12h</p>
+                            <p class="avatar"><img src="assets/images/avatar.png" /></p>
+                            <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                            <p class="act"><a href="#" act="Retweet">Retweet</a><a href="#" act="Reply">Reply</a></p>
+                        </li>
+                        <li class="me">
+                            <h4 class="nick"><a href="#">明城</a></h4>
+                            <p class="time">12h</p>
+                            <p class="avatar"><img src="assets/images/avatar.png" /></p>
+                            <p class="message">RT <a href="#">@feelinglucky</a>: 腾讯 TM 测试版的“锁定”功能非常棒</p>
+                            <p class="act"><a href="#" act="Retweet">Retweet</a><a href="#" act="Reply">Reply</a></p>
+                        </li>
                     </ul>
-                    <ul class="tweets" id="metrist:replies">
+                    <ul class="tweets" id="metrist:replies" ref="replies">
                         <li class="reply">
                             <h4 class="nick"><a href="#">明城</a></h4>
                             <p class="time">12h</p>
@@ -35,7 +49,7 @@
                         </li>
                     </ul>
 
-                    <ul class="tweets" id="metrist:directs">
+                    <ul class="tweets" id="metrist:directs" ref="directs">
                         <li class="direct">
                             <h4 class="nick"><a href="#">明城</a></h4>
                             <p class="time">12h</p>
@@ -54,79 +68,119 @@
             <div id="form">
                 <form action="#" method="post" id="metrist:form">
                     <div id="tweet">
-                        <textarea></textarea>
-                        <span>140</span>
+                        <textarea id="form:input"></textarea>
+                        <span id="form:status">140</span>
                         <button type="submit" id="metrist:submit">&#187;</button>
                     </div>
                 </form>
             </div>
             <ul id="channel">
-                <li>Friends</li>
+                <li class="selected">Friends</li>
                 <li>Replies</li>
                 <li>Directs</li>
                 <li id="channelConsole">Console</li>
             </ul>
-            <a id="refresh" title="Refresh"><img src="assets/images/reload.png" width="22" height="22" /></a>
-            <div id="loading" class="hidden"></div>
+            <a id="refresh" title="Refresh"><img src="assets/images/reload.png" width="16" height="16" /></a>
         </div>
+        <div id="loading" class=""></div>
+        <div id="notice" class=""><span>Hello, Metrist!</span></div>
         <script type="text/javascript" src="assets/yui-special/yahoo.js"></script>
         <script type="text/javascript" src="assets/yui-special/dom.js"></script>
         <script type="text/javascript" src="assets/yui-special/event.js"></script>
         <script type="text/javascript" src="assets/yui-special/animation.js"></script>
         <script type="text/javascript" src="assets/yui-special/connection_core.js"></script>
         <script type="text/javascript" src="assets/scripts/common.js"></script>
+        <script type="text/javascript" src="ui.js"></script>
+        <!--
         <script type="text/javascript" src="assets/scripts/ui_popup.js"></script>
+        -->
         <script type="text/javascript">
             (function() {
-                // 初始化界面
-                ReBuildUI();
+                var Util = YAHOO.util, Dom = Util.Dom, Event = Util.Event, Lang = YAHOO.lang;
 
-                //var backgroundPage = chrome.extension.getBackgroundPage();
-                //console.info(backgroundPage.Twitter.update);
-                //console.info(backgroundPage.Twitter);
+                var Tweets = (function() {
+                    var backgroundPage = chrome.extension.getBackgroundPage();
+                    var Server = backgroundPage.Server;
+                    return {
+                        update: function() {
+                            backgroundPage.Twitter.update(UI.InputArea.getValue(), {
+                                onSuccess: function(o) {
+                                    console.info(o);
+                                    UI.InputArea.setValue = '';
+                                    UI.Notice.show('Update tweets successful');
+                                    console.info('Update tweets successful')
+                                },
+                                onError: function() {
+                                    UI.Loading.hide();
+                                    console.info('Update tweets error')
+                                }
+                            });
+                        },
 
-                //chrome.browserAction.setBadgeText({text:"!"});
-                
-                /*
-                console.info(chrome.extension.getViews());
+                        getData: function(name) {
+                            return backgroundPage.Tweets.getList(name);
+                        },
 
-                var data_friends = JSON.parse(localStorage["friends"]);
-                var data_replies = JSON.parse(localStorage["replies"]);
-                var data_directs = JSON.parse(localStorage["direct"]);
-                */
+                        isRequesting: function() {
+                            return Server.status().requesting;
+                        },
 
-//                console.info(data_friends);
-//                console.info(data_replies);
-//                console.info(data_directs);
+                        clearUnreadNum: function() {
+                            Lang.later(5000, window, function() {
+                                setBadgeText(unreadNumber ? unreadNumber : '');
+                                backgroundPage.Tweets.clearUnreadNum();
+                            });
+                        }
+                    };
+                })();
 
-//var json = JSON.stringify(inst);
-                /*
-console.info(JSON.stringify(JSON.parse(localStorage["friends"])));
 
-                function filltweets(container, data) {
-                    for(var i = 0, len = data.length; i < len; i++) {
-                        var item = data[i];
-                        var li = document.createElement('li');
-                        var sender = item.user || item.sender;
-                        var html = [
-                            '<h4 class="nick"><a href="http://twitter.com/'+
-                                sender.screen_name +'">'+ sender.name +'</a></h4>',
-                            '<p class="time">'+ relative_time(item.created_at) +'</p>',
-                            '<p class="avatar">' + 
-                                '<img width="48" height="48" src="'+ 
-                                sender.profile_image_url +'" alt="'+ sender.screen_name+'"/></p>',
-                            '<p class="message">'+ item.text +'</p>',
-                            '<p class="act" param:id="'+ item.id +'"><a href="#">Retweet</a><a href="#">Reply</a></p>'
-                        ];
-                        li.innerHTML = html.join('');
-                        container.appendChild(li);
+                var TweetsTextAreaEl = Dom.get('form:input'), TweetsUpdateBtnEl = Dom.get('metrist:submit'),
+                    TweetsUpdateFormEl = Dom.get('metrist:form');
+
+                Event.on(TweetsUpdateFormEl, 'submit', function(e) {
+                    Event.stopEvent(e);
+                    if (UI.InputArea.check) { Tweets.update(); }
+                });
+
+                Event.on(TweetsTextAreaEl, 'keyup', function(e){
+                    var e = Event.getEvent(e);
+                    if (e.ctrlKey && e.keyCode == 13) {
+                        Event.stopEvent(e);
+                        Tweets.update();
                     }
-                }
+                });
 
-                filltweets(friends, data_friends);
-                filltweets(replies, data_replies);
-                filltweets(directs, data_directs);
-                */
+                UI.Channel.setSwitchToCall(function() {
+                    var current = UI.Channel.getCurrentIdx(), 
+                        container = UI.Channel.containers[current];
+                    var loaded = Dom.getAttribute(container, 'loaded'),
+                        ref = Dom.getAttribute(container, 'ref');
+                    if (loaded != 'loaded' && ref) {
+                        Dom.setAttribute(container, 'loaded', 'loaded');
+                        try {
+                            UI.Rebuild.channel(ref, Tweets.getData(ref));
+                        } catch (e) {
+                            console.error('UI.Rebuild.channel: build ['+ ref +'] error');
+                        }
+                    }
+                });
+
+                var defaultIdx = 0;
+
+                //Dom.setStyle('content', 'visibility', 'hidden');
+                UI.Loading.show(function() {
+                    var foo = Lang.later(50, window, function() {
+                        if (!Tweets.isRequesting()) {
+                            foo.cancel();
+                            UI.Loading.hide(function() {
+                                Dom.setStyle('content', 'visibility', '');
+                                Tweets.clearUnreadNum(); // clear unread
+                                UI.Channel.switchTo(defaultIdx, false); // Hallelujah!!!
+                            }, false);
+                        }
+                    }, null, true);
+                });
              })();
         </script>
     </body>
