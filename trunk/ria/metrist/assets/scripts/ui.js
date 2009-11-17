@@ -333,9 +333,10 @@
             getValue: function() {
                 return Lang.trim(textarea.value);
             },
-            setValue: function(value, cursorAtEnd) {
+            setValue: function(value, cursorAtEnd, trim) {
                 cursorAtEnd = Lang.isUndefined(cursorAtEnd) ? true : !!cursorAtEnd;
-                textarea.value = Lang.trim(value);
+                if (Lang.isUndefined(trim)) trim = true;
+                textarea.value = trim ? Lang.trim(value) : value;
                 //...
             },
             focus: function() {
