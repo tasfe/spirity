@@ -35,8 +35,10 @@
                     count: parseInt(localStorage['conf_request_count'], 10) || 10
                 });
 
+                window.requesting = false;
                 var requestDataAndShow = function() {
                     // 获取用户本身数据，并添加到“好友”列表
+                    requesting = true;
                     Twitter.getUserTimeline(twitter_username, {
                         onSuccess: function(o) {
                             Tweets.addToList('friends', JSON.parse(o.responseText));
@@ -44,6 +46,7 @@
                             getFriendsTimeline();
                         },
                         onError: function() {
+                            requesting = false;
                             console.error('getFriendsTimeline error!');
                         }
                     });
@@ -58,6 +61,7 @@
                             getReplies();
                         }, 
                         onError: function() {
+                            requesting = false;
                             console.error('getFriendsTimeline faild');
                         }
                     });
@@ -73,6 +77,7 @@
                         }, 
                         onError: function() {
                             console.error('getReplies faild');
+                            requesting = false;
                         }
                     });
                 }
@@ -83,6 +88,7 @@
                         onSuccess: function(o) {
                             Tweets.addToList('direct', JSON.parse(o.responseText));
                             console.log('getDirectMessages successful');
+                            requesting = false;
                             /*
                             if (Tweets.getDiffNumber()) {
                                 chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
@@ -91,6 +97,7 @@
                         }, 
                         onError: function() {
                             console.error('getDirectMessages faild');
+                            requesting = false;
                         }
                     });
                 }
@@ -120,7 +127,7 @@
                         ['friends', 'replies', 'direct'].forEach(function(c){
                             Tweets.clearList(c);
                         });
-                        Tweets.clearDiffNumber();
+                        //Tweets.clearDiffNumber();
                     }
 
                     // 登录失败的回调
@@ -161,7 +168,7 @@
                     });
                 }
 
-                //chrome.tabs.create({url: 'popup.html'});
+//                chrome.tabs.create({url: 'popup.html'});
                 window.requestTweets = requestTweets;
              }();
         </script>

@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html>
+    <script type="text/javascript">
+        var backgroundPage = chrome.extension.getBackgroundPage();
+        if (backgroundPage.requesting) {
+            window.close();
+        }
+    </script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="assets/css/reset-min.css" rel="stylesheet" type="text/css" /> 
