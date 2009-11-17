@@ -11,16 +11,20 @@ body {
     font-size: 12px;
     font-color: #333;
     font-family:Helvetica,Arial,sans-serif;
+    background: #d5e4f7;
+    padding: 2px;
 }
 
 textarea, button {
-    border: 1px solid #ccc;
+    border: 1px solid #b7c5e3;
     margin: 0;
     -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
 }
 
 button {
     -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
 .hidden {
@@ -35,9 +39,11 @@ button {
 #page #content {
     height: 400px;
     overflow: auto;
-    border: 1px solid #ccc;
-    -webkit-border-radius: 3px;
+    border: 1px solid #b7c5e3;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
     overflow: hidden;
+    background: #fff;
 }
 
 #page #content > div {
@@ -61,15 +67,16 @@ button {
     position: relative;
     min-height: 30px;
     padding: 2px 2px 2px 60px;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid #b7c5e3;
+    margin: 1px 1px;
 }
 
 #page #content .tweets li.me {
-    background: #e5ecf9;
+    background: #f0f5fb;
 }
 
 #page #content .tweets li.reply {
-    background: #b4fea7;
+    background: #bdde84;
 }
 
 #page #content .tweets li.direct {
@@ -123,9 +130,11 @@ button {
     color: #000;
 }
 
+/*
 #page #content .tweets li:hover {
-    background: #eaeaea;
+    background: #f0f5fb;
 }
+*/
 
 #page #content .tweets li:hover .act {
     visibility: visible;
@@ -145,21 +154,24 @@ button {
 
 #channel li {
     float: left;
-    background: #eaeaea;
-    border: 1px solid #ccc;
+    color: #555;
     font-size: 14px;
+    border: 1px solid #d5e4f7;
     margin: 0 5px 0 0;
     padding: 2px 5px;
     cursor: default;
-    -webkit-border-radius: 3px;
+    -webkit-border-radius: 5px;
     -webkit-user-select: none;
+    -moz-border-radius: 5px;
+    -moz-user-select: none;
 }
 
-
+#channel li:hover,
+#form button[type="submit"],
 #channel li.selected {
-    background: #ccc;
-    border: 1px solid #000;
-    color: #000;
+    background: #f0f5fb;
+    color: #495dbc;
+    border: 1px solid #b7c5e3;
 }
 
 #form {
@@ -172,14 +184,28 @@ button {
 }
 
 #form #tweet textarea {
-    height: 3em;
+    height: 64px;
     width: 320px;
     resize: none;
-    border-color: #000;
+    background: #f0f5fb;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 2px;
+    font-size: 12px;
+    position: relative;
+    z-index: 10;
+}
+
+#form #tweet textarea:focus {
+    background: #fff;
+}
+
+#form #tweet span {
+    color: #123272;
 }
 
 #form #tweet textarea.full {
-    border-color: red;
+    border-color: #f60;
 }
 
 #form button[type="submit"]{
@@ -193,7 +219,7 @@ button {
     position: absolute;
     bottom: 0px;
     right: 0px;
-    cursor: defualt;
+    cursor: pointer;
     width: 22px;
     height: 22px;
     overflow: hidden;
@@ -202,17 +228,17 @@ button {
 
 #loading {
     position: absolute;
-    bottom: 0px;
+    top: 0px;
     left: 0px;
     z-index: 99;
     background: #fff url(../images/loading.gif) no-repeat center center;
     opacity: .85;
     width: 100%;
-    height: 80px;
+    height: 100%;
 }
 
 .console {
-    font-size: 9px;
+    font-size: 11px;
 }
 
 .console li {
@@ -220,6 +246,9 @@ button {
     background: #ccc;
     margin: 0 0 1px 0;
     white-space: pre;
+    padding: 0 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
 }
 
 .console li.log {
@@ -236,4 +265,23 @@ button {
     border: 1px solid red;
     background: yellow;
     color: red;
+}
+
+#notice {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+    z-index: 999;
+}
+
+#notice span {
+    background: #f60;
+    display: inline-block;
+    padding: 2px 5px;
+    color: #fff;
+    font-weight: bold;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
