@@ -103,10 +103,14 @@
                     var Server = backgroundPage.Server;
                     return {
                         update: function() {
+                            // loading
                             backgroundPage.Twitter.update(UI.InputArea.getValue(), {
                                 onSuccess: function(o) {
-                                    console.info(o);
+                                    var t = backgroundPage.Tweets, channel = 'friends', tmp = [];
                                     UI.InputArea.setValue('', true);
+                                    tmp.push(JSON.parse(o.responseText));
+                                    t.addToList(channel, tmp);
+                                    UI.Rebuild.channel(channel, t.getList(channel));
                                     UI.Notice.show('Update tweets successful');
                                     console.info('Update tweets successful')
                                 },
@@ -127,8 +131,8 @@
 
                         clearUnreadNum: function() {
                             Lang.later(5000, window, function() {
-                                setBadgeText(unreadNumber ? unreadNumber : '');
                                 backgroundPage.Tweets.clearUnreadNum();
+                                setBadgeText('');
                             });
                         }
                     };
