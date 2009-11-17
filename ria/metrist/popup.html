@@ -106,7 +106,7 @@
                             backgroundPage.Twitter.update(UI.InputArea.getValue(), {
                                 onSuccess: function(o) {
                                     console.info(o);
-                                    UI.InputArea.setValue = '';
+                                    UI.InputArea.setValue('', true);
                                     UI.Notice.show('Update tweets successful');
                                     console.info('Update tweets successful')
                                 },
