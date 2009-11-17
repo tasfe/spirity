@@ -110,6 +110,19 @@ Twitter = (function() {
  *      Gears doesn't work in chrome addons, sigh~
  */
 Tweets = (function() {
+    var $unique = function(arr) {
+        var a = [], l = arr.length;
+        for(var i = 0; i < l; i++) {
+            for(var j = i+1; j < l; j++) {
+                // If this[i] is found later in the array
+                if (arr[i] === arr[j])
+                    j = ++i;
+            }
+            a.push(arr[i]);
+        }
+        return a;
+    }
+
     var $split = function(str, length) {
         var len = str.length, loop = Math.ceil(len / length), result = [], i = 0;
         do {
@@ -155,7 +168,7 @@ Tweets = (function() {
             }
         }
 
-        var count = diffResult.unique().length;
+        var count = $unique(diffResult).length;
         localStorage['status_unread_count'] = count;
         return count;
     };

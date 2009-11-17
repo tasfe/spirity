@@ -144,6 +144,7 @@
     Event.on(formRefresh, 'click', function(e) {
         Event.stopEvent(e);
         bgPage.requestTweets();
+        window.close();
     });
 
     /**
@@ -177,6 +178,10 @@
      * 重新渲染界面
      */
     var timer, ReBuildUI = function() {
+        if (timer) {
+            timer.cancel();
+        }
+
         var storageFlag = ['friends', 'replies', 'direct'];
         var planes = [friendsContainer, repliesContainer, directsContainer];
 
@@ -198,7 +203,7 @@
                     
                     Dom.setAttribute(li, 'id', item.id);
                     var html = [
-                        '<h4 class="nick"><a href="http://twitter.com/'+
+                        '<h4 class="nick"><a href="https://twitter.com/'+
                             sender.screen_name +'">'+ sender.name +'</a></h4>',
                         '<p class="time">'+ relative_time(item.created_at) +'</p>',
                         '<p class="avatar">' + 
@@ -227,9 +232,7 @@
             // */
         }
         console.info('ReBuildUI finished.');
-        if (timer) {
-            timer.cancel();
-        }
+
         timer = Lang.later(30 * 1000, null, ReBuildUI);
     };
 
@@ -255,7 +258,8 @@
                     case 'retweet':
                         var ancestor = Dom.getAncestorByTagName(target, 'li');
                         if (ancestor) {
-                            formTextarea.value = 'RT @' + Dom.getAttribute(ancestor, 'screen_name') + ': '  + Dom.getAttribute(ancestor, 'tweets_text');
+                            formTextarea.value = 'RT @' + 
+                                Dom.getAttribute(ancestor, 'screen_name') + ': '  + Dom.getAttribute(ancestor, 'tweets_text');
                             Lang.later(100, null, function() {
                                 formTextarea.focus();
                             });
@@ -265,7 +269,10 @@
                     default: return;
                 }
              } else {
-                
+                var href = Dom.getAttribute(target, 'href') || '';
+                if (/^(http|https):\/\//.test(href)) {
+                    chrome.tabs.create({url: href});
+                }
              }
         }
     });
@@ -284,8 +291,11 @@
         formTextarea.focus();
     });
 
+    chrome.browserAction.setTitle({title: 'Metrist: ' + localStorage['status_last_login_username']})
+    /*
     Lang.later(2000, null, function() {
         chrome.browserAction.setBadgeText({text: ''});
         bgPage.Tweets.clearDiffNumber();
     });
+    */
 }();
