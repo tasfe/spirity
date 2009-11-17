@@ -49,7 +49,7 @@
                     // 如果未登录，则重置已经保存的 Twitter 信息
                     if (!is_login) {
                         try {
-                            ['friends', 'replies', 'direct'].forEach(function(c) {
+                            ['friends', 'replies', 'directs'].forEach(function(c) {
                                 Tweets.clearList(c);
                             });
                         } catch(e) {
@@ -141,7 +141,7 @@
                 var getDirectMessages = function() {
                     Twitter.getDirectMessages({
                         onSuccess: function(o) {
-                            Tweets.addToList('direct', JSON.parse(o.responseText));
+                            Tweets.addToList('directs', JSON.parse(o.responseText));
                             console.log('getDirectMessages: getDirectMessages successful');
                             requesting = false;
 
@@ -181,20 +181,31 @@
 
                 // 模拟 Twitter 请求服务器端
                 var Server = (function() {
-                    var timer = null;
+                    var timer = null, first = true;
                     return {
                         restart: function() {
-                            this.stop(); this.start();
+                            this.stop();
+                            this.start();
                         },
                                             
                         start: function() {
                             var status = this.status();
-                            if (status.running) { this.restart(); }
+                            if (status.running) {
+                                this.restart();
+                                return;
+                            }
                             
                             if (initEnvironment() && isTwitterLogin()) {
-                                requestTweets(); // request first
                                 minutes = parseInt(getConf('conf_per_request_time', 10), 10);
                                 timer = Lang.later(minutes * 60 * 1000, Twitter, requestTweets, null, true);
+                                requestTweets();
+                                /*
+                                if (first) {
+                                    var length = Tweets.getList('friends').length;
+                                    !length ? requestTweets() : setBadgeText('');
+                                }
+                                first = false;
+                                // */
                             } else {
                                 doTwitterLogin(); // not login
                             }

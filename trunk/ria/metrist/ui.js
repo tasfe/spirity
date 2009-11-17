@@ -197,33 +197,6 @@
     var Rebuild = (function(channel_list) {
         var TWITTER_HOME_URL_BASE = 'https://twitter.com/';
 
-        // 返回相对时间
-        function $relativeTime(time_value) {
-            var values = time_value.split(" "), r = '';
-            var parsed_date = Date.parse(time_value);
-            var relative_to = (arguments.length > 1) ? arguments[1] : new Date();
-            var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
-            time_value = values[1] + " " + values[2] + ", " + values[5] + " " + values[3];
-            delta = delta + (relative_to.getTimezoneOffset() * 60);
-
-            if (delta < 60) {
-                r = 'a minute ago';
-            } else if(delta < 120) {
-                r = 'couple of minutes ago';
-            } else if(delta < (45*60)) {
-                r = (parseInt(delta / 60)).toString() + ' minutes ago';
-            } else if(delta < (90*60)) {
-                r = 'an hour ago';
-            } else if(delta < (24*60*60)) {
-                r = '' + (parseInt(delta / 3600)).toString() + ' hours ago';
-            } else if(delta < (48*60*60)) {
-                r = '1 day ago';
-            } else {
-                r = (parseInt(delta / 86400)).toString() + ' days ago';
-            }
-
-            return r;
-        }
 
         // 格式化字符串
         $process = function (str) {
@@ -234,11 +207,19 @@
         // 绘制某条界面
         $drawChannel = function(name, data) {
             var plane = channel_list[name], length = getConf('conf_max_record_show', 50);
-            plane.innerHTML = '';
+            //length = data.length > length ? length : data.length;
 
+            plane.innerHTML = '';
+            /*
+            console.info(name);
+            console.warn(length);
+            console.warn(length);
+            console.info(data);
+            console.warn('data.length:' + data.length);
+            */
             for(var k = 0; k < length; k++) {
                 var item = data[k];
-                if (!item) {
+                if (!Lang.isObject(item)) {
                     console.warn('UI.Rebuild.channel: $drawChannel is finished');
                     break;
                 }
@@ -249,7 +230,7 @@
                 var html = [
                     '<h4 class="nick"><a title="'+ sender.screen_name +'\'s Homepage" href="https://twitter.com/'+
                         sender.screen_name +'">'+ sender.name +'</a></h4>',
-                    '<p class="time">'+ $relativeTime(item.created_at) +'</p>',
+                    '<p class="time">'+ relativeTime(item.created_at) +'</p>',
                     '<p class="avatar">' + 
                         '<img width="48" height="48" src="'+ 
                         sender.profile_image_url +'" alt="'+ sender.screen_name +'"/></p>',
