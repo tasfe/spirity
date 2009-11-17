@@ -64,6 +64,10 @@ button {
     border-bottom: 1px solid #eaeaea;
 }
 
+#page #content .tweets li.me {
+    background: #e5ecf9;
+}
+
 #page #content .tweets li.reply {
     background: #b4fea7;
 }
@@ -102,6 +106,21 @@ button {
     text-align: right;
     padding: 0 5px;
     visibility: hidden;
+}
+
+#page #content .tweets li a:link,
+#page #content .tweets li a:visited {
+    color: #39c;
+}
+
+#page #content .tweets li a:hover,
+#page #content .tweets li .nick a:hover {
+    color: #36c;
+}
+
+#page #content .tweets li .nick a:link,
+#page #content .tweets li .nick a:visited {
+    color: #000;
 }
 
 #page #content .tweets li:hover {

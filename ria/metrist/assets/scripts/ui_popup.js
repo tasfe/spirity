@@ -177,6 +177,11 @@
      *
      * 重新渲染界面
      */
+    $process = function (str) {
+        str = str.replace(/(http:\/\/[\w|\.|\/|\-]+)/g, '<a href="$1" title="$1">$1</a>');
+        return str.replace(/[^\w]@([\w|\_]+)/g, ' <a href="https://twitter.com/$1" title="$1\'s Homepage">@$1</a>');
+    }
+
     var timer, ReBuildUI = function() {
         if (timer) {
             timer.cancel();
@@ -203,13 +208,13 @@
                     
                     Dom.setAttribute(li, 'id', item.id);
                     var html = [
-                        '<h4 class="nick"><a href="https://twitter.com/'+
+                        '<h4 class="nick"><a title="'+ sender.screen_name +'\'s Homepage" href="https://twitter.com/'+
                             sender.screen_name +'">'+ sender.name +'</a></h4>',
                         '<p class="time">'+ relative_time(item.created_at) +'</p>',
                         '<p class="avatar">' + 
                             '<img width="48" height="48" src="'+ 
                             sender.profile_image_url +'" alt="'+ sender.screen_name +'"/></p>',
-                        '<p class="message">'+ item.text +'</p>',
+                        '<p class="message">'+ $process(item.text) +'</p>',
                         '<p class="act" param:id="'+ item.id +'">',
                         item.sender ? '' : '<a href="#" act="Retweet">Retweet</a>',
                         '<a href="#" act="Reply">Reply</a></p>'
@@ -222,9 +227,18 @@
                         Dom.addClass(li, 'reply');
                     }
 
+                    if (item.text.indexOf('@' + localStorage['status_last_login_username']) != -1) {
+                        Dom.addClass(li, 'reply');
+                    }
+
+                    if (sender.screen_name == localStorage['status_last_login_username']) {
+                        Dom.addClass(li, 'me');
+                    }
+
                     if (item.sender) {
                         Dom.addClass(li, 'direct');
                     }
+
                     li.innerHTML = html.join('');
                     plane.appendChild(li);
                 }
