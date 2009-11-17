@@ -281,7 +281,6 @@ button {
     display: inline-block;
     padding: 2px 5px;
     color: #fff;
-    font-weight: bold;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
