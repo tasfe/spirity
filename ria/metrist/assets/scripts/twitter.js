@@ -160,17 +160,16 @@ Tweets = (function() {
 
     var diffResult = [], $diff = function(target, source) {
         var matches = [];
-        for (items in source) { matches.push(items['id']); }
+        for (var i = 0, len = source.length; i < len; i++) {
+            matches.push(parseInt(source[i]['id'], 10)); }
 
         for (var i = 0, len = target.length; i < len; i++) {
             if (matches.indexOf(target[i]['id']) == -1) {
-                diffResult.push(target[i]['id']);
+                diffResult.push(parseInt(target[i]['id'], 10));
             }
         }
 
-        var count = $unique(diffResult).length;
-        localStorage['status_unread_count'] = count;
-        return count;
+        return localStorage['status_unread_count'] = $unique(diffResult).length + '';
     };
 
     return {
@@ -185,14 +184,12 @@ Tweets = (function() {
             }
         },
 
-        getDiffNumber: function() {
-            var count = parseInt(localStorage['status_unread_count'], 10)
-            return count ? count : '';
+        getUnreadNum: function() {
+            return parseInt(localStorage['status_unread_count'] || 0, 10);
         },
 
-        clearDiffNumber: function() {
-            diffResult = [];
-            localStorage['status_unread_count'] = null;
+        clearUnreadNum: function() {
+            diffResult.length = 0; localStorage['status_unread_count'] = 0;
         },
 
         getList: function(listName) {

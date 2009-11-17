@@ -13,142 +13,81 @@
         <script type="text/javascript" src="assets/scripts/twitter.js"></script>
         <script type="text/javascript">
             ~function() {
-                var Y = YAHOO, Lang = Y.lang, timer;
+                var Y = YAHOO, Lang = Y.lang, orgConsole = window.console;
+                var twitter_username, twitter_password,
+                    minutes = 10 , requesting = false;
 
-                if (localStorage['conf_use_console'] == 'yes') {
-                    window.console = logger;
-                }
 
-                var twitter_username = localStorage['conf_twitter_username'],
-                    twitter_password = localStorage['conf_twitter_password'];
-                if (!twitter_username || !twitter_password) {
+                // 初始化环境
+                var initEnvironment = function() {
+                    setBadgeText('?');
+
+                    // 是否使用 Metrist 内建的 Console?
+                    window.console = (localStorage['conf_use_console'] == 'yes') ? logger : orgConsole;
+
+                    // 测试 Twitter 用户名
+                    twitter_username = getConf('conf_twitter_username', '');
+                    twitter_password = getConf('conf_twitter_password', '');
+
+                    // 配置 Twitter 链接选项
+                    Twitter.setConfig({
+                        api: getConf('conf_twitter_request_api', 'http://twitter.com'),
+                        username: twitter_username,
+                        password: twitter_password,
+                        timeout: parseInt(getConf('conf_request_timeout', 5000), 10),
+                        count: parseInt(getConf('conf_request_count', 10), 10)
+                    });
+
+                    return true;
+                };
+
+                // 判断 Twitter 是否已经登录
+                var isTwitterLogin = function() {
+                    var is_login = localStorage['status_last_login_username'] == twitter_username 
+                        && localStorage['status_is_logined'] == 'yes';
+
+                    // 如果未登录，则重置已经保存的 Twitter 信息
+                    if (!is_login) {
+                        try {
+                            ['friends', 'replies', 'direct'].forEach(function(c) {
+                                Tweets.clearList(c);
+                            });
+                        } catch(e) {
+                            console.error('isTwitterLogin: Tweets.clearList error');
+                        }
+                    }
+
+                    return is_login ? true : false;
+                };
+
+
+                // 登录失败的回调
+                var loginFaild = function() {
+                    console.error("loginFaild: user "+ twitter_username +" login faild");
+                    localStorage['status_is_logined'] = 'no';
+                    localStorage['status_last_login_username'] = '';
+                    localStorage['status_last_login_time'] = '';
                     chrome.tabs.create({url: 'options.html'});
-                    return;
-                }
+                };
 
-                //'http://lab.gracecode.com/twip-nobody-knows',
-                Twitter.setConfig({
-                    api: localStorage['conf_twitter_request_api'] || 'http://twitter.com',
-                    username: twitter_username,
-                    password: twitter_password,
-                    timeout: parseInt(localStorage['conf_request_timeout'], 10) || 5000,
-                    count: parseInt(localStorage['conf_request_count'], 10) || 10
-                });
+                // 登录成功的回调
+                var loginSuccess = function() {
+                    console.log("loginSuccess: user "+ twitter_username +" login successful");
+                    localStorage['status_is_logined'] = 'yes';
+                    localStorage['status_last_login_username'] = twitter_username;
+                    localStorage['status_last_login_time'] = new Date;
 
-                window.requesting = false;
-                var requestDataAndShow = function() {
-                    // 获取用户本身数据，并添加到“好友”列表
-                    requesting = true;
-                    Twitter.getUserTimeline(twitter_username, {
-                        onSuccess: function(o) {
-                            Tweets.addToList('friends', JSON.parse(o.responseText));
-                            console.log('getUserTimeline successful');
-                            getFriendsTimeline();
-                        },
-                        onError: function() {
-                            requesting = false;
-                            console.error('getFriendsTimeline error!');
-                        }
-                    });
-                }
-
-                // 获取好友数据
-                var getFriendsTimeline = function() {
-                    Twitter.getFriendsTimeline({
-                        onSuccess: function(o) {
-                            Tweets.addToList('friends', JSON.parse(o.responseText));
-                            console.log('getFriendsTimeline successful');
-                            getReplies();
-                        }, 
-                        onError: function() {
-                            requesting = false;
-                            console.error('getFriendsTimeline faild');
-                        }
-                    });
-                }
-
-                // 获取回复数据
-                var getReplies = function () {
-                    Twitter.getReplies({
-                        onSuccess: function(o) {
-                            Tweets.addToList('replies', JSON.parse(o.responseText));
-                            console.log('getReplies successful');
-                            getDirectMessages();
-                        }, 
-                        onError: function() {
-                            console.error('getReplies faild');
-                            requesting = false;
-                        }
-                    });
-                }
-
-                // 获取私信数据
-                var getDirectMessages = function() {
-                    Twitter.getDirectMessages({
-                        onSuccess: function(o) {
-                            Tweets.addToList('direct', JSON.parse(o.responseText));
-                            console.log('getDirectMessages successful');
-                            requesting = false;
-                            /*
-                            if (Tweets.getDiffNumber()) {
-                                chrome.browserAction.setBadgeText({text: Tweets.getDiffNumber() + ''});
-                            }
-                            */
-                        }, 
-                        onError: function() {
-                            console.error('getDirectMessages faild');
-                            requesting = false;
-                        }
-                    });
-                }
+                    Server.restart(true); // Restart Server
+                };
 
 
-                /**
-                 * 向服务器请求 Tweets 信息
-                 */
-                var requestTweets = function () {
-                    localStorage['status_last_request_tweets'] = new Date;
-                    if (timer) {
-                        timer.cancel();
-                    }
-                    requestDataAndShow();
-
-                    var minutes = parseInt(localStorage['conf_per_request_time'], 10) || 10;
-                    timer = Lang.later(minutes * 60 * 1000, Twitter, requestTweets);
-                }
-
-                // Already Login
-                if (localStorage['status_last_login_username'] == twitter_username && localStorage['status_is_logined'] == 'yes') {
-                    // do Request
-                    requestTweets();
-                } else {
-                    // 如果更改了 Twitter 用户名，则清空先前的列表
-                    if (localStorage['status_last_login_username'] != twitter_username) {
-                        ['friends', 'replies', 'direct'].forEach(function(c){
-                            Tweets.clearList(c);
-                        });
-                        //Tweets.clearDiffNumber();
-                    }
-
-                    // 登录失败的回调
-                    var loginFaild = function() {
-                        console.error("user "+ twitter_username +" login faild");
-                        localStorage['status_is_logined'] = 'no';
-                        localStorage['status_last_login_username'] = '';
-                        localStorage['status_last_login_time'] = '';
+                // Twitter 登录流程
+                var doTwitterLogin = function() {
+                    // 如果 Twitter 帐户信息为空，则弹出配置页面
+                    if (!twitter_username || !twitter_password) {
                         chrome.tabs.create({url: 'options.html'});
-                    };
-
-                    // 登录成功的回调
-                    var loginSuccess = function() {
-                        console.log("user "+ twitter_username +" login successful");
-                        localStorage['status_is_logined'] = 'yes';
-                        localStorage['status_last_login_username'] = twitter_username;
-                        localStorage['status_last_login_time'] = new Date;
-
-                        // do Request
-                        requestTweets();
-                    };
+                        return false;
+                    }
 
                     // 执行登录操作
                     Twitter.login({
@@ -166,10 +105,121 @@
                             loginFaild();
                         }
                     });
+                };
+
+
+                // 获取好友数据
+                var getFriendsTimeline = function() {
+                    Twitter.getFriendsTimeline({
+                        onSuccess: function(o) {
+                            Tweets.addToList('friends', JSON.parse(o.responseText));
+                            console.log('getFriendsTimeline: getFriendsTimeline successful');
+                            getReplies();
+                        }, 
+                        onError: function() {
+                            requesting = false;
+                            console.error('getFriendsTimeline: getFriendsTimeline faild');
+                        }
+                    });
                 }
 
-//                chrome.tabs.create({url: 'popup.html'});
-                window.requestTweets = requestTweets;
+                // 获取回复数据
+                var getReplies = function () {
+                    Twitter.getReplies({
+                        onSuccess: function(o) {
+                            Tweets.addToList('replies', JSON.parse(o.responseText));
+                            console.log('getReplies: getReplies successful');
+                            getDirectMessages();
+                        }, 
+                        onError: function() {
+                            console.error('getReplies: getReplies faild');
+                            requesting = false;
+                        }
+                    });
+                }
+
+                // 获取私信数据
+                var getDirectMessages = function() {
+                    Twitter.getDirectMessages({
+                        onSuccess: function(o) {
+                            Tweets.addToList('direct', JSON.parse(o.responseText));
+                            console.log('getDirectMessages: getDirectMessages successful');
+                            requesting = false;
+
+                            // unread number
+                            var unreadNumber = parseInt(Tweets.getUnreadNum(), 10);
+                            setBadgeText(unreadNumber ? unreadNumber : '');
+                            Tweets.clearUnreadNum();
+                        }, 
+                        onError: function() {
+                            console.error('getDirectMessages: getDirectMessages faild');
+                            requesting = false;
+                        }
+                    });
+                }
+
+
+                /**
+                 * 向服务器请求 Tweets 信息
+                 */
+                var requestTweets = function () {
+                    localStorage['status_last_request_tweets'] = new Date, requesting = true;
+
+                    // 从获取用户本身数据开始，并添加到“好友”列表
+                    Twitter.getUserTimeline(twitter_username, {
+                        onSuccess: function(o) {
+                            Tweets.addToList('friends', JSON.parse(o.responseText));
+                            console.log('getUserTimeline: getUserTimeline successful');
+                            getFriendsTimeline();
+                        },
+                        onError: function() {
+                            requesting = false;
+                            console.error('getUserTimeline: getFriendsTimeline faild');
+                        }
+                    });
+                };
+
+
+                // 模拟 Twitter 请求服务器端
+                var Server = (function() {
+                    var timer = null;
+                    return {
+                        restart: function() {
+                            this.stop(); this.start();
+                        },
+                                            
+                        start: function() {
+                            var status = this.status();
+                            if (status.running) { this.restart(); }
+                            
+                            if (initEnvironment() && isTwitterLogin()) {
+                                requestTweets(); // request first
+                                minutes = parseInt(getConf('conf_per_request_time', 10), 10);
+                                timer = Lang.later(minutes * 60 * 1000, Twitter, requestTweets, null, true);
+                            } else {
+                                doTwitterLogin(); // not login
+                            }
+                        },
+
+                        stop: function() {
+                            if (timer) {
+                                timer.cancel(); timer = null;
+                            }
+                        },
+
+                        status: function() {
+                            return {
+                                running: !!timer,
+                                requesting: !!requesting
+                            }
+                        }
+                    };
+                })();
+
+                window.Server = Server;
+                Server.start(); //Hallelujah!!!
+
+//              chrome.tabs.create({url: 'popup.html'});
              }();
         </script>
     </body>
