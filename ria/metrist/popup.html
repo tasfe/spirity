@@ -90,10 +90,7 @@
         <script type="text/javascript" src="assets/yui-special/animation.js"></script>
         <script type="text/javascript" src="assets/yui-special/connection_core.js"></script>
         <script type="text/javascript" src="assets/scripts/common.js"></script>
-        <script type="text/javascript" src="ui.js"></script>
-        <!--
-        <script type="text/javascript" src="assets/scripts/ui_popup.js"></script>
-        -->
+        <script type="text/javascript" src="assets/scripts/ui.js"></script>
         <script type="text/javascript">
             (function() {
                 var Util = YAHOO.util, Dom = Util.Dom, Event = Util.Event, Lang = YAHOO.lang;
@@ -204,7 +201,11 @@
                                     var ancestor = Dom.getAncestorByTagName(target, 'li');
                                     if (ancestor) {
                                         var prefix = Dom.hasClass(ancestor, 'direct') ? 'd ' : '@';
-                                        UI.InputArea.setValue(prefix + Dom.getAttribute(ancestor, 'screen_name') + ' ', true);
+                                        var value = prefix + Dom.getAttribute(ancestor, 'screen_name');
+                                        if (prefix == '@') {
+                                            value = UI.InputArea.getValue() + ' ' + value + ' ';
+                                        }
+                                        UI.InputArea.setValue(value, true, false);
                                         UI.InputArea.check();
                                         UI.InputArea.focus();
                                     }
@@ -216,7 +217,7 @@
                                         var value = 'RT @' + 
                                             Dom.getAttribute(ancestor, 'screen_name') + ': '
                                                 + Dom.getAttribute(ancestor, 'tweets_text');
-                                        UI.InputArea.setValue(value, true);
+                                        UI.InputArea.setValue(value, true, false);
                                         UI.InputArea.check();
                                         UI.InputArea.focus();
                                     }
