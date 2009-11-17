@@ -62,3 +62,15 @@ function relative_time(time_value) {
 
     return r;
 }
+
+// 获取配置信息
+var getConf = function(options, def) {
+    return localStorage[options] ? localStorage[options] : def;
+}
+
+// 设置标签数字
+var setBadgeText = function(text)  {
+    if (chrome) {
+        chrome.browserAction.setBadgeText({text: text + ''});
+    }
+}
