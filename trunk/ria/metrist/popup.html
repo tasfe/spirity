@@ -82,7 +82,7 @@
             </ul>
             <a id="refresh" title="Refresh"><img src="assets/images/reload.png" width="16" height="16" /></a>
         </div>
-        <div id="loading" class=""></div>
+        <div id="loading" class="loading-min"></div>
         <div id="notice" class=""><span>Hello, Metrist!</span></div>
         <script type="text/javascript" src="assets/yui-special/yahoo.js"></script>
         <script type="text/javascript" src="assets/yui-special/dom.js"></script>
@@ -104,15 +104,19 @@
                     return {
                         update: function() {
                             // loading
+                            UI.Loading.showMini();
                             backgroundPage.Twitter.update(UI.InputArea.getValue(), {
                                 onSuccess: function(o) {
-                                    var t = backgroundPage.Tweets, channel = 'friends', tmp = [];
                                     UI.InputArea.setValue('', true);
-                                    tmp.push(JSON.parse(o.responseText));
-                                    t.addToList(channel, tmp);
-                                    UI.Rebuild.channel(channel, t.getList(channel));
-                                    UI.Notice.show('Update tweets successful');
-                                    console.info('Update tweets successful')
+                                    UI.InputArea.check();
+                                    UI.Loading.hideMini(function() {
+                                        var t = backgroundPage.Tweets, channel = 'friends', tmp = [];
+                                        tmp.push(JSON.parse(o.responseText));
+                                        t.addToList(channel, tmp);
+                                        UI.Rebuild.channel(channel, t.getList(channel));
+                                        UI.Notice.show('Update tweets successful');
+                                        console.info('Update tweets successful')
+                                    });
                                 },
                                 onError: function() {
                                     UI.Loading.hide();
@@ -144,7 +148,9 @@
 
                 Event.on(TweetsUpdateFormEl, 'submit', function(e) {
                     Event.stopEvent(e);
-                    if (UI.InputArea.check) { Tweets.update(); }
+                    if (UI.InputArea.check()) {
+                        Tweets.update();
+                    }
                 });
 
                 Event.on(TweetsTextAreaEl, 'keyup', function(e){
