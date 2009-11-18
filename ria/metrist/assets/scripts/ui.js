@@ -295,8 +295,10 @@
                 $drawChannel(name, data);
             },
             all: function(queues) {
-                for (i in queues) {
-                    this.channel(i.name, i.data);
+                for (var i = 0, len = queues.length; i < len; i++) {
+                    if (Lang.isObject(queues[i])) {
+                        this.channel(queues[i].name, queues[i].data);
+                    }
                 }
             }
         };
@@ -313,6 +315,7 @@
     var InputArea = (function(textarea, status) {
         var TWEETS_MAX_LENGTH = 140;
         var $check = function() {
+            status.innerHTML = TWEETS_MAX_LENGTH - Lang.trim(textarea.value).length;
             if (Lang.trim(textarea.value).length > TWEETS_MAX_LENGTH) {
                 Dom.addClass(textarea, 'full');
                 Dom.setStyle(status, 'color', 'red');

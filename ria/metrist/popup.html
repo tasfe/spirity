@@ -82,8 +82,8 @@
             </ul>
             <a id="refresh" title="Refresh"><img src="assets/images/reload.png" width="16" height="16" /></a>
         </div>
-        <div id="loading" class="loading-min"></div>
-        <div id="notice" class=""><span>Hello, Metrist!</span></div>
+        <div id="loading" class="loading-min hidden"></div>
+        <div id="notice" class="hidden"><span></span></div>
         <script type="text/javascript" src="assets/yui-special/yahoo.js"></script>
         <script type="text/javascript" src="assets/yui-special/dom.js"></script>
         <script type="text/javascript" src="assets/yui-special/event.js"></script>
@@ -100,7 +100,6 @@
                     var Server = backgroundPage.Server;
                     return {
                         update: function() {
-                            // loading
                             UI.Loading.showMini();
                             backgroundPage.Twitter.update(UI.InputArea.getValue(), {
                                 onSuccess: function(o) {
@@ -117,6 +116,7 @@
                                 },
                                 onError: function() {
                                     UI.Loading.hide();
+                                    UI.Notice.show('Update tweets error');
                                     console.info('Update tweets error')
                                 }
                             });
@@ -131,11 +131,12 @@
                         },
 
                         clearUnreadNum: function() {
-                            Lang.later(5000, window, function() {
+                            Lang.later(2000, window, function() {
                                 backgroundPage.Tweets.clearUnreadNum();
                                 setBadgeText('');
                             });
-                        }
+                        },
+                        Server: Server
                     };
                 })();
 
@@ -172,10 +173,9 @@
                         }
                     }
                 });
-
                 var defaultIdx = 0;
 
-                //Dom.setStyle('content', 'visibility', 'hidden');
+                Dom.setStyle('content', 'visibility', 'hidden');
                 UI.Loading.show(function() {
                     var foo = Lang.later(50, window, function() {
                         if (!Tweets.isRequesting()) {
@@ -184,10 +184,35 @@
                                 Dom.setStyle('content', 'visibility', '');
                                 Tweets.clearUnreadNum(); // clear unread
                                 UI.Channel.switchTo(defaultIdx, false); // Hallelujah!!!
+                                Lang.later(500, window, function() { UI.InputArea.check(); }, null, true); 
                             }, false);
                         }
                     }, null, true);
                 });
+
+                // 刷新事件
+                var foo = null, refreshEvent = function(e) {
+                    if (!Lang.isUndefined(e)) { Event.stopEvent(e); }
+                    UI.Loading.show(function() {
+                        if (foo){ foo.cancel(); };
+                        Tweets.Server.restart();
+                        foo = Lang.later(50, window, function() {
+                            if (!Tweets.isRequesting()) {
+                                foo.cancel();
+                                UI.Loading.hide(function(){
+                                    UI.Rebuild.all([
+                                        { name: 'friends', data: Tweets.getData('friends')},
+                                        { name: 'replies', data: Tweets.getData('replies')},
+                                        { name: 'directs', data: Tweets.getData('directs')}
+                                    ]);
+                                });
+                            };
+                        }, null, true);
+                    });
+                };
+                Event.on('refresh', 'click', refreshEvent);
+                var minutes = parseInt(getConf('conf_per_request_time', 10), 10);
+                Lang.later(minutes * 60 * 1000, UI, refreshEvent, null, true);
 
                 // 界面点击事件
                 Event.on('content', 'click', function(e) {
