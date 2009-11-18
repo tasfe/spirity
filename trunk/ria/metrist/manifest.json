@@ -1,8 +1,9 @@
 {
     "name": "Metrist - Another Twitter Client",
-    "version": "0.1",
+    "version": "0.12",
     "description": "Another Twiter client based on Google Chrome.",
     "background_page": "background.html",
+    "default_title": "Metrist - Twitter Client",
     "browser_action": {
         "default_icon": "assets/images/icon.png",
         "popup": "popup.html"
@@ -12,5 +13,6 @@
         "bookmarks",
         "http://*/*"
     ],
-    "options_page": "options.html"
+    "options_page": "options.html",
+    "update_url": "http://spirity.googlecode.com/svn/trunk/ria/metrist/update.xml"
 }
