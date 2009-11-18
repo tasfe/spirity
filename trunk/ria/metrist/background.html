@@ -118,6 +118,7 @@
                         onError: function() {
                             requesting = false;
                             console.error('getFriendsTimeline: getFriendsTimeline faild');
+                            setBadgeText('!');
                         }
                     });
                 }
@@ -133,6 +134,7 @@
                         onError: function() {
                             console.error('getReplies: getReplies faild');
                             requesting = false;
+                            setBadgeText('!');
                         }
                     });
                 }
@@ -153,6 +155,7 @@
                         onError: function() {
                             console.error('getDirectMessages: getDirectMessages faild');
                             requesting = false;
+                            setBadgeText('!');
                         }
                     });
                 }
@@ -174,6 +177,7 @@
                         onError: function() {
                             requesting = false;
                             console.error('getUserTimeline: getFriendsTimeline faild');
+                            setBadgeText('!');
                         }
                     });
                 };
