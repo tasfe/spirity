@@ -16,7 +16,12 @@ var logger = (function () {
         return console;
     }
 
-    var consoleData = JSON.parse(localStorage['console_data']) || [];
+    try {
+        var consoleData = JSON.parse(localStorage['console_data']) || [];
+    } catch (e) {
+        console.warn('logger: initial consoleData');
+        var consoleData = [];
+    }
     var insert = function (message, type) {
         message = (new Date().toString()) + ":\n  " + message + '';
         consoleData.push({
