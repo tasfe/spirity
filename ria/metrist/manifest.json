@@ -7,15 +7,6 @@
         "default_icon": "assets/images/icon.png",
         "popup": "popup.html"
     },
-    /*
-    "content_scripts": [
-      {
-        "matches": ["http://*.taobao.com/*"],
-        //"css": ["mystyles.css"],
-        "js": ["assets/twitter.js"]
-      }
-    ],
-    */
     "permissions": [
         "tabs",
         "bookmarks",
