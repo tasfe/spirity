@@ -121,7 +121,6 @@
                         callback.onSuccess && callback.onSuccess(result);
                         break;
                     default: 
-                    console.info('faild');
                         callback.onError && callback.onError(result);
                 }
             }
