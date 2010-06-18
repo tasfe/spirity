@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    </head>
+    <body>
+        <button id="J_Dock">Minimize to System Tray</button>
+        <script src="AIRAliases.js"></script>
+        <script>
+            var imgDock = null;
+
+            // Called to close the window
+            // Shared by multiple event handlers
+            function closeApplication()
+            {
+                nativeWindow.close();	
+            }
+
+            // Called when the native window is starting to close
+            // Prompts the user to see if they want to close or minimize
+            function doClosing( evt )
+            {
+                var answer = null;
+             
+                // Stop the default of actually closing the window
+                evt.preventDefault();
+             
+                // Ask the user what action to take
+                answer = confirm( "Select \"OK\" to exit or \"Cancel\" to minimize." );
+             
+                if( answer )
+                {
+                    // If they actually want to close the application
+                    closeApplication();		
+                } else {
+                    // If they really just want to minimize the window
+                    dock();	
+                }
+            }
+            
+
+            // Called to restore the window to normal mode
+            // Shared function called by multiple event handlers
+            function undock()
+            {
+                // Show the window and bring it to the front
+                nativeWindow.visible = true;
+                nativeWindow.orderToFront();
+             
+                // Clear out the systray/dock icon (optional)
+                air.NativeApplication.nativeApplication.icon.bitmaps = [];	
+            }
+            
+
+            // Called to put the window on the systray/dock
+            // Hides window and puts icon in place
+            function dock()
+            {
+                nativeWindow.visible = false;
+                air.NativeApplication.nativeApplication.icon.bitmaps = [imgDock];	
+            }
+            
+            // Called to create a menu on the systray/dock icon
+            // Takes operating system into consideration
+            function createMenu( isMac )
+            {
+                var menu = new air.NativeMenu();
+                var openItem = new air.NativeMenuItem( "OPEN_ITEM" );
+                var exitItem = null;
+             
+                // Both operating systems have an option to open the window
+                openItem.addEventListener( air.Event.SELECT, undock);	
+                menu.addItem( openItem );
+             
+                if( !isMac )
+                {
+                    // Mac provides built-in "Quit" item
+                    // Create an "Exit" item for Windows
+                    exitItem = new air.NativeMenuItem( "EXIT_ITEM" );		
+                    exitItem.addEventListener(air.Event.SELECT, closeApplication);	
+                    menu.addItem( exitItem );
+                }
+             
+                return menu;	
+            }
+            
+
+            // Called when the docked icon is clicked (Windows only)
+            // Calls a shared function to restore the window
+            function doTrayClick( evt )
+            {
+                undock();	
+            }
+             
+            // Called when the window is minimized
+            // Minimizes to systray/dock in place of traditional minimize
+            function doStateChange( evt )
+            {
+                if( evt.afterDisplayState == air.NativeWindowDisplayState.MINIMIZED ) 
+                {
+                    // Stop the default behavior
+                    // Call shared function to systray/dock
+                    evt.preventDefault();
+                    dock();
+                }	
+            }
+            
+
+            // Called when the icon image is loaded
+            // Setup systray/dock actions depending on operating system
+            function doLoaderComplete( evt )
+            {
+                var isMac = null;
+             
+                // Get the bitmap data (pixels) of the icon for the system
+                // The system will size and convert to the appropriate format
+                imgDock = evt.target.content.bitmapData;
+             
+                if( air.NativeApplication.supportsSystemTrayIcon )
+                {
+                    // Setup Windows specific system tray functionality
+                    air.NativeApplication.nativeApplication.icon.tooltip = "TOOL_TIP";
+                    air.NativeApplication.nativeApplication.icon.addEventListener("click", doTrayClick );		
+             
+                    isMac = false;
+                } else {
+                    isMac = true;
+                }
+             
+                // Override the default minimize behavior and use our own
+                nativeWindow.addEventListener( air.NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGING, doStateChange );
+             
+                // Setup a menu on the docked icon to restore or close
+                air.NativeApplication.nativeApplication.icon.menu = createMenu( isMac );
+            }
+        
+            // Loader to load the icon image
+            // Use Loader not HTML image to get at bitmap data (pixels)
+            var loader = new air.Loader();
+
+            // Handle when the icon image is loaded
+            // Load the icon image (in this case local)
+            loader.contentLoaderInfo.addEventListener( air.Event.COMPLETE, doLoaderComplete );
+            loader.load( new air.URLRequest( "https://img.alipay.com/pics/sys/index/logo.gif" ) );
+
+            // Custom event handler for window closing
+            // Want to prompt the user to see if they want to close or minimize
+            nativeWindow.addEventListener( air.Event.CLOSING, doClosing );
+
+            document.getElementById("J_Dock").addEventListener("click", dock);
+        </script>
+    </body>
+</html>
